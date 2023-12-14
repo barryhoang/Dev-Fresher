@@ -2,15 +2,19 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 32
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed2a53a13d3e4066b3ccfe94e017a207, type: 3}
-  m_Name: event_onEnemyHitPlayer
+  m_Script: {fileID: 11500000, guid: be803dcb7dcc5324995918a5eac6ea00, type: 3}
+  m_Name: _playerTransform
   m_EditorClassIdentifier: 
+  _guid: 2642d3ddb2c57d54db79a1fa6cd34c8e
+  _value: {fileID: 0}
   _debugLogEnabled: 1
-  _debugValue: 50
+  _saved: 0
+  _defaultValue: {fileID: 0}
+  _resetOn: 0
