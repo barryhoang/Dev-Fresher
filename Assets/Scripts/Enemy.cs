@@ -9,7 +9,6 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] private ScriptableListEnemy _scriptableListEnemy;
     [SerializeField] private FloatVariable _playerHealth;
-    //[SerializeField] private ScriptableEventInt _onEnemyHitPlayer;
 
     private void Start()
     {
@@ -22,12 +21,10 @@ public class Enemy : MonoBehaviour
         {
             other.GetComponent<PlayerHealth>().TakeDamage(10);
             Die();
-            //_playerHealth.Add(-30);
-            //_onEnemyHitPlayer.Raise(30);
         }
     }
 
-    private void Die()
+    public void Die()
     {
         _scriptableListEnemy.Remove(this);
         Destroy(gameObject);

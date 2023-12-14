@@ -185,7 +185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a002038577b91f04ba47737c2c6cd02a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 350
+  _speed: 700
 --- !u!1 &2254717741838867569
 GameObject:
   m_ObjectHideFlags: 0
@@ -615,7 +615,7 @@ GameObject:
   - component: {fileID: 2237206658401356890}
   - component: {fileID: 8960101525666367602}
   m_Layer: 7
-  m_Name: prefab_enemy
+  m_Name: prefab_enemy_fast
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -711,5 +711,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf5b77d1983f25b46adb1db8c470f7dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 2
+  _speed: 5
   _playerPosition: {fileID: 11400000, guid: 2a2eb0ff9014301449696f67789d9c05, type: 2}

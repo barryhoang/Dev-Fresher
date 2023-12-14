@@ -8,7 +8,6 @@ public class PlayerHealth : MonoBehaviour
 {
     [SerializeField] private FloatVariable _currentHealth;
     [SerializeField] private FloatVariable _maxHealth;
-
     [SerializeField] private ScriptableEventInt _onPlayerDamaged;
     [SerializeField] private ScriptableEventInt _onPlayerHealed;
     [SerializeField] private ScriptableEventNoParam _onPlayerDeath;
@@ -16,6 +15,21 @@ public class PlayerHealth : MonoBehaviour
     {
         _currentHealth.Value = _maxHealth;
         _currentHealth.OnValueChanged += OnHealthChanged;
+        _currentHealth.MinMax = new Vector2(0,_maxHealth);
+        _maxHealth.OnValueChanged += OnMaxHealthChanged;
+    }
+
+    private void OnMaxHealthChanged(float newValue)
+    {
+        _currentHealth.MinMax = new Vector2(0,newValue);
+        var diff = newValue - _maxHealth.PreviousValue;
+        _currentHealth.Add(diff);
+    }
+
+    private void OnDestroy()
+    {
+        _currentHealth.OnValueChanged -= OnHealthChanged;
+        _maxHealth.OnValueChanged -= OnMaxHealthChanged;
     }
 
     private void OnHealthChanged(float newValue)
@@ -31,20 +45,12 @@ public class PlayerHealth : MonoBehaviour
             {
                 _onPlayerDamaged.Raise(Mathf.Abs(Mathf.RoundToInt(diff)));
             }
-            //print("Damaged");
             
         }else {_onPlayerHealed.Raise(Mathf.RoundToInt((diff)));} 
-        //print("Healed");
     }
 
     public void TakeDamage(int damage)
     {
         _currentHealth.Add(-damage);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
