@@ -34,6 +34,7 @@ public class AbilitySelector : MonoBehaviour
                 ability.Apply();
                 _exp.Reset();
                 _maxExp.Value *= 1.2f;
+                gameObject.SetActive(false);
             });
             abilities.Remove(ability);
 

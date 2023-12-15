@@ -11,9 +11,10 @@ public class FloatVariablePickup : Pickup
     [SerializeField] private FloatReference _value;
     [SerializeField] private FloatReference _multiplier;
 
-    protected void OnTriggerEnter(Collider other)
+    protected override void OntriggerEnter(Collider other)
     {
         _floatVariable.Add(_value *_multiplier);
-        base.OnTriggerEnter(other);
+            Debug.Log('A');
+            base.OnTriggerEnter(other);
     }
 }

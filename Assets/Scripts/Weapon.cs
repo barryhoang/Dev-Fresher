@@ -8,7 +8,7 @@ public class Weapon : MonoBehaviour
 {
    [SerializeField] private ScriptableListEnemy _scriptableListEnemy;
    [SerializeField] private Projectile _projectilePrefab;
-   [SerializeField] private FloatReference _fireRate;
+   [SerializeField] public FloatReference _fireRate;
 
    private Transform _ownerTransform;
    private float _timer;

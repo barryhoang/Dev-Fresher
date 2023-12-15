@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: _vector3_player_position
   m_EditorClassIdentifier: 
   _guid: 2a2eb0ff9014301449696f67789d9c05
-  _value: {x: 0, y: 1, z: 0}
+  _value: {x: -4.959114, y: 1, z: -2.1637733}
   _debugLogEnabled: 0
   _saved: 0
   _defaultValue: {x: 0, y: 0, z: 0}

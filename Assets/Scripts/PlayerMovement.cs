@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private Vector3Variable _inputs;
     [SerializeField] private TransformVariable _playerTransform;
-    [SerializeField] private float _speed = 5f;
+    [SerializeField] public float _speed;
     [SerializeField] private FloatReference _speedMultiplier;
 
     private void Awake()

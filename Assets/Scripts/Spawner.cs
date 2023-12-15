@@ -4,39 +4,38 @@ using System.Collections.Generic;
 using Obvious.Soap;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using MEC;
+using Unity.VisualScripting;
 
 public class NewBehaviourScript : MonoBehaviour
 {
     [SerializeField] private GameObject _prefab;
     [SerializeField] private Vector3Variable _playerPosition;
     [SerializeField] private Vector2 _spawnRange;
-    [SerializeField] private float _spawnInterval = 1f;
     [SerializeField] private int _amount = 1;
     [SerializeField] private float _initialDelay = 1;
     private float _currentAngle;
     private float _timer;
     private bool _isActive;
 
-    private IEnumerator Start()
+    void Start()
     {
-        _timer = _spawnInterval;
-        yield return new WaitForSeconds(_initialDelay); 
-        _isActive = true;
+        Timing.RunCoroutine(_spawn(), Segment.Update);
     }
 
-    private void Update()
+    private IEnumerator<float> _spawn()
     {
-        if (!_isActive) return;
-        _timer += Time.deltaTime;
-        if (_timer >= _spawnInterval)
+        yield return Timing.WaitForSeconds(_initialDelay); 
+        _isActive = true;
+        while (_isActive)
         {
-            for(int i = 0; i < _amount; i ++)
+            for(var i = 0; i < _amount; i ++)
                 Spawn();
-            _timer = 0f;
+            yield return Timing.WaitForSeconds(_initialDelay); 
         }
     }
 
-    void Spawn()
+    private void Spawn()
     {
         _currentAngle += 180f + Random.Range(-45, 45);
         var angleInRad = _currentAngle * Mathf.Deg2Rad;

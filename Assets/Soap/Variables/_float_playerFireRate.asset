@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9978ce9c8bdc724896114c9952c52ea, type: 3}
   m_Name: _float_playerFireRate
   m_EditorClassIdentifier: 
-  _guid: f3e3cb15ffaaeb948b2b4c7ac5ab7a96
-  _value: 1
+  _guid: 2b8017c5d0e2b964791939da2541839c
+  _value: 4
   _debugLogEnabled: 0
   _saved: 0
   _defaultValue: 0

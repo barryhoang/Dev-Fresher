@@ -12,12 +12,12 @@ public class Projectile : MonoBehaviour
     public void Init(Vector3 direction)
     {
         transform.forward = direction;
-        Invoke(nameof(Destroy),_lifetime);
+        Invoke(nameof(Destroy), _lifetime);
     }
 
     void Update()
     {
-        transform.position += transform.forward * _speed * Time.deltaTime;
+        transform.position += transform.forward * _speed * Time.deltaTime;    
     }
 
     private void OnTriggerEnter(Collider other)
@@ -27,5 +27,8 @@ public class Projectile : MonoBehaviour
         Destroy();
     }
 
-    void Destroy() => Destroy(gameObject);
+    void Destroy()
+    {
+        Destroy(gameObject);
+    }
 }

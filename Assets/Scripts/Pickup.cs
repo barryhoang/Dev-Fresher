@@ -6,9 +6,12 @@ using UnityEngine;
 public abstract class Pickup : MonoBehaviour
 {
     public event Action OnPickedup;
-    protected void OnTriggerEnter(Collider other)
+
+    protected virtual void OnTriggerEnter(Collider other)
     {
         OnPickedup?.Invoke();
         Destroy(gameObject);
     }
+
+    protected abstract void OntriggerEnter(Collider other);
 }
