@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a9978ce9c8bdc724896114c9952c52ea, type: 3}
-  m_Name: _currentHealth
+  m_Name: _currentExp
   m_EditorClassIdentifier: 
-  _guid: bec9f58434bd2ca4e9bbee20b094a787
-  _value: 124
+  _guid: 8ddd422d87e04f74ca762e0b07e7ceae
+  _value: 0
   _debugLogEnabled: 0
   _saved: 0
   _defaultValue: 0
   _resetOn: 0
-  _isClamped: 1
-  _minMax: {x: 0, y: 125}
+  _isClamped: 0
+  _minMax: {x: -3.4028235e+38, y: 3.4028235e+38}

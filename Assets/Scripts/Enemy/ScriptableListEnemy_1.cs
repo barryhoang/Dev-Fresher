@@ -17,5 +17,11 @@ namespace Obvious.Soap
             var closet = _list.OrderBy(enemy_1 => (postion - enemy_1.transform.position).sqrMagnitude).First();
             return closet;
         }
+
+        public Enemy_1 GetEnemy1()
+        {
+            var closet = _list.OrderBy(enemy1 => (enemy1.dame)).First();
+            return closet;
+        }
     }
 }

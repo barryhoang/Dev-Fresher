@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a9978ce9c8bdc724896114c9952c52ea, type: 3}
-  m_Name: FloatVariable 1
+  m_Name: _currentMaxExp
   m_EditorClassIdentifier: 
-  _guid: 09e1a699d8ab86040999d18f550c2a8b
-  _value: 3
+  _guid: f9c55cef59a69f54ebca1932426921fe
+  _value: 100
   _debugLogEnabled: 0
   _saved: 0
   _defaultValue: 0

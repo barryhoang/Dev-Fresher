@@ -11,7 +11,7 @@ public class Enemy_1 : MonoBehaviour
     [SerializeField] private ScriptableEventInt _onEnemyHitPlayer;
     [SerializeField] private Vector3Variable _posPlayer;
 
-  
+     public int dame;
     
     private void Start()
     {
@@ -32,12 +32,13 @@ public class Enemy_1 : MonoBehaviour
         if (other.tag == "Player")
         {
             _onEnemyHitPlayer.Raise(30);
-            Destroy(gameObject);
+            Die();
         }
     }
 
-    private void OnDestroy()
+    public void Die()
     {
         _listEnemy.Remove(this);
+        Destroy(gameObject);
     }
 }

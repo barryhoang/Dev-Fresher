@@ -44,7 +44,7 @@ public class Weapon : MonoBehaviour
     private void SpawnBullet(Vector3 dir)
     {
         var spawnPostion = transform.parent.position + dir * 0.5f;
-        spawnPostion.y = transform.parent.position.y / 2;
+        spawnPostion.y = transform.parent.position.y;
         var bullet = Instantiate(_bullet, spawnPostion, Quaternion.identity);
         bullet.Init(dir);
     }

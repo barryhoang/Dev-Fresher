@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: _maxHealth
   m_EditorClassIdentifier: 
   _guid: 33fb0f851b5066546a069582605ee533
-  _value: 100
+  _value: 125
   _debugLogEnabled: 0
   _saved: 0
   _defaultValue: 0

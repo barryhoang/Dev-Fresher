@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac59365b3ebe3e0489835ba6ff8d2d35, type: 3}
+  m_Name: FireRate
+  m_EditorClassIdentifier: 
+  _description: Fire Rate + {0}%
+  _floatVariable: {fileID: 11400000, guid: 6a40e0c0372f9cf4a909768645e74c22, type: 2}
+  _incrementOperation: 1
+  _increment:
+    UseLocal: 1
+    LocalValue: 25
+    Variable: {fileID: 0}
+  _isPrecent: 1

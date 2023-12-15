@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Obvious.Soap;
+using Obvious.Soap.Example;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -24,7 +25,7 @@ public class Bullet : MonoBehaviour
     {
         if (other.tag == "Enemy")
         {
-            Destroy(other.gameObject);
+            other.GetComponent<Enemy_1>().Die();
             Destroy(gameObject);
         }
     }

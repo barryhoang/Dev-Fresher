@@ -9,14 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9978ce9c8bdc724896114c9952c52ea, type: 3}
-  m_Name: _currentHealth
+  m_Script: {fileID: 11500000, guid: e0491bf0171c0174d97397a4430acb56, type: 3}
+  m_Name: _playerTransform
   m_EditorClassIdentifier: 
-  _guid: bec9f58434bd2ca4e9bbee20b094a787
-  _value: 124
+  _guid: 6a9aad6922c51ca4a9bdbdbc9105b915
+  _value: {fileID: 0}
   _debugLogEnabled: 0
   _saved: 0
-  _defaultValue: 0
+  _defaultValue: {fileID: 0}
   _resetOn: 0
-  _isClamped: 1
-  _minMax: {x: 0, y: 125}
