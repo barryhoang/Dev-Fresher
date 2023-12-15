@@ -4,6 +4,7 @@ using System.Linq;
 using Obvious.Soap;
 using UnityEngine;
 using System;
+using MEC;
 using Random = System.Random;
 
 namespace Player
@@ -14,16 +15,16 @@ namespace Player
         [SerializeField] private float _speed = 20f;
         [SerializeField] private TransformVariable _playerTransform;
         [SerializeField] private ScriptableListTransform _scriptableListTransform;
-
+        
         public override void OnTriggerEnter(Collider other)
         {
             if (!other.CompareTag("Player")) return;
-            StartCoroutine(Cr_Attract());
+            Timing.RunCoroutine(Cr_Attract());
             GetComponent<Collider>().enabled = false;
             transform.GetChild(0).gameObject.SetActive(false);
         }
 
-        private IEnumerator Cr_Attract()
+        private IEnumerator<float> Cr_Attract()
         {
             //find all exp pickups in range
             var pickupsInRange = new List<Transform>(_scriptableListTransform.Where(x =>
@@ -32,6 +33,7 @@ namespace Player
             var count = pickupsInRange.Count;
             foreach (var pickup in pickupsInRange.Select(p => p.GetComponent<PickUp>()))
             {
+           
                 pickup.OnPickUp += () => { count--; };
             }
 
@@ -51,7 +53,7 @@ namespace Player
                     }
                 }
 
-                yield return null;
+                yield return 0;
 
             }
             // destroy self

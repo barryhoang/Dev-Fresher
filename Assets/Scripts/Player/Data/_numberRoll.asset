@@ -9,14 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9978ce9c8bdc724896114c9952c52ea, type: 3}
-  m_Name: _maxHealth
+  m_Script: {fileID: 11500000, guid: 56cdb8ad39a5bdd4f8ed3d18fae14a63, type: 3}
+  m_Name: _numberRoll
   m_EditorClassIdentifier: 
-  _guid: 33fb0f851b5066546a069582605ee533
-  _value: 125
+  _guid: 5ff25ce021b9fd941a8e5b5bc3673d05
+  _value: 0
   _debugLogEnabled: 0
   _saved: 0
   _defaultValue: 0
   _resetOn: 0
   _isClamped: 0
-  _minMax: {x: 0, y: -2.1474836e+9}
+  _minMax: {x: -2147483648, y: 2147483647}

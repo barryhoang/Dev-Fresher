@@ -1,5 +1,7 @@
 
 using System;
+using Cinemachine;
+using MEC;
 using Obvious.Soap;
 using UnityEngine;
 
@@ -12,6 +14,7 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private ScriptableEventInt _onPlayerHealthing;
     [SerializeField] private ScriptableEventNoParam _onPlayerDeath;
     
+
     private void Start()
     {
         _player.Value = transform;
@@ -20,7 +23,9 @@ public class PlayerHealth : MonoBehaviour
         _currentHealth.MinMax = new Vector2(0, _maxHealth);
         _maxHealth.OnValueChanged += OnMaxHealthChange;
     }
-
+    
+ 
+    
     private void OnMaxHealthChange(float value)
     {
         _maxHealth.Value = Mathf.RoundToInt(_maxHealth.Value);
@@ -28,7 +33,7 @@ public class PlayerHealth : MonoBehaviour
         var diff = value - _maxHealth.PreviousValue;
         _currentHealth.Add(diff);
     }
-
+    
     private void OnDestroy()
     {
         _currentHealth.OnValueChanged -= OnHealthChanged;
@@ -42,6 +47,7 @@ public class PlayerHealth : MonoBehaviour
         {
             if (_currentHealth <= 0)
             {
+                Time.timeScale = 0f;
                 _onPlayerDeath.Raise();
             }
             else
@@ -55,6 +61,11 @@ public class PlayerHealth : MonoBehaviour
         }
     }
     
+    public void ResetHealth()
+    {
+        _currentHealth = _maxHealth;
+    }
+
     public void TakeDame(float Damage)
     {
         _currentHealth.Add(-Damage);

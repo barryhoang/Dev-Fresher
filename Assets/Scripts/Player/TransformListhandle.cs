@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using MEC;
 using Obvious.Soap;
 using UnityEngine;
 
@@ -10,10 +11,12 @@ public class TransformListhandle : MonoBehaviour
 
     private void Start()
     {
-        _listTransform.Add(transform);
+        _listTransform.Add(this.transform);
+        
     }
-    private void Update()
+
+    private void OnDestroy()
     {
-        _listTransform.Remove(transform);
+        _listTransform.Remove(this.transform);
     }
 }

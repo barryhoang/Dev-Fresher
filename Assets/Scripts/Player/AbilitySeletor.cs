@@ -6,10 +6,12 @@ using UnityEngine;
 
 public class AbilitySeletor : MonoBehaviour
 {
+    [SerializeField] private ScriptableEventBool _play;
+    [SerializeField] private BoolVariable _isChess; 
+    [SerializeField] private IntVariable _numberLevel;
     [SerializeField] private AbilityData[] _abilityDatas;
     [SerializeField] private AbilitySeletorButton[] _abilitySelectorButton;
-    [SerializeField] private FloatVariable _experience;
-    [SerializeField] private FloatVariable _maxExperience;
+
 
     private void Awake()
     {
@@ -20,6 +22,7 @@ public class AbilitySeletor : MonoBehaviour
         Time.timeScale = 0f;
         DisplayRandomAbilities();
     }
+    
     private void DisplayRandomAbilities()
     {
         var abilitities = new List<AbilityData>(_abilityDatas);
@@ -30,9 +33,23 @@ public class AbilitySeletor : MonoBehaviour
             item.Button.onClick.AddListener(() =>
             {
                 ability.Apply();
-                _experience.Reset();
-                _maxExperience.Value *= 1.2f;
-                gameObject.SetActive(false);
+                _numberLevel.Value--;
+                if (_isChess)
+                {
+                    _isChess.Value = false;
+                    
+                    gameObject.SetActive(false);
+                }
+                if (_numberLevel.Value <= 0)
+                {
+                    gameObject.SetActive(false);
+                    _play.Raise(true);
+                }
+                else
+                {
+                    DisplayRandomAbilities();
+                }
+               
             });
             abilitities.Remove(ability);
         }
@@ -40,6 +57,5 @@ public class AbilitySeletor : MonoBehaviour
     private void OnDisable()
     {
         Time.timeScale = 1f;
-
     }
 }

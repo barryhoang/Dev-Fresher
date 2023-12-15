@@ -23,7 +23,7 @@ public class Weapon : MonoBehaviour
 
     private void Update()
     {
-        if (Time.time >= startTime + fireRate)
+        if (Time.time >= startTime + 1f/fireRate)
         {
             startTime = Time.time;
             UpdateShootWeapon();

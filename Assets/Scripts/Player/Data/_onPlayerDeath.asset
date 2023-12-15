@@ -9,14 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9978ce9c8bdc724896114c9952c52ea, type: 3}
-  m_Name: _maxHealth
+  m_Script: {fileID: 11500000, guid: 6a11231538da9894d8dce88b47df6a36, type: 3}
+  m_Name: _onPlayerDeath
   m_EditorClassIdentifier: 
-  _guid: 33fb0f851b5066546a069582605ee533
-  _value: 125
+  _guid: 4ba4b30d55971b046bece63e51d58af4
+  _value: 0
   _debugLogEnabled: 0
   _saved: 0
   _defaultValue: 0
   _resetOn: 0
-  _isClamped: 0
-  _minMax: {x: 0, y: -2.1474836e+9}

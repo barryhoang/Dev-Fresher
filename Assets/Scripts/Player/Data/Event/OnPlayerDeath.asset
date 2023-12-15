@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a49b7e678b3ebb7418adb84806d24646, type: 3}
   m_Name: OnPlayerDeath
   m_EditorClassIdentifier: 
-  _debugLogEnabled: 0
+  _debugLogEnabled: 1

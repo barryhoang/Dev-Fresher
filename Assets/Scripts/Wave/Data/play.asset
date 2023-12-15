@@ -2,21 +2,15 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
-  m_ObjectHideFlags: 32
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9978ce9c8bdc724896114c9952c52ea, type: 3}
-  m_Name: _maxHealth
+  m_Script: {fileID: 11500000, guid: e2fb1c8bab02427087aa07a952ef4018, type: 3}
+  m_Name: play
   m_EditorClassIdentifier: 
-  _guid: 33fb0f851b5066546a069582605ee533
-  _value: 125
   _debugLogEnabled: 0
-  _saved: 0
-  _defaultValue: 0
-  _resetOn: 0
-  _isClamped: 0
-  _minMax: {x: 0, y: -2.1474836e+9}
+  _debugValue: 0

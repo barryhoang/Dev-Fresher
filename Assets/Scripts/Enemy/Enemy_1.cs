@@ -24,7 +24,6 @@ public class Enemy_1 : MonoBehaviour
         Vector3 dir = _posPlayer.Value - transform.position;
         dir.Normalize();
         transform.position += dir*_moveSpeed*Time.deltaTime;
-        
     }
 
     private void OnTriggerEnter(Collider other)
@@ -32,6 +31,7 @@ public class Enemy_1 : MonoBehaviour
         if (other.tag == "Player")
         {
             _onEnemyHitPlayer.Raise(30);
+            other.GetComponent<Move>().knockBack(transform.position);
             Die();
         }
     }
