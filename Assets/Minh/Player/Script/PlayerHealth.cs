@@ -41,9 +41,9 @@ public class PlayerHealth : MonoBehaviour
         {
             if (_currentHealth <= 0)
             {
-                _reviveTime.Add(-1);
+              
                 _onPlayerDeath.Raise();
-                
+                ;
             }
             else
             {

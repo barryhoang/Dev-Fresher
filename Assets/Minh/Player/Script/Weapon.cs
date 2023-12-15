@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Obvious.Soap;
 using UnityEngine;
-
+using MEC;
 public class Weapon : MonoBehaviour
 {
    [SerializeField] private ScriptableListEnemy _scriptableListEnemy;
@@ -18,19 +18,33 @@ public class Weapon : MonoBehaviour
    {
       _ownerTransform = transform.parent == null ? transform : transform.parent;
    }
-   private void Update()
+
+   private void Start()
    {
-     
+      Timing.RunCoroutine(CheckForShooting());
+   }
 
-        
-      _timer += Time.deltaTime;
-      if (_timer >= 1f/_fireRate)
+   IEnumerator<float> CheckForShooting()
+   {
+      while (true)
       {
-
-         ShootAtClosestEnemy();
-         _timer = 0f;
+         if (gameObject != null && gameObject.activeInHierarchy)
+         {
+            ShootAtClosestEnemy();
+            yield return Timing.WaitForSeconds(1 / _fireRate);
+         }
       }
    }
+   // private void Update()
+   // {
+   //    _timer += Time.deltaTime;
+   //    if (_timer >= 1f/_fireRate)
+   //    {
+   //
+   //       ShootAtClosestEnemy();
+   //       _timer = 0f;
+   //    }
+   // }
 
    private void ShootAtClosestEnemy()
    {

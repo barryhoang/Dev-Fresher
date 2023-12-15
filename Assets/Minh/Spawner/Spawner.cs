@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using MEC;
 using Obvious.Soap;
+using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -18,29 +20,50 @@ public class Spawner : MonoBehaviour
     private float _timer;
     private bool _isActive;
 
-    private IEnumerator Start()
+    private void Start()
     {
-        _timer = _spawnInterval;
-        yield return new WaitForSeconds(_initalDelay);
-        _isActive = true;
+        Timing.RunCoroutine(StartSpawn(),Segment.SlowUpdate);
+    }
+    // private IEnumerator Start()
+    // {
+    //     _timer = _spawnInterval;
+    //     yield return new WaitForSeconds(_initalDelay);
+    //     _isActive = true;
+    // }
+
+    private IEnumerator<float> StartSpawn()
+    {
+        if (gameObject != null && gameObject.activeInHierarchy)
+        {
+            yield return Timing.WaitForSeconds(_initalDelay);
+            while (true)
+            {
+                for (int i = 0; i < _amount; i++)
+                {
+                    Spawn();
+                }
+
+                yield return Timing.WaitForSeconds(_spawnInterval);
+            }
+        }
     }
 
-    private void Update()
-    {
-        if (!_isActive)
-        {
-            return;
-        }
-
-        
-        _timer += Time.deltaTime;
-        if (_timer >= _spawnInterval)
-        {
-            for(int i=0;i<_amount;i++)
-            Spawn();
-            _timer = 0f;
-        }
-    }
+    // private void Update()
+    // {
+    //          if (!_isActive)
+    //          {
+    //              return;
+    //          }
+    //  
+    //          
+    //          _timer += Time.deltaTime;
+    //          if (_timer >= _spawnInterval)
+    //          {
+    //              for(int i=0;i<_amount;i++)
+    //              Spawn();
+    //              _timer = 0f;
+    //          }
+    // }
 
     void Spawn()
     {

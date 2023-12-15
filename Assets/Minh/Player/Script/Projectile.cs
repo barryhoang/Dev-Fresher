@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using MEC;
 using Obvious.Soap;
 using UnityEngine;
 
@@ -12,7 +13,17 @@ public class Projectile : MonoBehaviour
    public void Init(Vector3 direction)
    {
       transform.forward = direction;
-      Invoke(nameof(Destroy),_lifeTime);
+      Timing.RunCoroutine(DestroyProjectile(), Segment.SlowUpdate);
+
+   }
+
+   IEnumerator<float> DestroyProjectile()
+   {
+      if (gameObject != null && gameObject.activeInHierarchy)
+      {
+         yield return Timing.WaitForSeconds(_lifeTime);
+         Destroy(this);
+      }
    }
    private void Update()
    {
@@ -27,6 +38,7 @@ public class Projectile : MonoBehaviour
       enemy.Die();
       Destroy();
    }
+   
 
    void Destroy() => Destroy(gameObject);
 

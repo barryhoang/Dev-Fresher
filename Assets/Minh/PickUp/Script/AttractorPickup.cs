@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using MEC;
 using Obvious.Soap;
 using UnityEngine;
 
@@ -13,12 +14,12 @@ public class AttractorPickup : Pickup
 
    protected override void OnTriggerEnter(Collider other)
    {
-      StartCoroutine((Cr_Attract()));
+      Timing.RunCoroutine(Cr_Attract());
       GetComponent<Collider>().enabled = false;
       transform.GetChild(0).gameObject.SetActive(false);
    }
 
-   private IEnumerator Cr_Attract()
+   private IEnumerator<float> Cr_Attract()
    {
       //find all exp pickups in range
       var pickupsInrange = new List<Transform>(
@@ -46,7 +47,7 @@ public class AttractorPickup : Pickup
             pickup.position += dir * _speed * Time.deltaTime;
          }
 
-         yield return null;
+         yield return Timing.WaitForOneFrame;
 
       }
       //destroy self
