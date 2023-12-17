@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using MEC;
 using Obvious.Soap;
@@ -20,7 +21,17 @@ namespace Minh
 
         private void Start()
         {
-            Timing.RunCoroutine(StartSpawn(), Segment.SlowUpdate);
+            Timing.RunCoroutine(StartSpawn(), Segment.SlowUpdate,"Spawn");
+        }
+
+        private void OnEnable()
+        {
+            Timing.ResumeCoroutines("Spawn");
+        }
+
+        private void OnDisable()
+        {
+            Timing.PauseCoroutines("Spawn");
         }
         // private IEnumerator Start()
         // {

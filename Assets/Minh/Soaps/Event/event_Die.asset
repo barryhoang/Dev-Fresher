@@ -2,15 +2,15 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
-  m_ObjectHideFlags: 32
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97572bccc36f3364f9a0e2063f2bd775, type: 3}
-  m_Name: scriptable_list_Enemy
+  m_Script: {fileID: 11500000, guid: ed2a53a13d3e4066b3ccfe94e017a207, type: 3}
+  m_Name: event_Die
   m_EditorClassIdentifier: 
-  _resetOn: 0
-  _list: []
+  _debugLogEnabled: 0
+  _debugValue: -1

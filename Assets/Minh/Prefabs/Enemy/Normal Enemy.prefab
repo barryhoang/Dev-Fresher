@@ -615,7 +615,7 @@ GameObject:
   - component: {fileID: 4044769139310774921}
   - component: {fileID: 1708002393396305368}
   m_Layer: 7
-  m_Name: prefab_enemy_event
+  m_Name: Normal Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
