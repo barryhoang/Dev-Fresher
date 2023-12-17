@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 269b25453313990409f5ad42b6541c01, type: 3}
+  m_Name: Ability_MaxHealth
+  m_EditorClassIdentifier: 
+  _description: MaxHealth +{0}%
+  _floatVariable: {fileID: 11400000, guid: 67ef4a405da1f7a47a81b717c4570bef, type: 2}
+  _incrementOperation: 1
+  _increment:
+    UseLocal: 1
+    LocalValue: 25
+    Variable: {fileID: 0}
+  _isPercent: 1

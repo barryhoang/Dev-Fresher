@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cf4999923662348bc74fba6f30fca6, type: 3}
+  m_Name: ability_shield
+  m_EditorClassIdentifier: 
+  _description: Shield Speed * {0}%
+  _floatVariable: {fileID: 11400000, guid: 4df93f9ae003e494c8c7adc2c61c75c3, type: 2}
+  _incrementOperation: 1
+  _increment:
+    UseLocal: 1
+    LocalValue: 50
+    Variable: {fileID: 0}
+  _isPercent: 1
+  _shieldPrefab: {fileID: 9212230816428293863, guid: cea480d11499a164d8d8117e618564a2, type: 3}
+  _playerTransform: {fileID: 11400000, guid: 2642d3ddb2c57d54db79a1fa6cd34c8e, type: 2}
