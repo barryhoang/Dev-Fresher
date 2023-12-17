@@ -19,4 +19,4 @@ MonoBehaviour:
   _defaultValue: 0
   _resetOn: 0
   _isClamped: 1
-  _minMax: {x: 0, y: 125}
+  _minMax: {x: 0, y: 100}

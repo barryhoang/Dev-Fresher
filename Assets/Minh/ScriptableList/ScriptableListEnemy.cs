@@ -1,7 +1,8 @@
 using System.Linq;
+using Obvious.Soap;
 using UnityEngine;
 
-namespace Obvious.Soap
+namespace Minh
 {
     [CreateAssetMenu(fileName = "scriptable_list_Enemy.asset", menuName = "Soap/ScriptableLists/Enemy")]
     public class ScriptableListEnemy : ScriptableList<Enemy>

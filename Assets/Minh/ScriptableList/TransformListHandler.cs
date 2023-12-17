@@ -1,20 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
-using Obvious.Soap;
 using UnityEngine;
 
-public class TransformListHandler : MonoBehaviour
+namespace Minh
 {
-    [SerializeField] private ScriptableListTransform _scriptableListTransform;
-    // Start is called before the first frame update
-    void Start()
+    public class TransformListHandler : MonoBehaviour
     {
-        _scriptableListTransform.Add(transform);
-    }
+        [SerializeField] private ScriptableListTransform _scriptableListTransform;
 
-    // Update is called once per frame
-    void OnDestroy()
-    {
-        _scriptableListTransform.Remove(transform);
+        // Start is called before the first frame update
+        void Start()
+        {
+            _scriptableListTransform.Add(transform);
+        }
+
+        // Update is called once per frame
+        void OnDestroy()
+        {
+            _scriptableListTransform.Remove(transform);
+        }
     }
 }
