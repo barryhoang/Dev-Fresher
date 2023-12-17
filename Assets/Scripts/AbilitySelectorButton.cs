@@ -13,7 +13,7 @@ public class AbilitySelectorButton : MonoBehaviour
     public void Init(string description, int applyCount)
     {
         _description.text = description;
-        _applyCount.text = "Applied {applyCount} times";
+        _applyCount.text = "Applied 1 time";
         Button.onClick.RemoveAllListeners();
     }
 

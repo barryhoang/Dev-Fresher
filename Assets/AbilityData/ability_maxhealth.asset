@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06f9a111c4835c24f8106964a1fa7383, type: 3}
   m_Name: ability_maxhealth
   m_EditorClassIdentifier: 
-  _description: +25% max health
+  _description: +5% max health
   _floatVariable: {fileID: 11400000, guid: 84fd18e01e5c0a043afe37f59dd0db0e, type: 2}
   _increment:
     UseLocal: 1
-    LocalValue: 25
+    LocalValue: 5
     Variable: {fileID: 0}
   isPercent: 1
   _incrementOperation: 1

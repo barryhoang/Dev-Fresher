@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06f9a111c4835c24f8106964a1fa7383, type: 3}
   m_Name: ability_firerate
   m_EditorClassIdentifier: 
-  _description: +25% AtkSpd
+  _description: +5% AtkSpd
   _floatVariable: {fileID: 11400000, guid: f3e3cb15ffaaeb948b2b4c7ac5ab7a96, type: 2}
   _increment:
     UseLocal: 1
-    LocalValue: 25
+    LocalValue: 5
     Variable: {fileID: 0}
   isPercent: 1
   _incrementOperation: 1

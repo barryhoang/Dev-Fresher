@@ -6,8 +6,9 @@ using Obvious.Soap;
 public class EventPickup : Pickup
 {
     [SerializeField] private ScriptableEventNoParam _onPickedUpEvent = null;
-    protected override void OntriggerEnter(Collider other)
+    protected override void OnTriggerEnter(Collider other)
     {
         _onPickedUpEvent.Raise();
+        base.OnTriggerEnter(other);
     }
 }

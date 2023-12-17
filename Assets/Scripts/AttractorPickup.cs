@@ -12,7 +12,7 @@ public class AttractorPickup : Pickup
     [SerializeField] private TransformVariable _playerTransform;
     [SerializeField] private ScriptableListTransform _scriptableListTransform;
 
-    protected override void OntriggerEnter(Collider other)
+    protected override void OnTriggerEnter(Collider other)
     {
         StartCoroutine(Cr_Attract());
         GetComponent<Collider>().enabled = false;
