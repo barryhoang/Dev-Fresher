@@ -13,7 +13,7 @@ namespace TungTran.Player.Weapon
 
         private void Start()
         {
-            Destroy(gameObject,5f);
+            Destroy(gameObject,_life);
             Timing.RunCoroutine(Move().CancelWith(gameObject));
         }
 

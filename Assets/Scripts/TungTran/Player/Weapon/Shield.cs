@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using MEC;
 using Obvious.Soap;
@@ -18,7 +19,12 @@ namespace TungTran.Player.Weapon
 
         private void Start()
         {
-            Timing.RunCoroutine(MoveShield());
+            Timing.RunCoroutine(MoveShield().CancelWith(gameObject));
+        }
+
+        private void Update()
+        {
+            
         }
 
         private IEnumerator<float> MoveShield()

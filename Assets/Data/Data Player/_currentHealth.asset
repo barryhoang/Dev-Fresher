@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: _currentHealth
   m_EditorClassIdentifier: 
   _guid: bec9f58434bd2ca4e9bbee20b094a787
-  _value: 0
+  _value: 100
   _debugLogEnabled: 0
   _saved: 0
   _defaultValue: 0
   _resetOn: 0
   _isClamped: 1
-  _minMax: {x: 0, y: 125}
+  _minMax: {x: 0, y: 100}

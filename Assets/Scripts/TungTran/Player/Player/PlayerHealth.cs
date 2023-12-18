@@ -6,8 +6,8 @@ namespace TungTran.Player.Player
 {
     public class PlayerHealth : MonoBehaviour
     {
+        [SerializeField] private PlayerData _playerData;
         [SerializeField] private FloatVariable _currentHealth;
-        [SerializeField] private FloatVariable _maxHealth;
         [SerializeField] private TransformVariable _player;
         [SerializeField] private ScriptableEventInt _onHitPlayer;
         [SerializeField] private ScriptableEventInt _onPlayerHealthing;
@@ -17,19 +17,17 @@ namespace TungTran.Player.Player
         private void Start()
         {
             _player.Value = transform;
-            _currentHealth.Value = _maxHealth;
+            _currentHealth.Value = _playerData.InitiateHealth;
             _currentHealth.OnValueChanged += OnHealthChanged;
-            _currentHealth.MinMax = new Vector2(0, _maxHealth);
-            _maxHealth.OnValueChanged += OnMaxHealthChange;
+            _currentHealth.MinMax = new Vector2(0, _playerData.InitiateHealth);
+            _playerData.InitiateHealth.OnValueChanged += OnMaxHealthChange;
         }
-    
- 
-    
+
         private void OnMaxHealthChange(float value)
         {
-            _maxHealth.Value = Mathf.RoundToInt(_maxHealth.Value);
-            _currentHealth.MinMax = new Vector2(0,_maxHealth.Value);
-            var diff = value - _maxHealth.PreviousValue;
+            _playerData.InitiateHealth.Value = Mathf.RoundToInt(_playerData.InitiateHealth.Value);
+            _currentHealth.MinMax = new Vector2(0,_playerData.InitiateHealth.Value);
+            var diff = value - _playerData.InitiateHealth.PreviousValue;
             _currentHealth.Add(diff);
         }
     
@@ -59,12 +57,12 @@ namespace TungTran.Player.Player
                 _onPlayerHealthing.Raise(Mathf.Abs(Mathf.RoundToInt(temp)));
             }
         }
-    
-        public void ResetHealth()
-        {
-            _currentHealth = _maxHealth;
-        }
 
+        public void ResetHealthPlayer()
+        {
+            _currentHealth.Value = _playerData.InitiateHealth.Value;
+        }
+        
         public void TakeDame(float damage)
         {
             _currentHealth.Add(-damage);

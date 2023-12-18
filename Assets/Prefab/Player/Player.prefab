@@ -4945,13 +4945,12 @@ GameObject:
   - component: {fileID: 4202791919121711200}
   - component: {fileID: 84886364551302528}
   - component: {fileID: 4985077250529322845}
-  - component: {fileID: 753165575512269338}
-  - component: {fileID: 577371290135115507}
   - component: {fileID: 586600903806194566}
   - component: {fileID: 1241099702536523232}
   - component: {fileID: 4374998882970860798}
   - component: {fileID: 3709807170742279477}
   - component: {fileID: 6992791316402417908}
+  - component: {fileID: 2239818656127565718}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -5054,35 +5053,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 1
---- !u!114 &753165575512269338
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5350141093192754082}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4024a66d642359a4cbeb23ca5ead9527, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _input: {fileID: 11400000, guid: 1f971a7aaa18237409e11d71cb0245ab, type: 2}
-  _moveSpeed: {fileID: 11400000, guid: b0bb373524fddef449e214937617314c, type: 2}
-  knockbackSpeed: 10
---- !u!114 &577371290135115507
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5350141093192754082}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68248555e00e2054789a66e34dd4256b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _moveInput: {fileID: 11400000, guid: 1f971a7aaa18237409e11d71cb0245ab, type: 2}
-  _posPlayer: {fileID: 11400000, guid: 4d81718c4ef4961419731968eda1103a, type: 2}
 --- !u!114 &586600903806194566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5095,8 +5065,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02129916cc0170042ad157963732348e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerData: {fileID: 11400000, guid: fa68ceaab18f79c49a632b7e499478d7, type: 2}
   _currentHealth: {fileID: 11400000, guid: bec9f58434bd2ca4e9bbee20b094a787, type: 2}
-  _maxHealth: {fileID: 11400000, guid: 33fb0f851b5066546a069582605ee533, type: 2}
   _player: {fileID: 11400000, guid: 6a9aad6922c51ca4a9bdbdbc9105b915, type: 2}
   _onHitPlayer: {fileID: 11400000, guid: 278efa758c4698b429bb3f80b7bfd572, type: 2}
   _onPlayerHealthing: {fileID: 11400000, guid: 854176af142578347953e73b224f0550, type: 2}
@@ -5167,10 +5137,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa53b0dec7bba7940b3815848957f065, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerData: {fileID: 11400000, guid: fa68ceaab18f79c49a632b7e499478d7, type: 2}
   _experience: {fileID: 11400000, guid: 8ddd422d87e04f74ca762e0b07e7ceae, type: 2}
-  _maxExperience: {fileID: 11400000, guid: f9c55cef59a69f54ebca1932426921fe, type: 2}
   _numberRoll: {fileID: 11400000, guid: 5ff25ce021b9fd941a8e5b5bc3673d05, type: 2}
-  _currentLevel: {fileID: 11400000, guid: a740a99f3c49d0740aba38ad179999ae, type: 2}
 --- !u!114 &6992791316402417908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5220,6 +5189,22 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2239818656127565718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5350141093192754082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3a26a2611e7427c97a56590c24cb7cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerData: {fileID: 11400000, guid: fa68ceaab18f79c49a632b7e499478d7, type: 2}
+  _moveInput: {fileID: 11400000, guid: 1f971a7aaa18237409e11d71cb0245ab, type: 2}
+  _posPlayer: {fileID: 11400000, guid: 4d81718c4ef4961419731968eda1103a, type: 2}
+  knockbackSpeed: 10
 --- !u!1 &5657111610407667225
 GameObject:
   m_ObjectHideFlags: 0

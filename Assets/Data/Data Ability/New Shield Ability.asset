@@ -20,5 +20,5 @@ MonoBehaviour:
     LocalValue: 1
     Variable: {fileID: 0}
   _isPrecent: 1
-  _ShieldPrefab: {fileID: 4917917367320743495, guid: e22655a46b71e3a4696b5ac6bb8ab72b, type: 3}
-  _PlayerTranform: {fileID: 11400000, guid: 6a9aad6922c51ca4a9bdbdbc9105b915, type: 2}
+  _shieldPrefab: {fileID: 4917917367320743495, guid: e22655a46b71e3a4696b5ac6bb8ab72b, type: 3}
+  _playerTranform: {fileID: 11400000, guid: 6a9aad6922c51ca4a9bdbdbc9105b915, type: 2}

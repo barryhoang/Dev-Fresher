@@ -1,25 +1,23 @@
+using System;
 using System.Collections.Generic;
 using MEC;
 using Obvious.Soap;
-using TMPro;
+using TungTran.Player.Player;
 using UnityEngine;
 
 namespace TungTran.Wave
 {
     public class CountDown : MonoBehaviour
     {
-        public TextMeshProUGUI textWave;
-        public TextMeshProUGUI textTime;
-        private int _currentWave = 0;
         private Spawn _spawn;
-        [SerializeField]  private int _timeInWave = 15;
+        [SerializeField] private PlayerHealth _playerHealth;
+        [SerializeField]  private IntVariable _timeInWave;
+        [SerializeField] private IntVariable _currentWave;
         [SerializeField] private ScriptableEventBool _stop;
         [SerializeField] private ScriptableEventBool _play;
-
-        private int _timeWork;
+        
         private void Start()
         {
-            _spawn = GetComponent<Spawn>();
             _play.Raise(true);
             
         }
@@ -30,19 +28,16 @@ namespace TungTran.Wave
         
         private IEnumerator<float> CountdownTimer()
         {
-            textWave.text = "Wave: " +  _currentWave++;
-            _timeWork = _timeInWave;
-            while (_timeWork > 0)
+            while (_timeInWave.Value > 0)
             {
-                textTime.text = _timeWork.ToString();
                 yield return Timing.WaitForSeconds(1f);
-                _timeWork--;
-                textTime.text = _timeWork.ToString();
+                _timeInWave.Value--;
             }
+            _playerHealth.ResetHealthPlayer();
+            _timeInWave.ResetToInitialValue();
+            _currentWave.Value++;
             _stop.Raise(true);
-            _timeWork = 0;
-            Timing.KillCoroutines(_spawn.Spawning());
-            textWave.text = "Wave: " +  _currentWave++;
+            Timing.KillCoroutines("Spawn");
         }
     }
 }

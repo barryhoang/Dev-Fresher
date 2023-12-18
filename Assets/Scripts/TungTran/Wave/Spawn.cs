@@ -23,7 +23,7 @@ namespace TungTran.Wave
                 }
                 public void StartSpawn()
                 {
-                        Timing.RunCoroutine(Spawning().CancelWith(gameObject));
+                        Timing.RunCoroutine(Spawning().CancelWith(gameObject),"Spawn");
                 }
                 public void StopSpawn()
                 {

@@ -12,13 +12,13 @@ namespace TungTran.Enemy
         [SerializeField] private ScriptableListEnemyOne _listEnemy;
         [SerializeField] private ScriptableEventInt _onEnemyHitPlayer;
         [SerializeField] private Vector3Variable _posPlayer;
-        private Move _player;
+        private PlayerController _player;
         public int damage;
     
         private void Start()
         {
             _listEnemy.Add(this);
-            _player = GameObject.FindWithTag("Player").GetComponent<Move>();
+            _player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
             Timing.RunCoroutine(Move().CancelWith(gameObject));
         }
 
