@@ -19,7 +19,7 @@ namespace Player
         public override void OnTriggerEnter(Collider other)
         {
             if (!other.CompareTag("Player")) return;
-            Timing.RunCoroutine(Cr_Attract());
+            Timing.RunCoroutine(Cr_Attract().CancelWith(gameObject));
             GetComponent<Collider>().enabled = false;
             transform.GetChild(0).gameObject.SetActive(false);
         }

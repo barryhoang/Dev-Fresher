@@ -2313,7 +2313,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 960481785}
           m_TargetAssemblyTypeName: Spawn, Assembly-CSharp
-          m_MethodName: startSpawn
+          m_MethodName: StartSpawn
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}

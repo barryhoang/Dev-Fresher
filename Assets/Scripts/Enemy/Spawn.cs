@@ -18,12 +18,12 @@ public class Spawn : MonoBehaviour
         private float _currentAngle;
         
         private void Start()
-        { 
-                Timing.CallDelayed(_delay, delegate { startSpawn(); });
-        }
-        public void startSpawn()
         {
-                Timing.RunCoroutine(Spawning(),"Spawn");
+                Timing.CallDelayed(_delay, StartSpawn);
+        }
+        public void StartSpawn()
+        {
+                Timing.RunCoroutine(Spawning().CancelWith(gameObject));
         }
         public void StopSpawn()
         {

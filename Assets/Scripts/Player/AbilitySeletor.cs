@@ -25,10 +25,10 @@ public class AbilitySeletor : MonoBehaviour
     
     private void DisplayRandomAbilities()
     {
-        var abilitities = new List<AbilityData>(_abilityDatas);
+        var abilities = new List<AbilityData>(_abilityDatas);
         foreach (var item in _abilitySelectorButton)
         {
-            var ability = abilitities[UnityEngine.Random.Range(0, abilitities.Count)];
+            var ability = abilities[UnityEngine.Random.Range(0, abilities.Count)];
             item.Init(ability.GetDescription(), ability.ApplyCount);
             item.Button.onClick.AddListener(() =>
             {
@@ -51,7 +51,7 @@ public class AbilitySeletor : MonoBehaviour
                 }
                
             });
-            abilitities.Remove(ability);
+            abilities.Remove(ability);
         }
     }
     private void OnDisable()

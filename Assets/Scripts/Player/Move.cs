@@ -24,14 +24,14 @@ public class Move : MonoBehaviour
             rb.velocity = _input.Value * _moveSpeed;
     }
 
-    public void knockBack(Vector3 pos)
+    public void KnockBack(Vector3 pos)
     {
         Vector3 dir = pos - transform.position;
         dir.Normalize();
-        Timing.RunCoroutine(knockBackTimer(-dir));
+        Timing.RunCoroutine(KnockBackTimer(-dir).CancelWith(gameObject));
     }
 
-    public IEnumerator<float> knockBackTimer(Vector3 dir)
+    public IEnumerator<float> KnockBackTimer(Vector3 dir)
     {
         isMove = false;
         rb.AddForce(dir*knockbackSpeed,ForceMode.Impulse);

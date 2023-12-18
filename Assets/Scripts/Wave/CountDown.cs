@@ -24,26 +24,18 @@ namespace Wave
             _play.Raise(true);
             
         }
-
         public void StartCountdownTimer()
         {
-            Timing.RunCoroutine(CountdownTimer(),"Enemy");
+            Timing.RunCoroutine(CountdownTimer().CancelWith(gameObject));
         }
-
-        private IEnumerator<float> test()
-        {
-            while (true)
-            {
-                Debug.Log(Timing.LocalTime);   
-            }
-        }
+        
         private IEnumerator<float> CountdownTimer()
         {
             textWave.text = "Wave: " +  _currentWave++;
             _timeWork = _timeInWave;
-            while (_timeWork >= 0)
+            while (_timeWork > 0)
             {
-               
+                textTime.text = _timeWork.ToString();
                 yield return Timing.WaitForSeconds(1f);
                 _timeWork--;
                 textTime.text = _timeWork.ToString();

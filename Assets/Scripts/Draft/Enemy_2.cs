@@ -13,7 +13,7 @@ public class Enemy_2 : MonoBehaviour
     
     public void PushOnGameObject(Vector3 forward)
     {
-        transform.position += 3 * forward*Time.deltaTime;
+        transform.position += forward * (3 * Time.deltaTime);
     }
 
     IEnumerator<float> _shout(float time, string text)
