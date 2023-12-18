@@ -697,7 +697,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89f7ca227388c9645a5243286ea465a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scriptableListEnemy: {fileID: 11400000, guid: b9aebf516c8bd254b8dec92e0d910ed7, type: 2}
+  _soapListEnemy: {fileID: 11400000, guid: b9aebf516c8bd254b8dec92e0d910ed7, type: 2}
   _onEnemyHitPlayer: {fileID: 11400000, guid: 4cddf1befa13501468bf9ee183c79854, type: 2}
 --- !u!114 &1708002393396305368
 MonoBehaviour:

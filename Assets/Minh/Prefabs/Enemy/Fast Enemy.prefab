@@ -56,9 +56,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4044769139310774921, guid: 6c9cb16cfb20f2d4799b61ec4417a47d, type: 3}
+      propertyPath: _soapListEnemy
+      value: 
+      objectReference: {fileID: 11400000, guid: b9aebf516c8bd254b8dec92e0d910ed7, type: 2}
     - target: {fileID: 7467705778537946097, guid: 6c9cb16cfb20f2d4799b61ec4417a47d, type: 3}
       propertyPath: m_Name
-      value: prefab_enemy_Fast
+      value: Fast Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 9047047406315896405, guid: 6c9cb16cfb20f2d4799b61ec4417a47d, type: 3}
       propertyPath: m_Materials.Array.size

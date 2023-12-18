@@ -7,10 +7,8 @@ namespace Minh
     public class ShieldAbilityData : FloatAbilityData
     {
         [SerializeField] protected Shield _shieldPrefab;
-
         [SerializeField] protected TransformVariable _playerTransform;
-
-        // Start is called before the first frame update
+        
         public override void Apply()
         {
             if (ApplyCount == 0)

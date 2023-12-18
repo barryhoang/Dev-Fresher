@@ -10,26 +10,6 @@ namespace Minh
         [SerializeField] private FloatReference _speed;
         [SerializeField] private FloatReference _lifeTime;
 
-        public void Init(Vector3 direction)
-        {
-            transform.forward = direction;
-            Timing.RunCoroutine(DestroyProjectile(), Segment.SlowUpdate);
-        }
-
-        IEnumerator<float> DestroyProjectile()
-        {
-            if (gameObject != null && gameObject.activeInHierarchy)
-            {
-                yield return Timing.WaitForSeconds(_lifeTime);
-                Destroy(this);
-            }
-        }
-
-        private void Update()
-        {
-            transform.position += transform.forward * _speed * Time.deltaTime;
-        }
-
         private void OnTriggerEnter(Collider other)
         {
             var enemy = other.GetComponent<Enemy>();
@@ -38,6 +18,32 @@ namespace Minh
             Destroy();
         }
 
+        private void Start()
+        {
+            Timing.RunCoroutine(FireProjectile());
+        }
+
+        public void Init(Vector3 direction)
+        {
+            transform.forward = direction;
+            Timing.RunCoroutine(DestroyProjectile(), Segment.SlowUpdate);
+        }
+
+        private IEnumerator<float> FireProjectile()
+        {
+            var transform1 = transform;
+            transform1.position += transform1.forward * _speed * Time.deltaTime;
+            yield return Timing.WaitForOneFrame;
+        }
+
+        private IEnumerator<float> DestroyProjectile()
+        {
+            if (gameObject != null && gameObject.activeInHierarchy)
+            {
+                yield return Timing.WaitForSeconds(_lifeTime);
+                Destroy(this);
+            }
+        }
 
         void Destroy() => Destroy(gameObject);
     }

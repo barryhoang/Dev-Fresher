@@ -89,7 +89,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9f7ed2a06665ae46b73fee2fb4fbfa6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scriptableListTransform: {fileID: 11400000, guid: 8ebe6b85ce7769b40b466812029c7b18, type: 2}
+  _soapListTransform: {fileID: 11400000, guid: 8ebe6b85ce7769b40b466812029c7b18, type: 2}
 --- !u!1 &6503875801126888380
 GameObject:
   m_ObjectHideFlags: 0

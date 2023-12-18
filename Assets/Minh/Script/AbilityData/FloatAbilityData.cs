@@ -11,12 +11,6 @@ namespace Minh
         [SerializeField] private FloatReference _increment;
         [SerializeField] private bool _isPercent = true;
 
-        private enum IncrementOperation
-        {
-            Add,
-            Multiply,
-        }
-
         [ContextMenu("Apply")]
         public override void Apply()
         {
@@ -41,6 +35,11 @@ namespace Minh
         public override string GetDescription()
         {
             return string.Format(_description, _increment.Value);
+        }
+        private enum IncrementOperation
+        {
+            Add,
+            Multiply,
         }
     }
 }

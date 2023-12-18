@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 151552714039167382}
   - component: {fileID: 2712561156610159401}
   m_Layer: 0
-  m_Name: prefab_weapon
+  m_Name: Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7341a2433ed09f04185d27ff16e20920, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scriptableListEnemy: {fileID: 11400000, guid: b9aebf516c8bd254b8dec92e0d910ed7, type: 2}
+  _soapListEnemy: {fileID: 11400000, guid: b9aebf516c8bd254b8dec92e0d910ed7, type: 2}
   _projectilePrefab: {fileID: 3687422020855588150, guid: afc03fe80144c9043bb733b89687febf, type: 3}
   _fireRate:
     UseLocal: 0

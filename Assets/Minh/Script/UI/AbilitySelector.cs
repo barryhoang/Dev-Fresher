@@ -18,8 +18,7 @@ namespace Minh
             {
                 _abilityDatas[i].Reset();
             }
-
-            //Array.ForEach(_abilityDatas,x=>x.Reset());
+            
         }
 
         private void OnEnable()

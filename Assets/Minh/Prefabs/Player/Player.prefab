@@ -5254,7 +5254,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _inputs: {fileID: 11400000, guid: 410d245269f7cdb45a8a0d4aaa4e4242, type: 2}
-  _SpeedMultiplier:
+  _speedMultiplier:
     UseLocal: 0
     LocalValue: 0
     Variable: {fileID: 11400000, guid: f2cddcb9dda1597469dcb7e7ba53e98b, type: 2}
@@ -5274,9 +5274,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _currentHealth: {fileID: 11400000, guid: f2555c76108b2b34ab64fda4ac0d3725, type: 2}
   _maxHealth: {fileID: 11400000, guid: 67ef4a405da1f7a47a81b717c4570bef, type: 2}
+  _reviveTime: {fileID: 0}
   _onPlayerDamaged: {fileID: 11400000, guid: 015d43bda9437a5448738133d214fd3e, type: 2}
   _onPlayerHealed: {fileID: 11400000, guid: ddd87faecc1e2fb4e88f6b86b7876e81, type: 2}
   _onPlayerDeath: {fileID: 11400000, guid: e73b0a399a0a16f49bb21c095af4c90a, type: 2}
+  _onPlayerRevive: {fileID: 0}
 --- !u!114 &1588062535997783133
 MonoBehaviour:
   m_ObjectHideFlags: 0

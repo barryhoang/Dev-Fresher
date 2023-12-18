@@ -4,12 +4,12 @@ using UnityEngine;
 namespace Minh
 {
     [CreateAssetMenu(menuName = "AbilityData/WeaponAbility")]
-    public class WeapoinAbilityData : AbilityData
+    public class WeaponAbilityData : AbilityData
     {
         [SerializeField] private GameObject _prefab;
         [SerializeField] private TransformVariable _playerTransform;
 
-        private Vector3[] _offsets = new[]
+        private readonly Vector3[] _offsets = new[]
         {
             Vector3.back,
             Vector3.forward,

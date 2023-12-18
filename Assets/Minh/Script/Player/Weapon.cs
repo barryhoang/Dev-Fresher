@@ -7,11 +7,10 @@ namespace Minh
 {
     public class Weapon : MonoBehaviour
     {
-        [SerializeField] private ScriptableListEnemy _scriptableListEnemy;
+        [SerializeField] private ScriptableListEnemy _soapListEnemy;
         [SerializeField] private Projectile _projectilePrefab;
         [SerializeField] private FloatReference _fireRate;
-
-
+        
         private Transform _ownerTransform;
         private float _timer;
 
@@ -25,7 +24,7 @@ namespace Minh
             Timing.RunCoroutine(CheckForShooting());
         }
 
-        IEnumerator<float> CheckForShooting()
+       private IEnumerator<float> CheckForShooting()
         {
             while (true)
             {
@@ -36,11 +35,10 @@ namespace Minh
                 }
             }
         }
-
         private void ShootAtClosestEnemy()
         {
             //find closest enemy;
-            var closest = _scriptableListEnemy.GetClosest(transform.position);
+            var closest = _soapListEnemy.GetClosest(transform.position);
             if (closest != null)
             {
                 var direction = closest.transform.position - _ownerTransform.position;
@@ -57,14 +55,5 @@ namespace Minh
         }
     }
 
-    // private void Update()
-    // {
-    //    _timer += Time.deltaTime;
-    //    if (_timer >= 1f/_fireRate)
-    //    {
-    //
-    //       ShootAtClosestEnemy();
-    //       _timer = 0f;
-    //    }
-    // }
+   
 }

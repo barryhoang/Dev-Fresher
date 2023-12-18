@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 1746302378442041250}
   - component: {fileID: 9212230816428293863}
   m_Layer: 6
-  m_Name: prefab_shield
+  m_Name: Shield
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

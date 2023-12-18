@@ -13,14 +13,13 @@ namespace Minh
         [SerializeField] private int _amount = 1;
 
         private float _currentAngle;
-
-        // Start is called before the first frame update
-        public void playerOnTrap()
+        
+        public void PlayerOnTrap()
         {
             Timing.CallDelayed(5f, delegate { Timing.RunCoroutine(SpawnEnemy()); });
         }
 
-        IEnumerator<float> SpawnEnemy()
+        private IEnumerator<float> SpawnEnemy()
         {
             if (gameObject != null && gameObject.activeInHierarchy)
             {
@@ -33,7 +32,7 @@ namespace Minh
             }
         }
 
-        void Spawn()
+        private void Spawn()
         {
             _currentAngle += 180f + Random.Range(-45, 45);
             var angleInRad = _currentAngle * Mathf.Deg2Rad;

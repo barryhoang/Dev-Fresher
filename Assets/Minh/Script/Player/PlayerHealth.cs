@@ -8,18 +8,23 @@ namespace Minh
         [SerializeField] private FloatVariable _currentHealth;
         [SerializeField] private FloatVariable _maxHealth;
         [SerializeField] private IntVariable _reviveTime;
-
         [SerializeField] private ScriptableEventInt _onPlayerDamaged;
         [SerializeField] private ScriptableEventInt _onPlayerHealed;
         [SerializeField] private ScriptableEventNoParam _onPlayerDeath;
         [SerializeField] private ScriptableEventNoParam _onPlayerRevive;
 
-        void Start()
+        private void Start()
         {
             _currentHealth.Value = _maxHealth;
-            _currentHealth.OnValueChanged += OnHealthChaged;
+            _currentHealth.OnValueChanged += OnHealthChanged;
             _currentHealth.MinMax = new Vector2(0, _maxHealth);
             _maxHealth.OnValueChanged += OnMaxHealthChanged;
+        }
+
+        private void OnDestroy()
+        {
+            _currentHealth.OnValueChanged -= OnHealthChanged;
+            _maxHealth.OnValueChanged -= OnMaxHealthChanged;
         }
 
         private void OnMaxHealthChanged(float newvalue)
@@ -29,13 +34,7 @@ namespace Minh
             _currentHealth.Add(diff);
         }
 
-        private void OnDestroy()
-        {
-            _currentHealth.OnValueChanged -= OnHealthChaged;
-            _maxHealth.OnValueChanged -= OnMaxHealthChanged;
-        }
-
-        private void OnHealthChaged(float newValue)
+        private void OnHealthChanged(float newValue)
         {
             var diff = newValue - _currentHealth.PreviousValue;
             if (diff < 0)
@@ -43,7 +42,6 @@ namespace Minh
                 if (_currentHealth <= 0)
                 {
                     _onPlayerDeath.Raise();
-                    ;
                 }
                 else
                 {
@@ -66,11 +64,6 @@ namespace Minh
         public void PlayerRevive()
         {
             _currentHealth.Value = _maxHealth;
-        }
-        // Update is called once per frame
-        void Update()
-        {
-            Debug.Log(Time.timeScale);
         }
     }
 }

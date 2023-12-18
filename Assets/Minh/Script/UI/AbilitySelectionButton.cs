@@ -8,9 +8,7 @@ namespace Minh
     {
         [SerializeField] private TextMeshProUGUI _description;
         [SerializeField] private TextMeshProUGUI _applyCount;
-
         [field: SerializeField] public Button Button { get; set; }
-
 
         public void Init(string description, int applyCount)
         {

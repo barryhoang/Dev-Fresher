@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using MEC;
 using Obvious.Soap;
@@ -21,7 +20,7 @@ namespace Minh
 
         private void Start()
         {
-            Timing.RunCoroutine(StartSpawn(), Segment.SlowUpdate,"Spawn");
+            Timing.RunCoroutine(StartSpawn(), Segment.SlowUpdate, "Spawn");
         }
 
         private void OnEnable()
@@ -33,12 +32,6 @@ namespace Minh
         {
             Timing.PauseCoroutines("Spawn");
         }
-        // private IEnumerator Start()
-        // {
-        //     _timer = _spawnInterval;
-        //     yield return new WaitForSeconds(_initalDelay);
-        //     _isActive = true;
-        // }
 
         private IEnumerator<float> StartSpawn()
         {
@@ -57,24 +50,7 @@ namespace Minh
             }
         }
 
-        // private void Update()
-        // {
-        //          if (!_isActive)
-        //          {
-        //              return;
-        //          }
-        //  
-        //          
-        //          _timer += Time.deltaTime;
-        //          if (_timer >= _spawnInterval)
-        //          {
-        //              for(int i=0;i<_amount;i++)
-        //              Spawn();
-        //              _timer = 0f;
-        //          }
-        // }
-
-        void Spawn()
+        private void Spawn()
         {
             _currentAngle += 180f + Random.Range(-45, 45);
             var angleInRad = _currentAngle * Mathf.Deg2Rad;

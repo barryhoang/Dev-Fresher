@@ -11,7 +11,7 @@ namespace Minh
         [SerializeField] private float _radius = 20f;
         [SerializeField] private float _speed = 20f;
         [SerializeField] private TransformVariable _playerTransform;
-        [SerializeField] private ScriptableListTransform _scriptableListTransform;
+        [SerializeField] private ScriptableListTransform _soapListTransform;
 
         protected override void OnTriggerEnter(Collider other)
         {
@@ -23,12 +23,12 @@ namespace Minh
         private IEnumerator<float> Attract()
         {
             //find all exp pickups in range
-            var pickupsInrange = new List<Transform>(
-                _scriptableListTransform.Where(
+            var pickupsInRange = new List<Transform>(
+                _soapListTransform.Where(
                     x => Vector3.Distance(x.transform.position, transform.position) < _radius));
-            var count = pickupsInrange.Count;
+            var count = pickupsInRange.Count;
             //move them all to the player
-            foreach (var p in pickupsInrange)
+            foreach (var p in pickupsInRange)
             {
                 var pickup = p.GetComponent<Pickup>();
                 pickup.OnPickedup += () => { count--; };
@@ -37,9 +37,9 @@ namespace Minh
             //wait until they are absorbed
             while (count > 0)
             {
-                for (int i = pickupsInrange.Count - 1; i >= 0; i--)
+                for (int i = pickupsInRange.Count - 1; i >= 0; i--)
                 {
-                    var pickup = pickupsInrange[i];
+                    var pickup = pickupsInRange[i];
                     if (pickup == null)
                     {
                         continue;
@@ -47,7 +47,7 @@ namespace Minh
 
                     var position = pickup.position;
                     var dir = (_playerTransform.Value.position - position).normalized;
-                    position += dir * _speed * Time.deltaTime;
+                    position += dir * (_speed * Time.deltaTime);
                     pickup.position = position;
                 }
 

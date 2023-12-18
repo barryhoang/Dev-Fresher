@@ -28,7 +28,7 @@ namespace Minh
             Timing.PauseCoroutines("startTimer");
         }
 
-        IEnumerator<float> StartTimer()
+       private IEnumerator<float> StartTimer()
         {
             while (true)
             {
@@ -39,7 +39,7 @@ namespace Minh
                         _elapsedtime += Timing.DeltaTime;
                         var minutes = Mathf.FloorToInt(_elapsedtime / 60);
                         var seconds = Mathf.FloorToInt(_elapsedtime % 60);
-                        _timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+                        _timerText.text = $"{minutes:00}:{seconds:00}";
                     }
                     else
                     {
