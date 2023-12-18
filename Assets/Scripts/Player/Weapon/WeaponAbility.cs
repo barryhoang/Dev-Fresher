@@ -1,32 +1,35 @@
 using Obvious.Soap;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "AbilityData/WeaponAbility")]
-public class WeaponAbility : AbilityData
+namespace Player.Weapon
 {
-    [SerializeField] private GameObject _prefab;
-    [SerializeField] private TransformVariable _playerTransform;
-
-    private Vector3[] _offSets = new[]{
-        Vector3.left,
-        Vector3.right,
-        Vector3.forward,
-        Vector3.back,
-        Vector3.left + Vector3.forward,
-        Vector3.right + Vector3.back,
-        Vector3.forward + Vector3.right,
-        Vector3.back + Vector3.left,
-    };
-
-    public override void Apply()
+    [CreateAssetMenu(menuName = "AbilityData/WeaponAbility")]
+    public class WeaponAbility : AbilityData
     {
-        var weapon = Instantiate(_prefab, _playerTransform);
-        weapon.transform.localPosition = _offSets[ApplyCount % _offSets.Length];
-        base.Apply();
-    }
+        [SerializeField] private GameObject _prefab;
+        [SerializeField] private TransformVariable _playerTransform;
 
-    public override string GetDescription()
-    {
-        return _description;
+        private Vector3[] _offSets = new[]{
+            Vector3.left,
+            Vector3.right,
+            Vector3.forward,
+            Vector3.back,
+            Vector3.left + Vector3.forward,
+            Vector3.right + Vector3.back,
+            Vector3.forward + Vector3.right,
+            Vector3.back + Vector3.left,
+        };
+
+        public override void Apply()
+        {
+            var weapon = Instantiate(_prefab, _playerTransform);
+            weapon.transform.localPosition = _offSets[ApplyCount % _offSets.Length];
+            base.Apply();
+        }
+
+        public override string GetDescription()
+        {
+            return _description;
+        }
     }
 }
