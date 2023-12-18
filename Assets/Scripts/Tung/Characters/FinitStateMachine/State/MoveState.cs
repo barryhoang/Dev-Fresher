@@ -27,6 +27,12 @@ namespace Tung
             isMove = entity.CheckMove();
         }
 
+        public override void Exit()
+        {
+            base.Exit();
+//            Timing.KillCoroutines(Move());
+        }
+            
         private IEnumerator<float> Move()
         {
             while (isMove)
@@ -34,6 +40,7 @@ namespace Tung
                 entity.Move();
                 yield return Timing.WaitForOneFrame;
             }
+            entity.StateMachine.ChangeState(entity.AttackState);
         }
     }
 }

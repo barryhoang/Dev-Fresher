@@ -15,6 +15,24 @@ namespace Tung
         public override void Enter()
         {
             base.Enter();
+            entity.SetIdleState();
+        }
+
+        public override void DoCheck()
+        {
+            base.DoCheck();
+            
+        }
+        public override void LogicUpdate()
+        {
+            base.LogicUpdate();
+            
+        }
+
+        public override void Exit()
+        {
+            base.Exit();
+            entity.SetIdleState();
         }
     }
 }

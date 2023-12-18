@@ -1,4 +1,5 @@
 ﻿using System;
+using Obvious.Soap;
 using Obvious.Soap.Example;
 using UnityEngine;
 
@@ -13,47 +14,54 @@ namespace Tung
         #endregion
 
         #region State
-        private StateMachine _stateMachine;
+        public StateMachine StateMachine { get; private set; }
         
         public MoveState MoveState { get; private set; }
+        public AttackState AttackState { get; private set; }
         
         #endregion
-
         #region OtherVariable
 
+        private Weapon _weapon;
+        private bool _isIdle;
+        [SerializeField] private ScriptableEventNoParam _fight;
+        
         public GameObject enemy;
-        
         public float moveSpeed = 5f;
-        
+
         #endregion
 
         #region UnityFunciton
         private void Awake()
         {
-            _stateMachine = new StateMachine();
+            StateMachine = new StateMachine();
             
-            MoveState = new MoveState(this,_stateMachine,"Move",gameObject);
+            MoveState = new MoveState(this,StateMachine,"Move",gameObject);
+            AttackState = new AttackState(this,StateMachine,"Attack");
             
-            _stateMachine.InitiateState(MoveState);
+            StateMachine.InitiateState(MoveState);
         }
 
         private void Start()
         {
             _animator = GetComponent<Animator>();
+            _weapon = transform.GetChild(0).GetComponent<Weapon>();
         }
 
         private void Update()
         {
-            _stateMachine.currentState.LogicUpdate();
+            StateMachine.currentState.LogicUpdate();
         }
 
         private void FixedUpdate()
         {
-            _stateMachine.currentState.PhysicalUpdate();
+            StateMachine.currentState.PhysicalUpdate();
         }
         #endregion
-
-
+        
+        public void SetWeaponAttack() => _weapon._isAttacking = !_weapon._isAttacking;
+        public void SetIdleState() => _isIdle = !_isIdle;
+        
         public void Move()
         {
             var position = transform.position;

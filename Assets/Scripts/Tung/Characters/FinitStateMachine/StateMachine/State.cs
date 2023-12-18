@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Tung
 {
-    public abstract class State 
+    public  class State 
     {
         protected Entity entity;
         protected StateMachine stateMachine;
@@ -19,7 +19,6 @@ namespace Tung
         public virtual void Enter()
         {
             DoCheck();
-            // entity.Animator.SetBool(animationName,true);
             Debug.Log("animationName");
         }
 

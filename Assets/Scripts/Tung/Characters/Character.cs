@@ -33,7 +33,7 @@ namespace Tung
                 transform.position = position;
                 if (Vector3.Distance(target.transform.position, transform.position) <= 1f)
                 {
-                    Timing.RunCoroutine(Attack().CancelWith(gameObject));
+//                    Timing.RunCoroutine(Attack().CancelWith(gameObject));
                     break;
                 }
                 yield return Timing.WaitForOneFrame;
@@ -43,11 +43,6 @@ namespace Tung
         public bool CheckMove()
         {
             return Vector3.Distance(transform.position, target.transform.position) <= 1f;
-        }
-        private IEnumerator<float> Attack()
-        {
-            Debug.Log("Abc");
-            yield return Timing.WaitForOneFrame;
         }
     }
 }
