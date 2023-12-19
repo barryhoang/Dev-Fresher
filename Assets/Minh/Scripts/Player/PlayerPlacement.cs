@@ -55,6 +55,7 @@ namespace Minh
                     transform.position = cellCenter;
                 }
 
+               
 
                 // Check Mouse Button Up
                 if (Input.GetMouseButtonUp(0))
