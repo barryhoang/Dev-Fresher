@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48c2803562eaa2841a87f80673e548ec, type: 3}
+  m_Name: PlayerStats
+  m_EditorClassIdentifier: 
+  _health:
+    UseLocal: 0
+    LocalValue: 0
+    Variable: {fileID: 11400000, guid: 66c062b546c64114eb031b69d8314e2f, type: 2}
+  _speed:
+    UseLocal: 0
+    LocalValue: 0
+    Variable: {fileID: 11400000, guid: 0b0a3385c0d5f8041ac77f0a32abd979, type: 2}
+  _damage:
+    UseLocal: 0
+    LocalValue: 0
+    Variable: {fileID: 11400000, guid: b2565ec71cb35384aaf7b7ad445aa25e, type: 2}
