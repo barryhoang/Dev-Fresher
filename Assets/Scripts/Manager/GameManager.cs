@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
         switch (newState)
         {
             case GameState.GenerateGrid :
-                GridManager.Instance.GenerateGrid();
+                GridManager.Instance._GenerateGrid();
                 break;
             case GameState.SpawnHeroes :
                 UnitManager.Instance.SpawnHeroes();
@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
                 UnitManager.Instance.SpawnEnemies();
                 break;
             case GameState.HeroesTurn:
+                Debug.Log("rat la buon ngu");
                 break;
             case GameState.EnemiesTurn:
                 break;
@@ -41,10 +42,4 @@ public enum GameState
     SpawnEnemies = 2,
     HeroesTurn = 3,
     EnemiesTurn = 4
-}
-
-public enum Team
-{
-    Heroes,
-    Enemies
 }
