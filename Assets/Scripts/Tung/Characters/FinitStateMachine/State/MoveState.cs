@@ -7,23 +7,30 @@ namespace Tung
 {
     public class MoveState : State
     {
-        private Character _character;
-        private GameObject _gameObject;
-
         protected bool IsMove;
+        
+        protected Vector3 posTager;
 
         protected MoveState(Entity entity, StateMachine stateMachine, NameAnimation animationName,GameObject gameObject) : base(entity, stateMachine, animationName)
         {
-            _gameObject = gameObject;
         }
-
-        protected IEnumerator<float> Move(Transform target)
+        
+        
+        
+        protected IEnumerator<float> Move(Vector3 target,Vector3 posFlip)
         {
             while (IsMove)
             {
+                target = FindTarget();
                 entity.Move(target);
+                entity.Flip(posFlip);
                 yield return Timing.WaitForOneFrame;
             }
+        }
+
+        protected virtual Vector3 FindTarget()
+        {
+            return Vector3.zero;
         }
     }
 }

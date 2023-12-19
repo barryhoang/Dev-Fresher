@@ -24,14 +24,35 @@ namespace Tung
                 StateMachine.InitiateState(IdleEnemy);
             }
 
-            public bool FindCharacter()
+            public void FindAttack()
             {
                 var enemy = _listCharacter.GetClosest(transform.position);
                 _characterWork = enemy;
-                var distance = Vector3.Distance(transform.position, _characterWork.transform.position);
-                return distance > 1f;
             }
-            
+            public Vector3 FindTarget()
+            {
+                for(int i = 0;  i < _characterWork.isFull.Count;i++)
+                {
+                    if (!_characterWork.isFull[i])
+                    {
+                        _indexWork = i;
+                        return _characterWork.posAttack[i].position;
+                    }
+                }
+                return Vector3.zero;
+            }
+        
+        
+            public bool FinishMove()
+            {
+                if (CheckMoveTarget(_characterWork.posAttack[_indexWork].position))
+                {
+                    _characterWork.isFull[_indexWork] = true;
+                    return false;
+                }
+                return true;
+            }
+
             protected void Start()
             {
                 _listEnemy.Add(this);    

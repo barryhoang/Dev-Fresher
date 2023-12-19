@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using MEC;
 using UnityEngine;
 
@@ -14,16 +15,17 @@ namespace Tung
 
         public override void Enter()
         {
+            _enemy.FindAttack();
+            posTager =  FindTarget();
             base.Enter();
-            Timing.RunCoroutine(Move(_enemy.CharacterWork.transform),"Move");
+            Timing.RunCoroutine(Move(posTager,_enemy.CharacterWork.transform.position),"Move");
         }
 
         public override void DoCheck()
         {
             base.DoCheck();
-            IsMove = _enemy.FindCharacter();
+            IsMove = _enemy.FinishMove();
         }
-
         public override void LogicUpdate()
         {
             base.LogicUpdate();
@@ -31,6 +33,10 @@ namespace Tung
             {
                 _enemy.StateMachine.ChangeState(_enemy.AttackEnemy);
             }
+        }
+        protected override Vector3 FindTarget()
+        {
+            return _enemy.FindTarget();
         }
     }
 }

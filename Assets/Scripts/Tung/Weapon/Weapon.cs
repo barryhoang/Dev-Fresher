@@ -21,7 +21,7 @@ namespace Tung
         {
             while (true)
             {
-                RotateOfEnemy();
+                //RotateOfEnemy();
                 if (_isAttacking)
                 {
                     RotateAttackEnemy();

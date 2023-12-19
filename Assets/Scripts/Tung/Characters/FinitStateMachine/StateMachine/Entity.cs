@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Obvious.Soap;
 using Obvious.Soap.Example;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Tung
 {
@@ -20,6 +21,7 @@ namespace Tung
         #region OtherVariable
         
         private bool _isIdle;
+        private int _facingRight = 1;
 
         public bool IsIdle
         {
@@ -28,9 +30,9 @@ namespace Tung
         }
         public float moveSpeed = 5f;
 
-        public List<Transform> placeAttack;
-        public List<bool> slotPlaceAttack;
-
+       public List<Transform> posAttack; 
+       public List<bool> isFull;
+       protected int _indexWork;
         #endregion
         
         #region UnityFunciton
@@ -52,31 +54,37 @@ namespace Tung
         
         #endregion
 
-        public void Move(Transform target)
+        public void Move(Vector3 target)
         {
             var position = transform.position;
-            var dir = target.position - position;
+            var dir = target - position;
             dir.Normalize();
             position += dir * (moveSpeed * Time.deltaTime);
             transform.position = position;
         }
-        
-        public Vector3 CheckSlot()
-        {
-            for (int i = 0; i < 4; i++)
-            {
-                if (!slotPlaceAttack[i])
-                {
-                    return placeAttack[i].position;
-                }
-            }
 
-            return Vector3.zero;
+        public void FindTarget()
+        {
+            
         }
-        // public bool CheckMove()
-        // {
-        //     var temp = Vector3.Distance(transform.position, enemy.transform.position);
-        //     return temp > 1;
-        // }
+        public void Flip(Vector3 target)
+        {
+            var temp = target.x - transform.position.x;
+            if (temp > 0 &&  _facingRight != 1)
+            {
+                _facingRight *= -1;
+                transform.Rotate(0,180,0);
+            }
+            else if (temp < 0 && _facingRight != -1)
+            {
+                _facingRight *= -1;
+                transform.Rotate(0,180,0);
+            }
+        }
+        public bool CheckMoveTarget(Vector3 target)
+        {
+            var distance = Vector3.Distance(target, transform.position);
+            return distance <= 0.1f;
+        }
     }
 }
