@@ -1,79 +1,82 @@
 ﻿using System;
+using System.Collections.Generic;
 using Obvious.Soap;
 using Obvious.Soap.Example;
 using UnityEngine;
 
 namespace Tung
 {
-    public class Entity : MonoBehaviour
+    public abstract class Entity : MonoBehaviour
     {
         #region UnityVariable
-        private Animator _animator;
-
-        public Animator Animator => _animator;
+        public AnimationController _animatorController;
+       
         #endregion
 
         #region State
         public StateMachine StateMachine { get; private set; }
-        
-        public MoveState MoveState { get; private set; }
-        public AttackState AttackState { get; private set; }
-        
         #endregion
-        #region OtherVariable
-
-        private Weapon _weapon;
-        private bool _isIdle;
-        [SerializeField] private ScriptableEventNoParam _fight;
         
-        public GameObject enemy;
+        #region OtherVariable
+        
+        private bool _isIdle;
+
+        public bool IsIdle
+        {
+            get => _isIdle;
+            set => _isIdle = value;
+        }
         public float moveSpeed = 5f;
 
-        #endregion
+        public List<Transform> placeAttack;
+        public List<bool> slotPlaceAttack;
 
+        #endregion
+        
         #region UnityFunciton
-        private void Awake()
+        protected virtual void Awake()
         {
             StateMachine = new StateMachine();
-            
-            MoveState = new MoveState(this,StateMachine,"Move",gameObject);
-            AttackState = new AttackState(this,StateMachine,"Attack");
-            
-            StateMachine.InitiateState(MoveState);
+            _isIdle = true;
         }
 
-        private void Start()
-        {
-            _animator = GetComponent<Animator>();
-            _weapon = transform.GetChild(0).GetComponent<Weapon>();
-        }
-
-        private void Update()
+        protected virtual void Update()
         {
             StateMachine.currentState.LogicUpdate();
         }
 
-        private void FixedUpdate()
+        protected virtual void FixedUpdate()
         {
             StateMachine.currentState.PhysicalUpdate();
         }
+        
         #endregion
-        
-        public void SetWeaponAttack() => _weapon._isAttacking = !_weapon._isAttacking;
-        public void SetIdleState() => _isIdle = !_isIdle;
-        
-        public void Move()
+
+        public void Move(Transform target)
         {
             var position = transform.position;
-            var dir = enemy.transform.position - position;
+            var dir = target.position - position;
             dir.Normalize();
             position += dir * (moveSpeed * Time.deltaTime);
             transform.position = position;
         }
-
-        public bool CheckMove()
+        
+        public Vector3 CheckSlot()
         {
-            return Vector3.Distance(transform.position, enemy.transform.position)  > 1f;
+            for (int i = 0; i < 4; i++)
+            {
+                if (!slotPlaceAttack[i])
+                {
+                    return placeAttack[i].position;
+                }
+            }
+
+            return Vector3.zero;
         }
+        // public bool CheckMove()
+        // {
+        //     var temp = Vector3.Distance(transform.position, enemy.transform.position);
+        //     return temp > 1;
+        // }
     }
 }

@@ -6,9 +6,9 @@ namespace Tung
     {
         protected Entity entity;
         protected StateMachine stateMachine;
-        protected string animationName;
+        protected NameAnimation animationName;
 
-        public State(Entity entity, StateMachine stateMachine, string animationName)
+        public State(Entity entity, StateMachine stateMachine, NameAnimation animationName)
         {
             this.entity = entity;
             this.stateMachine = stateMachine;
@@ -19,12 +19,12 @@ namespace Tung
         public virtual void Enter()
         {
             DoCheck();
-            Debug.Log("animationName");
+            entity._animatorController.SetAnimator(animationName,true);
         }
 
         public virtual void Exit()
         {
-            
+            entity._animatorController.SetAnimator(animationName,false);
         }
 
         public virtual void LogicUpdate()

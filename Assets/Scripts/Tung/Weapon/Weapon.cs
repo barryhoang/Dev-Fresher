@@ -12,7 +12,7 @@ namespace Tung
         public bool _isAttacking;
         public GameObject GameObject;
         public float attackSpeed;
-        
+        public AnimationController AnimationController;
         private void Start()
         {
             Timing.RunCoroutine(RotationWeapon().CancelWith(gameObject),"Weapon");
@@ -40,6 +40,7 @@ namespace Tung
         private void RotateAttackEnemy()
         {
             var rotation = transform.rotation;
+            AnimationController.SetAnimator(NameAnimation.ATTACK,true);
             rotationTweenSettings.endValue = new Vector3(0,rotation.y,rotation.z - 90);
             Tween.Rotation(transform, rotationTweenSettings).OnComplete(()=>Tween.Rotation(transform, Quaternion.Euler(0f, 0f, _rotationWorkZ),0.25f));
         }

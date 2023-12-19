@@ -8,39 +8,22 @@ namespace Tung
     public class MoveState : State
     {
         private Character _character;
-        private bool isMove;
         private GameObject _gameObject;
-        public MoveState(Entity entity, StateMachine stateMachine, string animationName,GameObject gameObject) : base(entity, stateMachine, animationName)
+
+        protected bool IsMove;
+
+        protected MoveState(Entity entity, StateMachine stateMachine, NameAnimation animationName,GameObject gameObject) : base(entity, stateMachine, animationName)
         {
-            this._gameObject = gameObject;
+            _gameObject = gameObject;
         }
 
-        public override void Enter()
+        protected IEnumerator<float> Move(Transform target)
         {
-            base.Enter();
-            Timing.RunCoroutine(Move().CancelWith(_gameObject));
-        }
-
-        public override void DoCheck()
-        {
-            base.DoCheck();
-            isMove = entity.CheckMove();
-        }
-
-        public override void Exit()
-        {
-            base.Exit();
-//            Timing.KillCoroutines(Move());
-        }
-            
-        private IEnumerator<float> Move()
-        {
-            while (isMove)
+            while (IsMove)
             {
-                entity.Move();
+                entity.Move(target);
                 yield return Timing.WaitForOneFrame;
             }
-            entity.StateMachine.ChangeState(entity.AttackState);
         }
     }
 }
