@@ -8,29 +8,28 @@ namespace Tung
     public class MoveState : State
     {
         protected bool IsMove;
-        
-        protected Vector3 posTager;
+        protected Vector3 posTarget;
 
         protected MoveState(Entity entity, StateMachine stateMachine, NameAnimation animationName,GameObject gameObject) : base(entity, stateMachine, animationName)
         {
         }
-        
-        
-        
-        protected IEnumerator<float> Move(Vector3 target,Vector3 posFlip)
+
+       
+        protected bool FinishMove(Vector3 target)
         {
-            while (IsMove)
-            {
-                target = FindTarget();
-                entity.Move(target);
-                entity.Flip(posFlip);
-                yield return Timing.WaitForOneFrame;
-            }
+            var distance = Vector2.Distance(entity.transform.position, target);
+            return distance > 0.1f;
         }
 
-        protected virtual Vector3 FindTarget()
+        protected void Move(Vector3 target)
         {
-            return Vector3.zero;
+            var position = entity.transform.position;
+            var dir = target - position;
+            dir.Normalize();
+            position += dir * (entity.moveSpeed * Time.deltaTime);
+            entity.transform.position = position;
         }
+
+       
     }
 }

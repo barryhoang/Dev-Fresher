@@ -9,6 +9,8 @@ namespace Tung
             [SerializeField] private ScriptableListEnemy _listEnemy;
             [SerializeField] private ScriptableListCharacter _listCharacter;
             private Character _characterWork;
+           
+            public int indexWork;
             public Character CharacterWork => _characterWork;
             public IdleEnemy IdleEnemy { get; private set; }
             public MoveEnemy MoveEnemy { get; private set; }
@@ -23,44 +25,37 @@ namespace Tung
                 AttackEnemy = new AttackEnemy(this,StateMachine,NameAnimation.ATTACK,this);
                 StateMachine.InitiateState(IdleEnemy);
             }
-
-            public void FindAttack()
+            protected  void Start()
             {
-                var enemy = _listCharacter.GetClosest(transform.position);
-                _characterWork = enemy;
-            }
-            public Vector3 FindTarget()
-            {
-                for(int i = 0;  i < _characterWork.isFull.Count;i++)
-                {
-                    if (!_characterWork.isFull[i])
-                    {
-                        _indexWork = i;
-                        return _characterWork.posAttack[i].position;
-                    }
-                }
-                return Vector3.zero;
-            }
-        
-        
-            public bool FinishMove()
-            {
-                if (CheckMoveTarget(_characterWork.posAttack[_indexWork].position))
-                {
-                    _characterWork.isFull[_indexWork] = true;
-                    return false;
-                }
-                return true;
-            }
-
-            protected void Start()
-            {
-                _listEnemy.Add(this);    
+                _listEnemy.Add(this);
             }
 
             private void OnDisable()
             {
                 _listEnemy.Remove(this);
             }
+            
+
+            public void FindAttack()
+            {
+                var enemy = _listCharacter.GetClosest(transform.position);
+                _characterWork = enemy;
+            }
+            public void GetTarget()
+            {
+                var enemy = _listCharacter.GetClosest(transform.position);
+                _characterWork = enemy;
+                for (int i = 0; i < _characterWork.isFull.Count; i++)
+                {
+                    if (!_characterWork.isFull[i])
+                    {
+                        indexWork = i;
+                        _characterWork.isFull[i] = true;
+                        return;
+                    }
+                }
+            }
+        
+           
     }
 }

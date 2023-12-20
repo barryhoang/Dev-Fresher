@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using MEC;
+using PrimeTween;
 using UnityEngine;
 
 namespace Tung
@@ -8,6 +9,7 @@ namespace Tung
     public class MoveCharacter : MoveState
     {
         private Character _character;
+       
         public MoveCharacter(Entity entity, StateMachine stateMachine, NameAnimation animationName, GameObject gameObject,Character character) : base(entity, stateMachine, animationName, gameObject)
         {
             _character = character;
@@ -15,15 +17,17 @@ namespace Tung
         public override void DoCheck()
         {
             base.DoCheck();
-            IsMove = _character.FinishMove();
+            IsMove = FinishMove(_character.EnemyWork.posAttack[_character.indexWork].position);
         }
-
+        
         public override void Enter()
         {
-            _character.FindAttack();
-            posTager =  FindTarget();
+            if (_character.EnemyWork == null)
+            {
+                _character.GetTarget();
+            }
             base.Enter();
-            Timing.RunCoroutine(Move(posTager,_character.EnemyWork.transform.position),"Move");
+            Timing.RunCoroutine(Move(_character.EnemyWork.posAttack[_character.indexWork].position,Vector3.zero),"Move");
         }
 
         public override void LogicUpdate()
@@ -34,10 +38,14 @@ namespace Tung
                 _character.StateMachine.ChangeState(_character.WeaponAttack);
             }
         }
-
-        protected override Vector3 FindTarget()
+        protected IEnumerator<float> Move(Vector3 target,Vector3 posFlip)
         {
-            return _character.FindTarget();
+            while (IsMove)
+            {
+                target = _character.EnemyWork.posAttack[_character.indexWork].position;
+                Move(target);
+                yield return Timing.WaitForOneFrame;
+            }
         }
     }
 }

@@ -16,12 +16,12 @@ namespace Tung
        [SerializeField] private ScriptableListEnemy _listSoapEnemy;
        [SerializeField] private ScriptableListCharacter _listCharacter;
        private Enemy _enemyWork;
+       public int indexWork;
        public Enemy EnemyWork => _enemyWork;
        public WeaponAttackCharacter WeaponAttack { get; private set; }
         public MoveCharacter MoveCharacter { get; private set; }
         public IdleCharacter IdleCharacter { get; private set; }
-        
-        
+
         protected override void Awake()
         {
             base.Awake();
@@ -29,6 +29,7 @@ namespace Tung
             MoveCharacter = new MoveCharacter(this,StateMachine,NameAnimation.MOVE,gameObject,this );
             WeaponAttack = new WeaponAttackCharacter(this,StateMachine,NameAnimation.ATTACK,this);
             _listCharacter.Add(this);
+            
             StateMachine.InitiateState(IdleCharacter);
         }
         
@@ -45,35 +46,20 @@ namespace Tung
             }
         }
 
-        public void FindAttack()
+        public void GetTarget()
         {
             var enemy = _listSoapEnemy.GetClosest(transform.position);
             _enemyWork = enemy;
-        }
-        public Vector3 FindTarget()
-        {
-            
-            for(int i = 0;  i < _enemyWork.isFull.Count;i++)
+            for (int i = 0; i < _enemyWork.isFull.Count; i++)
             {
                 if (!_enemyWork.isFull[i])
                 {
-                    _indexWork = i;
-                    return _enemyWork.posAttack[i].position;
+                    indexWork = i;
+                    _enemyWork.isFull[i] = true;
+                    return;
                 }
             }
-            return Vector3.zero;
         }
-        
-        public bool FinishMove()
-        {
-            if (CheckMoveTarget(_enemyWork.posAttack[_indexWork].position))
-            {
-                _enemyWork.isFull[_indexWork] = true;
-                return false;
-            }
-            return true;
-        }
-
         
         public void SetWeaponAttack() => _weapon._isAttacking = !_weapon._isAttacking;
     }

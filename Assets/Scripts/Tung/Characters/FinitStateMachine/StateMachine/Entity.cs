@@ -21,9 +21,9 @@ namespace Tung
         #region OtherVariable
         
         private bool _isIdle;
-        private int _facingRight = 1;
-
-        public bool IsIdle
+       [SerializeField] private int _facingRight = 1;
+       
+       public bool IsIdle
         {
             get => _isIdle;
             set => _isIdle = value;
@@ -62,24 +62,29 @@ namespace Tung
             position += dir * (moveSpeed * Time.deltaTime);
             transform.position = position;
         }
-
-        public void FindTarget()
-        {
-            
-        }
-        public void Flip(Vector3 target)
+        public void ShouldFlip(Vector3 target)
         {
             var temp = target.x - transform.position.x;
-            if (temp > 0 &&  _facingRight != 1)
+            int value = 1;
+            if (temp > 0)
             {
-                _facingRight *= -1;
-                transform.Rotate(0,180,0);
+                value = 1;
             }
-            else if (temp < 0 && _facingRight != -1)
+            else if (temp < 0)
             {
-                _facingRight *= -1;
-                transform.Rotate(0,180,0);
+                value = -1;
             }
+
+            if (value != _facingRight)
+            {
+                Flip();
+            }
+        }
+
+        public void Flip()
+        {
+            _facingRight *= -1;
+            transform.Rotate(0,180,0);
         }
         public bool CheckMoveTarget(Vector3 target)
         {

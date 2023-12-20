@@ -11,11 +11,12 @@ namespace Tung
 
         protected AttackNoWeapon(Entity entity, StateMachine stateMachine, NameAnimation animationName,Enemy enemy) : base(entity, stateMachine, animationName)
         {
-            this._enemy = enemy;
+            _enemy = enemy;
         }
 
         public override void Enter()
         {
+            entity._animatorController.SetDir(DirectionAttack(_enemy.CharacterWork.transform.position)*-1);
             DoCheck();
             Timing.RunCoroutine(RateAttack(), "Attack");
         }

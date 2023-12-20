@@ -12,19 +12,18 @@ namespace Tung
         {
             _enemy = enemy;
         }
-
+    
         public override void Enter()
         {
-            _enemy.FindAttack();
-            posTager =  FindTarget();
+            _enemy.GetTarget();
             base.Enter();
-            Timing.RunCoroutine(Move(posTager,_enemy.CharacterWork.transform.position),"Move");
+            Timing.RunCoroutine(Move( _enemy.CharacterWork.posAttack[_enemy.indexWork].position,Vector3.zero),"Move");
         }
 
         public override void DoCheck()
         {
             base.DoCheck();
-            IsMove = _enemy.FinishMove();
+            IsMove = FinishMove(_enemy.CharacterWork.posAttack[_enemy.indexWork].position);
         }
         public override void LogicUpdate()
         {
@@ -34,9 +33,14 @@ namespace Tung
                 _enemy.StateMachine.ChangeState(_enemy.AttackEnemy);
             }
         }
-        protected override Vector3 FindTarget()
+        protected IEnumerator<float> Move(Vector3 target,Vector3 posFlip)
         {
-            return _enemy.FindTarget();
+            while (IsMove)
+            {
+                target = _enemy.CharacterWork.posAttack[_enemy.indexWork].position;
+                Move(target);
+                yield return Timing.WaitForOneFrame;
+            }
         }
     }
 }

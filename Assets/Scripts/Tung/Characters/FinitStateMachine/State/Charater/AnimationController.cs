@@ -8,6 +8,7 @@ namespace Tung
     {
         [SerializeField] private TweenSettings tweenSettings;
         [SerializeField] private float endValueAttack;
+        private Vector2 _direction;
         public Animator _animator;
         
         private void Start()
@@ -15,6 +16,10 @@ namespace Tung
             _animator = GetComponent<Animator>();
         }
 
+        public void SetDir(Vector2 dir)
+        {
+            _direction = dir;
+        }
         public void SetAnimator(NameAnimation nameAni ,bool value)
         {
             switch (nameAni)
@@ -27,9 +32,9 @@ namespace Tung
                     return;
                 case NameAnimation.ATTACK:
                     _animator.SetBool("Idle",value);
-                    Tween.PositionX(transform, transform.position.x + endValueAttack,tweenSettings).OnComplete(
+                    Tween.Position(transform, (Vector2) transform.position +_direction* endValueAttack,tweenSettings).OnComplete(
                         ()=>
-                        Tween.PositionX(transform,transform.position.x - endValueAttack,tweenSettings));
+                        Tween.Position(transform,(Vector2) transform.position - _direction* endValueAttack,tweenSettings));
                     return;
                 case NameAnimation.HURT:
                     // Tween.PositionX(transform, transform.position.x - endValueAttack,tweenSettings).OnComplete(

@@ -10,7 +10,5 @@ namespace Tung
         {
             _enemy = enemy;
         }
-        
-        
     }
 }
