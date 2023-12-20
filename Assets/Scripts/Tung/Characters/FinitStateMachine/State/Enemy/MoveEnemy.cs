@@ -7,6 +7,7 @@ namespace Tung
     public class MoveEnemy : MoveState
     {
         private Enemy _enemy;
+        private bool _isAttack;
         
         public MoveEnemy(Entity entity, StateMachine stateMachine, NameAnimation animationName, GameObject gameObject,Enemy enemy) : base(entity, stateMachine, animationName, gameObject)
         {
@@ -15,15 +16,14 @@ namespace Tung
     
         public override void Enter()
         {
-            _enemy.GetTarget();
             base.Enter();
-            Timing.RunCoroutine(Move( _enemy.CharacterWork.posAttack[_enemy.indexWork].position,Vector3.zero),"Move");
+            Timing.RunCoroutine(Move( _enemy.GetTarget(),Vector3.zero),"Move");
         }
 
         public override void DoCheck()
         {
             base.DoCheck();
-            IsMove = FinishMove(_enemy.CharacterWork.posAttack[_enemy.indexWork].position);
+            IsMove = _enemy.CheckRangeAttack();
         }
         public override void LogicUpdate()
         {
@@ -33,11 +33,12 @@ namespace Tung
                 _enemy.StateMachine.ChangeState(_enemy.AttackEnemy);
             }
         }
-        protected IEnumerator<float> Move(Vector3 target,Vector3 posFlip)
+        
+        private IEnumerator<float> Move(Vector3 target,Vector3 posFlip)
         {
             while (IsMove)
             {
-                target = _enemy.CharacterWork.posAttack[_enemy.indexWork].position;
+                target = _enemy.GetTarget();
                 Move(target);
                 yield return Timing.WaitForOneFrame;
             }

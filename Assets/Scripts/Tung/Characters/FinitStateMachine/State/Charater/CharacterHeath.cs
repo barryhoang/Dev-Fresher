@@ -26,22 +26,22 @@ namespace Tung
 
         private void OnCurrentHealthChange(float newValue)
         {
-             var diff = newValue - _currentHealth.PreviousValue;
-            if (diff < 0)
-            {
-                if (_currentHealth <= 0)
-                {
-                    _animationController.SetAnimator(NameAnimation.DEATH,true);
-                }
-                else
-                {
-                    _animationController.SetAnimator(NameAnimation.HURT,true);
-                }
-            }
-            else
-            {
-             
-            }
+//             var diff = newValue - _currentHealth.PreviousValue;
+//            if (diff < 0)
+//            {
+//                if (_currentHealth <= 0)
+//                {
+//                    _animationController.SetAnimator(NameAnimation.DEATH,true);
+//                }
+//                else
+//                {
+//                    _animationController.SetAnimator(NameAnimation.HURT,true);
+//                }
+//            }
+//            else
+//            {
+//             
+//            }
         }
 
         public void TakeDamage(FloatVariable damage)

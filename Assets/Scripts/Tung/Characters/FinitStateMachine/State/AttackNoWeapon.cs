@@ -16,7 +16,7 @@ namespace Tung
 
         public override void Enter()
         {
-            entity._animatorController.SetDir(DirectionAttack(_enemy.CharacterWork.transform.position)*-1);
+            entity._animatorController.SetDir(DirectionAttack(_enemy.HeathEntity.transform.position)*-1);
             DoCheck();
             Timing.RunCoroutine(RateAttack(), "Attack");
         }

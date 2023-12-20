@@ -15,9 +15,9 @@ namespace Tung
        [SerializeField] private ScriptableEventFloat _characterDamageEnemy;
        [SerializeField] private ScriptableListEnemy _listSoapEnemy;
        [SerializeField] private ScriptableListCharacter _listCharacter;
+
        private Enemy _enemyWork;
-       public int indexWork;
-       public Enemy EnemyWork => _enemyWork;
+       
        public WeaponAttackCharacter WeaponAttack { get; private set; }
         public MoveCharacter MoveCharacter { get; private set; }
         public IdleCharacter IdleCharacter { get; private set; }
@@ -32,35 +32,22 @@ namespace Tung
             
             StateMachine.InitiateState(IdleCharacter);
         }
-        
+        private void OnDrawGizmos()
+        {
+            Gizmos.DrawWireSphere(transform.position,_raidusAttack);
+        }
+
         public void OnDisable()
         {
             _listCharacter.Remove(this);
         }
-
-        private void OnTriggerEnter2D(Collider2D other)
-        {
-            if (other.CompareTag("Enemy")  && _weapon._isAttacking)
-            {
-                _characterDamageEnemy.Raise(1); ;
-            }
-        }
-
-        public void GetTarget()
+        
+        public Vector3 GetTarget()
         {
             var enemy = _listSoapEnemy.GetClosest(transform.position);
-            _enemyWork = enemy;
-            for (int i = 0; i < _enemyWork.isFull.Count; i++)
-            {
-                if (!_enemyWork.isFull[i])
-                {
-                    indexWork = i;
-                    _enemyWork.isFull[i] = true;
-                    return;
-                }
-            }
+            return enemy.transform.position;
         }
-        
+
         public void SetWeaponAttack() => _weapon._isAttacking = !_weapon._isAttacking;
     }
 }

@@ -9,33 +9,25 @@ namespace Tung
 {
     public abstract class Entity : MonoBehaviour
     {
-        #region UnityVariable
-        public AnimationController _animatorController;
-       
-        #endregion
-
-        #region State
-        public StateMachine StateMachine { get; private set; }
-        #endregion
-        
-        #region OtherVariable
-        
+        [SerializeField] private int _facingRight = 1;
         private bool _isIdle;
-       [SerializeField] private int _facingRight = 1;
-       
-       public bool IsIdle
+        
+        
+        public StateMachine StateMachine { get; private set; }
+        public bool IsIdle
         {
             get => _isIdle;
             set => _isIdle = value;
         }
+        public AnimationController _animatorController;
+        public LayerMask layerEntity;
+        public CharacterHeath HeathEntity => _heathEntity;
         public float moveSpeed = 5f;
-
-       public List<Transform> posAttack; 
-       public List<bool> isFull;
-       protected int _indexWork;
-        #endregion
-        
-        #region UnityFunciton
+       
+       protected CharacterHeath _heathEntity;
+       [SerializeField] protected float _raidusAttack;
+       
+       #region UnityFunciton
         protected virtual void Awake()
         {
             StateMachine = new StateMachine();
@@ -51,17 +43,28 @@ namespace Tung
         {
             StateMachine.currentState.PhysicalUpdate();
         }
-        
+        private void OnDrawGizmos()
+        {
+            Gizmos.DrawWireSphere(transform.position,_raidusAttack);
+        }
         #endregion
 
-        public void Move(Vector3 target)
+        public bool CheckRangeAttack()
         {
-            var position = transform.position;
-            var dir = target - position;
-            dir.Normalize();
-            position += dir * (moveSpeed * Time.deltaTime);
-            transform.position = position;
+            var collider = Physics2D.OverlapCircleAll(transform.position, _raidusAttack, layerEntity);
+
+            foreach (var coll in collider)
+            {
+                if (coll != null)
+                {
+                    Debug.Log(coll.name);
+                    _heathEntity = coll.GetComponent<CharacterHeath>();       
+                    return false;
+                }   
+            }
+            return true;
         }
+        
         public void ShouldFlip(Vector3 target)
         {
             var temp = target.x - transform.position.x;
@@ -85,11 +88,6 @@ namespace Tung
         {
             _facingRight *= -1;
             transform.Rotate(0,180,0);
-        }
-        public bool CheckMoveTarget(Vector3 target)
-        {
-            var distance = Vector3.Distance(target, transform.position);
-            return distance <= 0.1f;
         }
     }
 }

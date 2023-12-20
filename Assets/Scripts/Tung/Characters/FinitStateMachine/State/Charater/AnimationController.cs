@@ -10,11 +10,6 @@ namespace Tung
         [SerializeField] private float endValueAttack;
         private Vector2 _direction;
         public Animator _animator;
-        
-        private void Start()
-        {
-            _animator = GetComponent<Animator>();
-        }
 
         public void SetDir(Vector2 dir)
         {

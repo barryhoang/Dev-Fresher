@@ -18,7 +18,7 @@ namespace Tung
         protected bool FinishMove(Vector3 target)
         {
             var distance = Vector2.Distance(entity.transform.position, target);
-            return distance > 0.1f;
+            return distance > 1f;
         }
 
         protected void Move(Vector3 target)

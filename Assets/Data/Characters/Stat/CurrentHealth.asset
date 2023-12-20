@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CurrentHealth
   m_EditorClassIdentifier: 
   _guid: 3961c5dc478a9f64cbc9c02188a719e6
-  _value: 0
+  _value: 10
   _debugLogEnabled: 0
   _saved: 0
   _defaultValue: 0

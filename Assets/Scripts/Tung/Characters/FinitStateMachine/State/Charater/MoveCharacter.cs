@@ -17,17 +17,14 @@ namespace Tung
         public override void DoCheck()
         {
             base.DoCheck();
-            IsMove = FinishMove(_character.EnemyWork.posAttack[_character.indexWork].position);
+            IsMove = _character.CheckRangeAttack();
         }
         
         public override void Enter()
         {
-            if (_character.EnemyWork == null)
-            {
-                _character.GetTarget();
-            }
+            _character.GetTarget();
             base.Enter();
-            Timing.RunCoroutine(Move(_character.EnemyWork.posAttack[_character.indexWork].position,Vector3.zero),"Move");
+            Timing.RunCoroutine(Move(_character.GetTarget(),Vector3.zero),"Move");
         }
 
         public override void LogicUpdate()
@@ -38,11 +35,12 @@ namespace Tung
                 _character.StateMachine.ChangeState(_character.WeaponAttack);
             }
         }
-        protected IEnumerator<float> Move(Vector3 target,Vector3 posFlip)
+
+        private IEnumerator<float> Move(Vector3 target,Vector3 posFlip)
         {
             while (IsMove)
             {
-                target = _character.EnemyWork.posAttack[_character.indexWork].position;
+                target = _character.GetTarget();
                 Move(target);
                 yield return Timing.WaitForOneFrame;
             }
