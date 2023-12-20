@@ -12,9 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48c2803562eaa2841a87f80673e548ec, type: 3}
   m_Name: PlayerStats
   m_EditorClassIdentifier: 
-  _health:
+  _maxHealth:
     UseLocal: 0
     LocalValue: 0
+    Variable: {fileID: 11400000, guid: 66c062b546c64114eb031b69d8314e2f, type: 2}
+  _health:
+    UseLocal: 1
+    LocalValue: 100
     Variable: {fileID: 11400000, guid: 66c062b546c64114eb031b69d8314e2f, type: 2}
   _speed:
     UseLocal: 0

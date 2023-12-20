@@ -12,23 +12,37 @@ namespace Minh
         [SerializeField] private TweenSettings _tweenSettings; 
         [SerializeField] private ScriptableListEnemy _soapListEnemy;
         [SerializeField] private ScriptableListPlayer _soapListPlayer;
+        [SerializeField] private ScriptableEventNoParam _onFightRaise;
+        [SerializeField] private GameObject _healthBar;
+        
         private Vector3 distance;
         private CharacterState _characterState;
-       
+        private HealthBar _healthBarScript;
         private Coroutine _attackCoroutine;
         private Vector3 _attackPosition;
 
         private void Awake()
         {
+            GameObject _healthbar1 = Instantiate(_healthBar);
+            _healthBarScript = _healthbar1.GetComponent<HealthBar>();
+            _healthBarScript.Init(gameObject);
             _soapListPlayer.Add(this);
-            _characterState = CharacterState.Idle;
+           
+            
         }
 
         private void Start()
         {
-            
-            Timing.RunCoroutine(PlayerMove(), "playerMove");
+            characterStats._health.Value = characterStats._maxHealth;
+            _characterState = CharacterState.Idle;
+            _soapListEnemy.OnItemRemoved += OnListNumberChanged;
         }
+
+        private void OnDestroy()
+        {
+            _soapListEnemy.OnItemRemoved -= OnListNumberChanged;
+        }
+
 
         private void OnTriggerEnter2D(Collider2D other)
         {
@@ -43,7 +57,12 @@ namespace Minh
             }
 
         }
-
+       
+        
+        public void OnFight()
+        {
+            Timing.RunCoroutine(PlayerMove(), "playerMove");
+        }
         private IEnumerator<float> PlayerAttack(Enemy enemy)
         {
             while (true)
@@ -69,12 +88,23 @@ namespace Minh
             {
                 var closet = _soapListEnemy.GetClosest(transform.position);
                 Move(closet.transform.position);
-                
                 _attackPosition = closet.transform.position;
                 yield return Timing.WaitForOneFrame;
             }
         }
-
+        public void TakeDamage(int damage)
+        {
+            characterStats._health.Value -= damage;
+            Debug.Log( characterStats._health.Value+"Health");
+            _healthBarScript.HealthBarSize(characterStats._maxHealth.Value,characterStats._health.Value);
+        }
+        public void OnListNumberChanged(Enemy enemy)
+        {
+            if (_soapListEnemy.Count == 0)
+            {
+                Debug.Log("Clear");
+            }
+        }
 
         protected override void Move(Vector3 target)
         {

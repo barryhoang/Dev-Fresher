@@ -10,17 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 48c2803562eaa2841a87f80673e548ec, type: 3}
-  m_Name: Enemy1
+  m_Name: Enemy1 1
   m_EditorClassIdentifier: 
+  _maxHealth:
+    UseLocal: 1
+    LocalValue: 100
+    Variable: {fileID: 0}
   _health:
     UseLocal: 1
-    LocalValue: 20
+    LocalValue: 76
     Variable: {fileID: 0}
   _speed:
     UseLocal: 1
-    LocalValue: 2
+    LocalValue: 3
     Variable: {fileID: 0}
   _damage:
     UseLocal: 1
-    LocalValue: 5
+    LocalValue: 8
     Variable: {fileID: 0}

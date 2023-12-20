@@ -39,35 +39,33 @@ namespace Minh
         {
             if (_isDragging)
             {
+               
                 // Update player Position
                 Vector3 cursorScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10f);
                 Vector3 cursorWorldPoint = Camera.main.ScreenToWorldPoint(cursorScreenPoint);
                 var transform1 = transform;
                 transform1.position = cursorWorldPoint + _offset;
 
-
+                
                 Vector3Int cellPosition = grid.WorldToCell(transform1.position);
                 Vector3 cellCenter = grid.GetCellCenterWorld(cellPosition);
-
+                Debug.Log(cellPosition+"PLAYER CELL POSITION");
 
                 if (!_characterCollider.bounds.Contains(cellCenter))
                 {
                     transform.position = cellCenter;
                 }
 
+                if (cellPosition.x < _startxPosition || cellPosition.x >_endxPosition  || cellPosition.y < _startxPosition || cellPosition.y > _endyPosition)
+                {
+                    Checking();
+                }
                
 
                 // Check Mouse Button Up
                 if (Input.GetMouseButtonUp(0))
                 {
-                    if (cellPosition.x < _startxPosition || cellPosition.x >_endxPosition  || cellPosition.y < _startxPosition || cellPosition.y > _endyPosition)
-                    {
-                        Checking();
-                    }
-                    else
-                    {
-                        _prevTransform = transform.position;
-                    }
+                    _prevTransform = transform.position;
 
                     _onNotPlacePlayer.Raise();
                     _isDragging = false;
