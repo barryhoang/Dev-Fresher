@@ -17,12 +17,12 @@ public class Enemy : MonoBehaviour
     [SerializeField] private ScriptableListHero _scriptableListHero;
 
     [SerializeField] private ScriptableEventInt _onCollide;
+    [SerializeField] private ScriptableEventInt _onEnemyDamaged;
     [SerializeField] private ScriptableEventInt _onEnemyHeal;
     [SerializeField] private ScriptableEventNoParam _onEnemyDeath;
     [SerializeField] private ScriptableEventNoParam _onEnemySpawn;
-    [SerializeField] private ScriptableEventInt _onEnemyDamaged;
-    
-    private bool isMove;
+
+    public Animator Animator;
 
     private void Start()
     {
@@ -30,17 +30,46 @@ public class Enemy : MonoBehaviour
         _scriptableListEnemy.Add(this);
         _enemyHealth.Value = _enemyMaxHealth;
         _enemyHealth.OnValueChanged += OnHealthChanged;
-        Timing.RunCoroutine(_Move());
+        Timing.RunCoroutine(_Move().CancelWith(gameObject));
+    }
+    
+    private void Update()
+    {
+        Animator.SetFloat("HP",Mathf.Abs(_enemyHealth.Value));
+    }
+    
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            _onCollide.Raise(0);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        _enemyHealth.OnValueChanged -= OnHealthChanged;
+    }
+    
+    private void Die()
+    {
+        Destroy(this.gameObject);
+    }
+    
+    public void TakeDamamge(int damage)
+    {
+        _enemyHealth.Add(-damage);
     }
 
     private void OnHealthChanged(float value)
     {
         var diff = value - _enemyHealth;
-        if (diff < 0)
+        if (diff >= 0)
         {
             if (_enemyHealth <= 0)
             {
                 _onEnemyDeath.Raise();
+                Die();
             }
             else
             {
@@ -52,15 +81,12 @@ public class Enemy : MonoBehaviour
             _onEnemyHeal.Raise(Mathf.RoundToInt(diff));
         }
     }
-
-    private void OnTriggerEnter(Collider other)
+    
+    public void IsNotMoving()
     {
-        if (other.CompareTag("Player"))
-        {
-            _onCollide.Raise(100);
-        }
+        Animator.SetBool("isMoving",false);
     }
-
+    
     private IEnumerator<float> _Move()
     {
         yield return Timing.WaitForOneFrame;
