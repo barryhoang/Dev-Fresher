@@ -12,19 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48c2803562eaa2841a87f80673e548ec, type: 3}
   m_Name: PlayerStats
   m_EditorClassIdentifier: 
-  _maxHealth:
-    UseLocal: 0
-    LocalValue: 0
-    Variable: {fileID: 11400000, guid: 66c062b546c64114eb031b69d8314e2f, type: 2}
-  _health:
-    UseLocal: 1
-    LocalValue: 100
-    Variable: {fileID: 11400000, guid: 66c062b546c64114eb031b69d8314e2f, type: 2}
-  _speed:
-    UseLocal: 0
-    LocalValue: 0
-    Variable: {fileID: 11400000, guid: 0b0a3385c0d5f8041ac77f0a32abd979, type: 2}
-  _damage:
-    UseLocal: 0
-    LocalValue: 0
-    Variable: {fileID: 11400000, guid: b2565ec71cb35384aaf7b7ad445aa25e, type: 2}
+  _attackRate: {fileID: 11400000, guid: b38b5914d7556ba4fa42d4618f87c9f6, type: 2}
+  _maxHealth: {fileID: 11400000, guid: 9134c535f146bbd4ab5f47b35192509e, type: 2}
+  _health: {fileID: 11400000, guid: 66c062b546c64114eb031b69d8314e2f, type: 2}
+  _speed: {fileID: 11400000, guid: 0b0a3385c0d5f8041ac77f0a32abd979, type: 2}
+  _damage: {fileID: 11400000, guid: b2565ec71cb35384aaf7b7ad445aa25e, type: 2}

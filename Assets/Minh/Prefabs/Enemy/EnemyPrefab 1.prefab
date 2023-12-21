@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -2635526388856692558}
   - component: {fileID: 6688992649258739350}
   m_Layer: 8
-  m_Name: EnemyPrefab
+  m_Name: EnemyPrefab 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -93,9 +93,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e68412579e5990b44833c103ed2f11c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterStats: {fileID: 11400000, guid: 836c1cee0659f6642bfcae0bcfeabd15, type: 2}
+  characterStats: {fileID: 11400000, guid: e1840836acc827a4e9e69caf506b2b52, type: 2}
   _tweenSettings:
-    duration: 0.5
+    duration: 1
     ease: 0
     customEase:
       serializedVersion: 2
@@ -103,8 +103,8 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    cycles: 2
-    cycleMode: 1
+    cycles: 1
+    cycleMode: 0
     startDelay: 0
     endDelay: 0
     useUnscaledTime: 0

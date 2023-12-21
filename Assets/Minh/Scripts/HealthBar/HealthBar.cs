@@ -17,8 +17,7 @@ public class HealthBar : MonoBehaviour
     }
     public void Init(GameObject _stickedCharacter)
     {
-        stickedCharacter = _stickedCharacter;               
-        Debug.Log("alo");
+        stickedCharacter = _stickedCharacter;
         _healthBarSize1 = 1f;
         healthBar.transform.localScale = new Vector3(_healthBarSize1, 1f, 1f);
     }

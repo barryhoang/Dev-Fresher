@@ -31,12 +31,13 @@ namespace Minh
         {
             
             SnapToGrid();
-            _prevTransform = new Vector3(0, 0, 0);
+            _prevTransform = transform.position;
         }
 
 
         private void Update()
         {
+            
             if (_isDragging)
             {
                
@@ -86,6 +87,14 @@ namespace Minh
         {
             Vector3Int cellPosition = grid.WorldToCell(transform.position);
             transform.position = grid.GetCellCenterWorld(cellPosition);
+        }
+
+        public void ResetPosition()
+        {
+            transform.position = _prevTransform;
+            Vector3Int cellPositionBefore = grid.WorldToCell(_prevTransform);
+            Vector3 cellCenterBefore = grid.GetCellCenterWorld(cellPositionBefore);
+            transform.position = cellCenterBefore;
         }
 
         private void Checking()

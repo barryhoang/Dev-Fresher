@@ -9,102 +9,150 @@ namespace Minh
 {
     public class Player : CharacterStats
     {
-        [SerializeField] private TweenSettings _tweenSettings; 
+        [SerializeField] private TweenSettings _tweenSettings;
         [SerializeField] private ScriptableListEnemy _soapListEnemy;
         [SerializeField] private ScriptableListPlayer _soapListPlayer;
         [SerializeField] private ScriptableEventNoParam _onFightRaise;
         [SerializeField] private GameObject _healthBar;
-        
-        private Vector3 distance;
+
+
         private CharacterState _characterState;
         private HealthBar _healthBarScript;
         private Coroutine _attackCoroutine;
         private Vector3 _attackPosition;
+        private string _gameObjectID;
+        [SerializeField] public GameObject _gameManagerGameObject;
+        public int _health;
+        public GameManager _gameManager;
 
         private void Awake()
         {
-            GameObject _healthbar1 = Instantiate(_healthBar);
+            GameObject _healthbar1 = Instantiate(_healthBar, this.transform.parent, true);
             _healthBarScript = _healthbar1.GetComponent<HealthBar>();
             _healthBarScript.Init(gameObject);
             _soapListPlayer.Add(this);
-           
-            
+            _gameObjectID = gameObject.GetInstanceID().ToString();
         }
 
         private void Start()
         {
-            characterStats._health.Value = characterStats._maxHealth;
+            _health = characterStats._maxHealth;
             _characterState = CharacterState.Idle;
-            _soapListEnemy.OnItemRemoved += OnListNumberChanged;
+            Timing.RunCoroutine(CheckHealth().CancelWith(gameObject));
+            Timing.RunCoroutine(PlayerMove().CancelWith(gameObject), "playerMove" + _gameObjectID);
+       
+            _gameManagerGameObject=GameObject.Find("GameManager");
+            _gameManager = _gameManagerGameObject.GetComponent<GameManager>();
         }
-
-        private void OnDestroy()
-        {
-            _soapListEnemy.OnItemRemoved -= OnListNumberChanged;
-        }
-
-
-        private void OnTriggerEnter2D(Collider2D other)
+        
+        private void OnTriggerStay2D(Collider2D other)
         {
             if (_characterState == CharacterState.Idle)
             {
-                var enemy = other.GetComponent<Enemy>();
-                Timing.PauseCoroutines("playerMove");
-                Timing.RunCoroutine(PlayerAttack(enemy), "playerAttack");
-                distance = transform.position;
-                Debug.Log("Attackkkk");
-                _characterState = CharacterState.Attack;
+                if (_soapListEnemy != null)
+                {
+                    var enemy = other.GetComponent<Enemy>();
+                    Timing.PauseCoroutines("playerMove" + _gameObjectID);
+                    _characterState = CharacterState.Attack;
+                    Timing.RunCoroutine(PlayerAttack(enemy),
+                        "playerAttack" + _gameObjectID);
+                    Debug.Log("Attackkkk");
+                }
             }
+        }
 
-        }
-       
-        
-        public void OnFight()
-        {
-            Timing.RunCoroutine(PlayerMove(), "playerMove");
-        }
-        private IEnumerator<float> PlayerAttack(Enemy enemy)
+        // private void OnTriggerExit2D(Collider2D other)
+        // {
+        //     _characterState = CharacterState.Idle;
+        //     Timing.ResumeCoroutines("playerMove" + _gameObjectID);
+        // }
+
+        private IEnumerator<float> CheckHealth()
         {
             while (true)
             {
-                Tween.Position(transform, _attackPosition, _tweenSettings)
-                    .OnComplete(() => Tween.Position(transform, distance, _tweenSettings));
-                Attack(enemy);
+                if (_health <= 0)
+                {
+                    Destroy(gameObject);
+                }
+
+                yield return Timing.WaitForOneFrame;
+            }
+        }
+
+        private void CheckEnemyHealth(Enemy enemy)
+        {
+            if (enemy._health <= 0||enemy==null)
+            {
+                Timing.KillCoroutines("playerAttack"+_gameObjectID);
+                _characterState = CharacterState.Idle;
+                Timing.ResumeCoroutines("playerMove" + _gameObjectID);
+            }
+        }
+        
+        
+         private IEnumerator<float> PlayerAttack(Enemy enemy)
+        {
+            _attackPosition = enemy.gameObject.transform.position;
             
-                yield return Timing.WaitForSeconds(2f);
-                
+            while (true)
+            {
+                CheckEnemyHealth(enemy);
+                if (_characterState == CharacterState.Attack)
+                {
+                    Debug.Log("Attack"+_gameObjectID);
+                    Tween.Position(transform, _attackPosition, _tweenSettings);
+                    Attack(enemy);
+                }
+
+                yield return Timing.WaitForSeconds(1f / characterStats._attackRate);
             }
         }
 
         private void Attack(Enemy enemy)
         {
-            enemy.TakeDamage(characterStats._damage);
+            if (_characterState == CharacterState.Attack)
+            {
+                Debug.Log("Attacking"+_gameObjectID);
+               CheckEnemyHealth(enemy);
+                enemy.TakeDamage(characterStats._damage);
+               
+            }
         }
         
-
         private IEnumerator<float> PlayerMove()
         {
             while (true)
             {
-                var closet = _soapListEnemy.GetClosest(transform.position);
-                Move(closet.transform.position);
-                _attackPosition = closet.transform.position;
+                
+                if (_gameManager._gameState == GameState.Fighting)
+                {
+                    if (_characterState == CharacterState.Idle)
+                    {
+                        if (_soapListEnemy != null)
+                        {
+                            var closet = _soapListEnemy.GetClosest(transform.position);
+                           
+                            if (closet != null)
+                            {
+                                Debug.Log("Moving");
+                                Move(closet.transform.position);
+                                _attackPosition = closet.transform.position;
+                            }
+                        }
+                    }
+                }
+
                 yield return Timing.WaitForOneFrame;
             }
         }
+
         public void TakeDamage(int damage)
         {
-            characterStats._health.Value -= damage;
-            Debug.Log( characterStats._health.Value+"Health");
-            _healthBarScript.HealthBarSize(characterStats._maxHealth.Value,characterStats._health.Value);
+            _health -= damage;
+            _healthBarScript.HealthBarSize(characterStats._maxHealth.Value, _health);
         }
-        public void OnListNumberChanged(Enemy enemy)
-        {
-            if (_soapListEnemy.Count == 0)
-            {
-                Debug.Log("Clear");
-            }
-        }
+
 
         protected override void Move(Vector3 target)
         {

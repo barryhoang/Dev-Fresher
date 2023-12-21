@@ -1,14 +1,18 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using MEC;
 using Obvious.Soap;
+using Unity.VisualScripting;
 
 namespace Minh
 {
     public class CharacterStats : MonoBehaviour
     {
         public ScriptableCharacterStats characterStats;
-        [SerializeField] 
-    
+
+        [SerializeField]
+
+        
         protected virtual void Move(Vector3 target)
         {
             var transform1 = transform;
