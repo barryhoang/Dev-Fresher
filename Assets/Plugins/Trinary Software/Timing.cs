@@ -1036,8 +1036,9 @@ namespace MEC
         /// coroutine. If the running coroutine has more work to do you may run a new "part 2" coroutine 
         /// function to complete the task before ending the current one.
         /// </summary>
+        /// <param name="attackRate"></param>
         /// <returns>The number of coroutines that were killed.</returns>
-        public static int KillCoroutines()
+        public static int KillCoroutines(IEnumerator<float> attackRate)
         {
             return _instance == null ? 0 : _instance.KillCoroutinesOnInstance();
         }

@@ -17,7 +17,7 @@ namespace Tung
         public override void Enter()
         {
             base.Enter();
-            Timing.RunCoroutine(Move( _enemy.GetTarget(),Vector3.zero),"Move");
+            // Timing.RunCoroutine(Move( _enemy.GetTarget(),Vector3.zero).CancelWith(_enemy.gameObject),"Move");
         }
 
         public override void DoCheck()
@@ -28,12 +28,19 @@ namespace Tung
         public override void LogicUpdate()
         {
             base.LogicUpdate();
+            Move(_enemy.GetTarget());
             if (!IsMove)
             {
                 _enemy.StateMachine.ChangeState(_enemy.AttackEnemy);
             }
         }
-        
+
+        public override void Exit()
+        {
+            base.Exit();
+            Timing.KillCoroutines(Move(_enemy.GetTarget(), Vector3.zero));
+        }
+
         private IEnumerator<float> Move(Vector3 target,Vector3 posFlip)
         {
             while (IsMove)

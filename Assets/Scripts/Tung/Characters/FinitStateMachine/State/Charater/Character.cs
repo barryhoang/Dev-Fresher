@@ -6,6 +6,7 @@ using MEC;
 using Obvious.Soap;
 using Unity.VisualScripting;
 using UnityEngine;
+using Debug = System.Diagnostics.Debug;
 
 namespace Tung
 {
@@ -15,9 +16,11 @@ namespace Tung
        [SerializeField] private ScriptableEventFloat _characterDamageEnemy;
        [SerializeField] private ScriptableListEnemy _listSoapEnemy;
        [SerializeField] private ScriptableListCharacter _listCharacter;
-
+       public List<Enemy> temp;
        private Enemy _enemyWork;
-       
+
+       public ScriptableListEnemy ListEnemy => _listSoapEnemy;
+       public Weapon Weapon => _weapon;    
        public WeaponAttackCharacter WeaponAttack { get; private set; }
         public MoveCharacter MoveCharacter { get; private set; }
         public IdleCharacter IdleCharacter { get; private set; }
@@ -41,13 +44,29 @@ namespace Tung
         {
             _listCharacter.Remove(this);
         }
-        
+        // public Vector3 GetTarget()
+        // {
+        //     var character = _listCharacter.GetClosest(transform.position);
+        //     return character.transform.position;
+        // }
         public Vector3 GetTarget()
         {
-            var enemy = _listSoapEnemy.GetClosest(transform.position);
-            return enemy.transform.position;
+            if (!_listSoapEnemy.IsEmpty)
+            {
+                var enemies = _listSoapEnemy.GetClosest(transform.position);
+                temp = enemies;
+                if(enemies.Count > 0)
+                    for (int i = 0; i < enemies.Count; i++)
+                    {
+                        if (enemies[i].gameObject.activeInHierarchy)
+                        {
+                            return enemies[i].gameObject.transform.position;
+                        }
+                    }
+            }
+            return Vector3.zero;
         }
 
-        public void SetWeaponAttack() => _weapon._isAttacking = !_weapon._isAttacking;
+        public void SetWeaponAttack() => _weapon.isAttacking = !_weapon.isAttacking;
     }
 }

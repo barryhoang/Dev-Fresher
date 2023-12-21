@@ -13,21 +13,5 @@ namespace Tung
         {
             _enemy = enemy;
         }
-
-        public override void Enter()
-        {
-            entity._animatorController.SetDir(DirectionAttack(_enemy.HeathEntity.transform.position)*-1);
-            DoCheck();
-            Timing.RunCoroutine(RateAttack(), "Attack");
-        }
-
-        private IEnumerator<float> RateAttack()
-        {
-            while (true)
-            {
-                entity._animatorController.SetAnimator(NameAnimation.ATTACK,true);
-                yield return Timing.WaitForSeconds(1f);
-            }
-        }
     }
 }

@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using MEC;
 using PrimeTween;
 using UnityEngine;
 
@@ -7,9 +10,18 @@ namespace Tung
     public class AnimationController : MonoBehaviour
     {
         [SerializeField] private TweenSettings tweenSettings;
+        [SerializeField] private TweenSettings<Vector3> _tweenSettings;
         [SerializeField] private float endValueAttack;
         private Vector2 _direction;
+        public Transform target;
+        private Tween _tween;
         public Animator _animator;
+
+
+        private void Update()
+        {
+            
+        }
 
         public void SetDir(Vector2 dir)
         {
@@ -27,18 +39,16 @@ namespace Tung
                     return;
                 case NameAnimation.ATTACK:
                     _animator.SetBool("Idle",value);
-                    Tween.Position(transform, (Vector2) transform.position +_direction* endValueAttack,tweenSettings).OnComplete(
-                        ()=>
-                        Tween.Position(transform,(Vector2) transform.position - _direction* endValueAttack,tweenSettings));
+                    Timing.RunCoroutine(AnimtaionAttack().CancelWith(gameObject));
                     return;
                 case NameAnimation.HURT:
                     // Tween.PositionX(transform, transform.position.x - endValueAttack,tweenSettings).OnComplete(
                     //     ()=>
                     //         Tween.PositionX(transform,transform.position.x + endValueAttack,tweenSettings));
                     _animator.SetTrigger("Hit");
-                    Tween.PositionY(transform, transform.position.y + endValueAttack,tweenSettings).OnComplete(
-                        ()=>
-                            Tween.PositionY(transform,transform.position.y - endValueAttack,tweenSettings));
+                    // Tween.PositionY(transform, transform.position.y + endValueAttack,tweenSettings).OnComplete(
+                    //     ()=>
+                    //         Tween.PositionY(transform,transform.position.y - endValueAttack,tweenSettings));
                     return;
                 case NameAnimation.DEATH:
                     _animator.SetTrigger("Death");
@@ -46,10 +56,19 @@ namespace Tung
                 default:
                     Debug.Log("No Name Animation");
                     return;
-            }   
-          
+            }
+        }
+        
+
+        private IEnumerator<float> AnimtaionAttack()
+        {
+            Tween.Position(transform, (Vector2) transform.position + _direction * endValueAttack,
+                tweenSettings);
+            yield return Timing.WaitForSeconds(tweenSettings.duration);
+            Tween.Position(transform,(Vector2) transform.position - _direction* endValueAttack,tweenSettings);
         }
 
+        
         public void AnimationAttack()
         {
             

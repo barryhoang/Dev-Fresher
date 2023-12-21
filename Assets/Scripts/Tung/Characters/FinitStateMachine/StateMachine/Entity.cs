@@ -57,7 +57,6 @@ namespace Tung
             {
                 if (coll != null)
                 {
-                    Debug.Log(coll.name);
                     _heathEntity = coll.GetComponent<CharacterHeath>();       
                     return false;
                 }   

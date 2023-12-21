@@ -8,36 +8,39 @@ namespace Tung
     public class Weapon : MonoBehaviour
     {
         [SerializeField] private TweenSettings<Vector3> rotationTweenSettings;
+        [SerializeField] private Character _character;
         private float _rotationWorkZ;
-        public bool _isAttacking;
-        public GameObject GameObject;
+        
+        public bool isAttacking;
         public float attackSpeed;
         public AnimationController AnimationController;
         private void Start()
         {
-            Timing.RunCoroutine(RotationWeapon().CancelWith(gameObject),"Weapon");
+            // Timing.RunCoroutine(RotationWeapon().CancelWith(gameObject),"Weapon");
         }
-        private IEnumerator<float> RotationWeapon()
-        {
-            while (true)
-            {
-                //RotateOfEnemy();
-                if (_isAttacking)
-                {
-                    RotateAttackEnemy();
-                }
-                yield return Timing.WaitForSeconds(attackSpeed);
-            }
-        }
+        // private IEnumerator<float> RotationWeapon()
+        // {
+        //     // while (true)
+        //     // {
+        //     //     // RotateOfEnemy();
+        //     //     if (isAttacking)
+        //     //     {
+        //     //         _character.HeathEntity.TakeDamage(1);
+        //     //         RotateAttackEnemy();
+        //     //     }
+        //     //     yield return Timing.WaitForSeconds(attackSpeed);
+        //     // }
+        // }
         private void RotateOfEnemy()
         {
-            var difference = GameObject.transform.position - transform.position;
+            if (_character.HeathEntity == null)  return;
+            var difference = _character.HeathEntity.transform.position - transform.position;
             difference.Normalize();
             _rotationWorkZ = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.Euler(0f, 0f, _rotationWorkZ);
         }
 
-        private void RotateAttackEnemy()
+        public void RotateAttackEnemy()
         {
             var rotation = transform.rotation;
             AnimationController.SetAnimator(NameAnimation.ATTACK,true);

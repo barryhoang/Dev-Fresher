@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a9978ce9c8bdc724896114c9952c52ea, type: 3}
-  m_Name: _initialHealh
+  m_Name: _currentHealth0
   m_EditorClassIdentifier: 
-  _guid: e4ec152e07bdd1040b7599d1a9c48ef1
-  _value: 2
+  _guid: 
+  _value: -1
   _debugLogEnabled: 0
   _saved: 0
   _defaultValue: 0
   _resetOn: 0
   _isClamped: 0
-  _minMax: {x: -3.4028235e+38, y: 3.4028235e+38}
+  _minMax: {x: 0, y: 1}

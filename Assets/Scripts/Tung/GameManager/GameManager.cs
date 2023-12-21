@@ -1,15 +1,26 @@
-using Obvious.Soap;
+using System;
 using UnityEngine;
 
 namespace Tung
 {
     public class GameManager : MonoBehaviour
     {
-        [SerializeField] private ScriptableEventNoParam _eventfight;
-        
-        public void OnClickButtonFight()
+        [SerializeField] private ScriptableListEnemy _listSoapEnemy;
+
+
+        private void Update()
         {
-            _eventfight.Raise();
+            CheckEnemy();
+        }
+
+        private void CheckEnemy()
+        {
+           
+        }
+
+        private void OnDestroy()
+        {
+            _listSoapEnemy.OnCleared -= CheckEnemy;
         }
     }
 }

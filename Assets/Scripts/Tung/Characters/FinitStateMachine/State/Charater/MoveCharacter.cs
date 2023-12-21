@@ -30,10 +30,16 @@ namespace Tung
         public override void LogicUpdate()
         {
             base.LogicUpdate();
+            // Move(_character.GetTarget());
             if (!IsMove)
             {
                 _character.StateMachine.ChangeState(_character.WeaponAttack);
             }
+        }
+        public override void Exit()
+        {
+            base.Exit();
+            Timing.KillCoroutines(Move(_character.GetTarget(), Vector3.zero));
         }
 
         private IEnumerator<float> Move(Vector3 target,Vector3 posFlip)

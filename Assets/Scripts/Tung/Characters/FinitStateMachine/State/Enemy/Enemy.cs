@@ -10,6 +10,7 @@ namespace Tung
             [SerializeField] private ScriptableListEnemy _listEnemy;
             [SerializeField] private ScriptableListCharacter _listCharacter;
             private Character _characterWork;
+            public bool isDeath;
             public IdleEnemy IdleEnemy { get; private set; }
             public MoveEnemy MoveEnemy { get; private set; }
             public AttackEnemy AttackEnemy { get; private set; }
@@ -22,11 +23,17 @@ namespace Tung
                 AttackEnemy = new AttackEnemy(this,StateMachine,NameAnimation.ATTACK,this);
                 StateMachine.InitiateState(IdleEnemy);
             }
+
             protected  void Start()
             {
                 _listEnemy.Add(this);
             }
-
+            
+            protected override void Update()
+            {
+                base.Update();
+               isDeath = gameObject.activeInHierarchy;
+            }
             private void OnDisable()
             {
                 _listEnemy.Remove(this);
