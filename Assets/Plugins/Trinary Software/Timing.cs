@@ -1167,8 +1167,9 @@ namespace MEC
         /// <summary>
         /// This will pause all coroutines running on the current MEC instance until ResumeCoroutines is called.
         /// </summary>
+        /// <param name="countDownTime"></param>
         /// <returns>The number of coroutines that were paused.</returns>
-        public static int PauseCoroutines()
+        public static int PauseCoroutines(IEnumerator<float> countDownTime)
         {
             return _instance == null ? 0 : _instance.PauseCoroutinesOnInstance();
         }

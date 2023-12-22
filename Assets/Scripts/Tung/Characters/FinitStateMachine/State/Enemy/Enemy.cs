@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Obvious.Soap;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Tung
@@ -21,20 +22,22 @@ namespace Tung
                 IdleEnemy = new IdleEnemy(this,StateMachine,NameAnimation.IDLE,this);
                 MoveEnemy = new MoveEnemy(this,StateMachine,NameAnimation.MOVE,gameObject,this);
                 AttackEnemy = new AttackEnemy(this,StateMachine,NameAnimation.ATTACK,this);
+                
+            }
+
+            protected override void Start()
+            {
+                base.Start();
                 StateMachine.InitiateState(IdleEnemy);
             }
 
-            protected  void Start()
+            protected override void OnEnable()
             {
+                base.OnEnable();
                 _listEnemy.Add(this);
             }
             
-            protected override void Update()
-            {
-                base.Update();
-               isDeath = gameObject.activeInHierarchy;
-            }
-            private void OnDisable()
+            protected override void OnDisable()
             {
                 _listEnemy.Remove(this);
             }

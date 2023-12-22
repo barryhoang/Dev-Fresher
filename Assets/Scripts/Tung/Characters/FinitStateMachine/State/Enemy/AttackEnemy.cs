@@ -17,7 +17,7 @@ namespace Tung
         {
             entity._animatorController.SetDir(DirectionAttack(_enemy.HeathEntity.transform.position)*-1);
             DoCheck();
-            Timing.RunCoroutine(RateAttack().CancelWith(_enemy.gameObject), "Attack");
+            Timing.RunCoroutine(RateAttack().CancelWith(_enemy.gameObject),Segment.LateUpdate, "Attack");
         }
 
         public override void Exit()

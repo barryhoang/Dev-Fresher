@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using MEC;
 using Obvious.Soap;
 using Obvious.Soap.Example;
 using UnityEngine;
@@ -10,9 +11,9 @@ namespace Tung
     public abstract class Entity : MonoBehaviour
     {
         [SerializeField] private int _facingRight = 1;
+        [SerializeField] private ScriptableEventNoParam _fight;
         private bool _isIdle;
-        
-        
+
         public StateMachine StateMachine { get; private set; }
         public bool IsIdle
         {
@@ -23,15 +24,29 @@ namespace Tung
         public LayerMask layerEntity;
         public CharacterHeath HeathEntity => _heathEntity;
         public float moveSpeed = 5f;
-       
-       protected CharacterHeath _heathEntity;
+        
        [SerializeField] protected float _raidusAttack;
+       protected CharacterHeath _heathEntity;
+       protected Vector3 posStart;
+       
        
        #region UnityFunciton
         protected virtual void Awake()
         {
             StateMachine = new StateMachine();
             _isIdle = true;
+            posStart = transform.position;
+           
+        }
+
+        protected virtual void Start()
+        {
+            _fight.OnRaised += ChangeIlde;
+        }
+
+        private void ChangeIlde()
+        {
+            _isIdle = false;
         }
 
         protected virtual void Update()
@@ -43,6 +58,17 @@ namespace Tung
         {
             StateMachine.currentState.PhysicalUpdate();
         }
+
+        protected virtual void OnEnable()
+        {
+            transform.position = posStart;
+        }
+
+        protected virtual void OnDisable()
+        {
+            _fight.OnRaised -= ChangeIlde;
+        }
+
         private void OnDrawGizmos()
         {
             Gizmos.DrawWireSphere(transform.position,_raidusAttack);
@@ -55,7 +81,7 @@ namespace Tung
 
             foreach (var coll in collider)
             {
-                if (coll != null)
+                if (coll.CompareTag("Enemy"))
                 {
                     _heathEntity = coll.GetComponent<CharacterHeath>();       
                     return false;

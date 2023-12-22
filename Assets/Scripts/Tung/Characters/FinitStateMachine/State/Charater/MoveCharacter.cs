@@ -24,13 +24,13 @@ namespace Tung
         {
             _character.GetTarget();
             base.Enter();
-            Timing.RunCoroutine(Move(_character.GetTarget(),Vector3.zero),"Move");
+            Timing.RunCoroutine(Move(_character.GetTarget(),Vector3.zero),Segment.Update,"Move");
         }
 
         public override void LogicUpdate()
         {
             base.LogicUpdate();
-            // Move(_character.GetTarget());
+            Move(_character.GetTarget());
             if (!IsMove)
             {
                 _character.StateMachine.ChangeState(_character.WeaponAttack);

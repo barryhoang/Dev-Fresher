@@ -17,12 +17,6 @@ namespace Tung
         private Tween _tween;
         public Animator _animator;
 
-
-        private void Update()
-        {
-            
-        }
-
         public void SetDir(Vector2 dir)
         {
             _direction = dir;

@@ -17,7 +17,7 @@ namespace Tung
         public override void Enter()
         {
             base.Enter();
-            // Timing.RunCoroutine(Move( _enemy.GetTarget(),Vector3.zero).CancelWith(_enemy.gameObject),"Move");
+            Timing.RunCoroutine(Move( _enemy.GetTarget(),Vector3.zero).CancelWith(_enemy.gameObject),Segment.LateUpdate,"Move");
         }
 
         public override void DoCheck()

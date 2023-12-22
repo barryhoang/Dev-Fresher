@@ -28,27 +28,35 @@ namespace Tung
         protected override void Awake()
         {
             base.Awake();
+            
             IdleCharacter = new IdleCharacter(this,StateMachine,NameAnimation.IDLE,this);
             MoveCharacter = new MoveCharacter(this,StateMachine,NameAnimation.MOVE,gameObject,this );
             WeaponAttack = new WeaponAttackCharacter(this,StateMachine,NameAnimation.ATTACK,this);
-            _listCharacter.Add(this);
             
+            
+        }
+
+        protected override void Start()
+        {
+            base.Start();
             StateMachine.InitiateState(IdleCharacter);
         }
+        
         private void OnDrawGizmos()
         {
             Gizmos.DrawWireSphere(transform.position,_raidusAttack);
         }
 
-        public void OnDisable()
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            _listCharacter.Add(this);
+        }
+
+        protected override void OnDisable()
         {
             _listCharacter.Remove(this);
         }
-        // public Vector3 GetTarget()
-        // {
-        //     var character = _listCharacter.GetClosest(transform.position);
-        //     return character.transform.position;
-        // }
         public Vector3 GetTarget()
         {
             if (!_listSoapEnemy.IsEmpty)

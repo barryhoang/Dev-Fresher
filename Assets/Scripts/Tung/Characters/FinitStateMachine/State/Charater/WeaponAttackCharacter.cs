@@ -8,7 +8,7 @@ namespace Tung
     public class WeaponAttackCharacter : AttackWeaponState
     {
         private Character _character;
-        private bool isBackMoving;
+        private bool isAttack;
         public WeaponAttackCharacter(Entity entity, StateMachine stateMachine, NameAnimation animationName,Character character) : base(entity, stateMachine, animationName)
         {
             _character = character;
@@ -17,20 +17,20 @@ namespace Tung
         public override void DoCheck()
         {
             base.DoCheck();
-            isBackMoving = _character.HeathEntity.isDeath;
+            isAttack = entity.CheckRangeAttack();
         }
 
         public override void Enter()
         {
             DoCheck();
             _character.SetWeaponAttack();
-            Timing.RunCoroutine(AttackRate());
+            Timing.RunCoroutine(AttackRate().CancelWith(_character.gameObject),Segment.Update);
         }
 
         public override void LogicUpdate()
         {
             base.LogicUpdate();
-            if (isBackMoving)
+            if (isAttack)
             {
                 _character.StateMachine.ChangeState(_character.MoveCharacter);
             }
@@ -38,8 +38,12 @@ namespace Tung
 
         private IEnumerator<float> AttackRate()
         {
-            while (!isBackMoving)
+            while (!isAttack)
             {
+                if (isAttack)
+                {
+                    _character.StateMachine.ChangeState(_character.MoveCharacter);
+                }
                 entity._animatorController.SetDir(DirectionAttack(_character.HeathEntity.transform.position));
                 entity._animatorController.SetAnimator(NameAnimation.ATTACK,true);
                 _character.Weapon.RotateAttackEnemy();

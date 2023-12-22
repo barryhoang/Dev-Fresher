@@ -13,8 +13,7 @@ namespace Tung
         protected MoveState(Entity entity, StateMachine stateMachine, NameAnimation animationName,GameObject gameObject) : base(entity, stateMachine, animationName)
         {
         }
-
-       
+        
         protected bool FinishMove(Vector3 target)
         {
             var distance = Vector2.Distance(entity.transform.position, target);
