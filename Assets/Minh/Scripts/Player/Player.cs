@@ -12,9 +12,11 @@ namespace Minh
         [SerializeField] private TweenSettings _tweenSettings;
         [SerializeField] private ScriptableListEnemy _soapListEnemy;
         [SerializeField] private ScriptableListPlayer _soapListPlayer;
+        [SerializeField] private ScriptableListPlayer _soapListDeadPlayer;
         [SerializeField] private ScriptableEventNoParam _onFightRaise;
         [SerializeField] private GameObject _healthBar;
-
+        [SerializeField] private PlayerPlacement _playerPlacement;
+        public PlayerPlacement Playerplacement => _playerPlacement;
 
         private CharacterState _characterState;
         private HealthBar _healthBarScript;
@@ -24,25 +26,21 @@ namespace Minh
         [SerializeField] public GameObject _gameManagerGameObject;
         public int _health;
         public GameManager _gameManager;
+        
 
         private void Awake()
         {
-            GameObject _healthbar1 = Instantiate(_healthBar, this.transform.parent, true);
+           
+            GameObject _healthbar1 = Instantiate(_healthBar, gameObject.transform, true);
             _healthBarScript = _healthbar1.GetComponent<HealthBar>();
             _healthBarScript.Init(gameObject);
-            _soapListPlayer.Add(this);
             _gameObjectID = gameObject.GetInstanceID().ToString();
+           
         }
 
         private void Start()
         {
-            _health = characterStats._maxHealth;
-            _characterState = CharacterState.Idle;
-            Timing.RunCoroutine(CheckHealth().CancelWith(gameObject));
-            Timing.RunCoroutine(PlayerMove().CancelWith(gameObject), "playerMove" + _gameObjectID);
-       
-            _gameManagerGameObject=GameObject.Find("GameManager");
-            _gameManager = _gameManagerGameObject.GetComponent<GameManager>();
+          
         }
         
         private void OnTriggerStay2D(Collider2D other)
@@ -54,26 +52,50 @@ namespace Minh
                     var enemy = other.GetComponent<Enemy>();
                     Timing.PauseCoroutines("playerMove" + _gameObjectID);
                     _characterState = CharacterState.Attack;
-                    Timing.RunCoroutine(PlayerAttack(enemy),
-                        "playerAttack" + _gameObjectID);
+                    Timing.RunCoroutine(PlayerAttack(enemy).CancelWith(gameObject), "playerAttack" + _gameObjectID);
+                        
+                        
                     Debug.Log("Attackkkk");
                 }
             }
         }
+
+        private void OnEnable()
+        {
+            _health = characterStats._maxHealth;
+            _characterState = CharacterState.Idle;
+            Timing.RunCoroutine(CheckHealth().CancelWith(gameObject));
+            Timing.RunCoroutine(PlayerMove().CancelWith(gameObject), "playerMove" + _gameObjectID);
+       
+            _gameManagerGameObject=GameObject.Find("GameManager");
+            _gameManager = _gameManagerGameObject.GetComponent<GameManager>();
+            _soapListPlayer.Add(this);
+            _healthBarScript.HealthBarSize(characterStats._maxHealth.Value, _health);
+        }
+
+        private void OnDisable()
+        {
+            _soapListPlayer.Remove(this);
+            _soapListDeadPlayer.Add(this);
+        }
+
 
         // private void OnTriggerExit2D(Collider2D other)
         // {
         //     _characterState = CharacterState.Idle;
         //     Timing.ResumeCoroutines("playerMove" + _gameObjectID);
         // }
-
+        private void OnDestroy()
+        {
+            
+        }
         private IEnumerator<float> CheckHealth()
         {
             while (true)
             {
                 if (_health <= 0)
                 {
-                    Destroy(gameObject);
+                    gameObject.SetActive(false);
                 }
 
                 yield return Timing.WaitForOneFrame;
@@ -101,7 +123,11 @@ namespace Minh
                 if (_characterState == CharacterState.Attack)
                 {
                     Debug.Log("Attack"+_gameObjectID);
-                    Tween.Position(transform, _attackPosition, _tweenSettings);
+                    if (enemy != null)
+                    {
+                        Tween.Position(transform, _attackPosition, _tweenSettings);
+                    }
+
                     Attack(enemy);
                 }
 
@@ -135,7 +161,7 @@ namespace Minh
                            
                             if (closet != null)
                             {
-                                Debug.Log("Moving");
+                               
                                 Move(closet.transform.position);
                                 _attackPosition = closet.transform.position;
                             }

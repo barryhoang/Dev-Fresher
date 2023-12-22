@@ -7,18 +7,18 @@ namespace Minh
     public class PlayerPlacement : UnityEngine.MonoBehaviour
     {
         [SerializeField] private Collider2D _characterCollider;
-        [SerializeField] private ScriptableEventNoParam _onPlacePlayer;
-        [SerializeField] private ScriptableEventNoParam _onNotPlacePlayer;
         [SerializeField] private IntVariable _startxPosition;
         [SerializeField] private IntVariable _startyPosition;
         [SerializeField] private IntVariable _gridSizex;
         [SerializeField] private IntVariable _gridSizey;
+        [SerializeField] private Vector3Reference _Position;
 
         private int _endxPosition;
         private int _endyPosition;
         private bool _isDragging = false;
         private Vector3 _offset;
-        private Vector3 _prevTransform;
+        public Vector3 _prevTransform;
+        public Vector3 cellCenterBefore;
         public Grid grid;
 
         private void Awake()
@@ -37,7 +37,7 @@ namespace Minh
 
         private void Update()
         {
-            
+           
             if (_isDragging)
             {
                
@@ -68,7 +68,7 @@ namespace Minh
                 {
                     _prevTransform = transform.position;
 
-                    _onNotPlacePlayer.Raise();
+                    
                     _isDragging = false;
                 }
             }
@@ -80,7 +80,7 @@ namespace Minh
             _isDragging = true;
             _offset = transform.position -
                       Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0f));
-            _onPlacePlayer.Raise();
+            
         }
 
         private void SnapToGrid()
@@ -103,7 +103,7 @@ namespace Minh
             transform1.position = _prevTransform;
             Debug.Log(transform1.position + "Player TRANSFORM");
             Vector3Int cellPositionBefore = grid.WorldToCell(_prevTransform);
-            Vector3 cellCenterBefore = grid.GetCellCenterWorld(cellPositionBefore);
+            cellCenterBefore = grid.GetCellCenterWorld(cellPositionBefore);
             transform.position = cellCenterBefore;
         }
     }

@@ -34,7 +34,10 @@ public class HealthBar : MonoBehaviour
     {
         _health = health;
         _maxHealth = maxHealth; 
-        _healthBarSize1 = _health / _maxHealth;         
-        healthBar.transform.localScale = new Vector3(_healthBarSize1, 1f, 1f);
+        _healthBarSize1 = _health / _maxHealth;
+        if (healthBar != null)
+        {
+            healthBar.transform.localScale = new Vector3(_healthBarSize1, 1f, 1f);
+        }
     }
 }

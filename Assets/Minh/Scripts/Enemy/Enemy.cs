@@ -15,7 +15,7 @@ namespace Minh
         [SerializeField] private ScriptableEventNoParam _onFight;
         [SerializeField] private GameObject _healthBar;
 
-        private Vector3 distance;
+        private Vector3 _distance;
         public CharacterState _characterState;
         private HealthBar _healthBarScript;
         public GameObject enemyGameObject;
@@ -32,14 +32,13 @@ namespace Minh
             _healthBarScript.Init(gameObject);
             _gameManagerGameObject=GameObject.Find("GameManager");
              _gameManager = _gameManagerGameObject.GetComponent<GameManager>();
-            _soapListEnemy.Add(this);
-            _gameObjectID = enemyGameObject.GetInstanceID().ToString();
+             _gameObjectID = enemyGameObject.GetInstanceID().ToString();
             _health = characterStats._maxHealth;
         }
 
         private void Start()
         {
-            
+            _soapListEnemy.Add(this);
             _characterState = CharacterState.Idle;
             Timing.RunCoroutine(CheckHealth().CancelWith(gameObject));
             Timing.RunCoroutine(EnemyMove().CancelWith(gameObject),"enemyMove"+ _gameObjectID);
@@ -50,6 +49,11 @@ namespace Minh
             _soapListEnemy.Remove(this);
         }
 
+        private void Update()
+        {
+           Debug.Log(_gameManager._gameState); 
+        }
+
 
         private void OnTriggerEnter2D(Collider2D other)
         {
@@ -58,7 +62,7 @@ namespace Minh
                 var player = other.GetComponent<Player>();
                 Timing.PauseCoroutines("enemyMove"+_gameObjectID);
                 Timing.RunCoroutine(EnemyAttack(player).CancelWith(gameObject), "enemyAttack"+_gameObjectID);
-                distance = transform.position;
+                _distance = transform.position;
                 Debug.Log("Attackkkk");
                 _characterState = CharacterState.Attack;
             }
@@ -81,7 +85,7 @@ namespace Minh
             {
                 if (_health <= 0)
                 {
-                    Destroy(gameObject);
+                    Die();
                 }
 
                 yield return Timing.WaitForOneFrame;
@@ -157,7 +161,11 @@ namespace Minh
             _healthBarScript.HealthBarSize(characterStats._maxHealth.Value, _health);
         }
 
-
+        public void Die()
+        {
+            Destroy(gameObject);
+            
+        }
         protected override void Move(Vector3 target)
         {
             base.Move(target);
