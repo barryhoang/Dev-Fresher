@@ -1,3 +1,4 @@
+/*
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ public class UnitManager : MonoBehaviour
 
     public void SpawnHeroes()
     {
+        
         for (var i = 0; i < _heroCount; i++)
         {
             var spawnedHero = Instantiate(HeroPrefab);
@@ -38,3 +40,4 @@ public class UnitManager : MonoBehaviour
         GameManager.Instance.ChangeState(GameState.HeroesTurn);
     }
 }
+*/

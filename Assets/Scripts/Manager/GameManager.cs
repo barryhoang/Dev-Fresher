@@ -8,26 +8,24 @@ public class GameManager : MonoBehaviour
 
     void Awake() => Instance = this;
 
-    private void Start() => ChangeState(GameState.GenerateGrid);
+    private void Start() => ChangeState(GameState.SpawningPhase);
 
     public void ChangeState(GameState newState)
     {
         gameState = newState;
         switch (newState)
         {
-            case GameState.GenerateGrid :
-                GridManager.Instance._GenerateGrid();
+            case GameState.SpawningPhase :
+                Debug.Log("State = Spawn");
                 break;
-            case GameState.SpawnHeroes :
-                UnitManager.Instance.SpawnHeroes();
+            case GameState.MovingPhase :
+                Debug.Log("State = Moving");
                 break;
-            case GameState.SpawnEnemies:
-                UnitManager.Instance.SpawnEnemies();
+            case GameState.HittingPhase:
+                Debug.Log("State = Hitting");
                 break;
-            case GameState.HeroesTurn:
-                Debug.Log("rat la buon ngu");
-                break;
-            case GameState.EnemiesTurn:
+            case GameState.EndingPhase:
+                Debug.Log("State = Ending");
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(newState),newState,null);
@@ -37,9 +35,8 @@ public class GameManager : MonoBehaviour
 
 public enum GameState
 {
-    GenerateGrid = 0,
-    SpawnHeroes = 1,
-    SpawnEnemies = 2,
-    HeroesTurn = 3,
-    EnemiesTurn = 4
+    SpawningPhase = 0,
+    MovingPhase = 1,
+    HittingPhase = 2,
+    EndingPhase = 3,
 }

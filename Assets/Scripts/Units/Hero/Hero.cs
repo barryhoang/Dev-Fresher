@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using Obvious.Soap;
 using UnityEngine;
 using MEC;
+using PrimeTween;
 
 public class Hero : MonoBehaviour
 {
@@ -15,80 +16,97 @@ public class Hero : MonoBehaviour
     [SerializeField] private ScriptableListHero _scriptableListHero;
     [SerializeField] private ScriptableListEnemy _scriptableListEnemy;
     
-    [SerializeField] private ScriptableEventInt _onCollide;
     [SerializeField] private ScriptableEventInt _onHeroDamaged;
-    [SerializeField] private ScriptableEventInt _onHeroHeal;
+    [SerializeField] private ScriptableEventNoParam _onHeroHittingEnemy;
     [SerializeField] private ScriptableEventNoParam _onHeroDeath;
     [SerializeField] private ScriptableEventNoParam _onHeroSpawn;
-    [SerializeField] private ScriptableEventNoParam _onHitting;
     
     public Animator Animator;
-    private void Start()
+    public static Hero Instance;
+
+    private void Awake()
     {
+        Instance = this;
         _onHeroSpawn.Raise();
         _scriptableListHero.Add(this);
         _heroHealth.Value = _heroMaxHealth;
         _heroHealth.OnValueChanged += OnHealthChanged;
+    }
+
+    private void Start()
+    {
         Timing.RunCoroutine(_Move().CancelWith(gameObject));
+        Timing.RunCoroutine(_Col().CancelWith(gameObject));
     }
 
     private void Update()
     {
-        Animator.SetFloat("HP",Mathf.Abs(_heroHealth.Value));
+        Animator.SetFloat("HP", Mathf.Abs(_heroHealth.Value));
+        if (GameManager.Instance.gameState == GameState.HittingPhase)
+        {
+            _onHeroHittingEnemy.Raise();
+        }
     }
+
     
-    private void OnTriggerEnter(Collider other)
+    /*private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Enemy"))
         {
-            _onCollide.Raise(0);
+            GameManager.Instance.gameState = GameState.HittingPhase;
+            Debug.Log("Collide");
+            _onHeroDamaged.Raise(0);
         }
-    }
+    }*/
     
     private void OnDestroy()
     {
         _heroHealth.OnValueChanged -= OnHealthChanged;
     }
     
-    private void Die()
-    {
-        Destroy(this.gameObject);
-    }
-    
     private void OnHealthChanged(float value)
     {
         var diff = value - _heroHealth;
-        if (diff >= 0)
+        if (diff < 0)
         {
             if (_heroHealth <= 0)
             {
                 _onHeroDeath.Raise();
-                Die();
             }
             else
             {
                 _onHeroDamaged.Raise(Mathf.Abs(Mathf.RoundToInt(diff)));
             }
         }
-        else
+        /*else
         {
                 _onHeroHeal.Raise(Mathf.RoundToInt(diff));
-        }
+        }*/
     }
     
     public void TakeDamamge(int damage)
     {
         _heroHealth.Add(-damage);
     }
-    
-    public void IsNotMoving()
+
+    public void Die()
     {
-        Animator.SetBool("isMoving",false);
+        Destroy(gameObject);
+        _scriptableListHero.Remove(this);
     }
+    
+    public void TweenAttack()
+         {
+             Vector3 _initialPos = transform.position;
+             Vector3 _targetPos = new Vector3((_initialPos.x)+1f,0f,0f);
+             float endValue = _targetPos.x - 1f;
+             float duration = 1f;
+             Sequence.Create(cycles: 10, CycleMode.Yoyo).Chain(Tween.PositionX(transform, endValue, duration));
+         }
     
     private IEnumerator<float> _Move()
     {
-        if(gameObject != null && gameObject.activeInHierarchy)
+        if(gameObject != null)
         {
             yield return Timing.WaitForOneFrame;
             var closest = _scriptableListEnemy.GetClosest(transform.position);
@@ -97,6 +115,8 @@ public class Hero : MonoBehaviour
                 var distance = Vector2.Distance(transform.position, closest.transform.position);
                 while (distance > 1f)
                 {
+                    Animator.SetBool("isMoving",true);
+                    GameManager.Instance.gameState = GameState.MovingPhase;
                     distance = Vector2.Distance(transform.position, closest.transform.position);
                     var position = transform.position;
                     var dir = closest.transform.position - position;
@@ -107,13 +127,35 @@ public class Hero : MonoBehaviour
 
                 while (distance <= 1f)
                 {
-                    _onHitting.Raise();
+                    //GameManager.Instance.gameState = GameState.HittingPhase;
+                    Animator.SetBool("isMoving",false);
                 }
             }
         }
     }
-}
 
+    private IEnumerator<float> _Col()
+    {
+        Collider[] col = Physics.OverlapBox(transform.position, transform.localScale / 2, Quaternion.identity);
+        int i = 0;
+        while (i < col.Length)
+        { 
+            _onHeroDamaged.Raise(0); 
+            i++;
+            yield return Timing.WaitForOneFrame;
+        }
+    }
+}
+/*public void DetectE()
+    {
+        Collider[] col = Physics.OverlapBox(transform.position, transform.localScale / 2, Quaternion.identity);
+        int i = 0;
+        while (i < col.Length)
+        {
+            _onHeroDamaged.Raise(0);
+            i++;
+        }
+    }*/
 /*private void testingTween()
 {
     GameObject objToAnimate = gameObject;
