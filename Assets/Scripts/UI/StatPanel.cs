@@ -7,13 +7,15 @@ namespace UI
 {
     public class StatPanel : MonoBehaviour
     {
-        [SerializeField] private BindTextMeshPro _healthText;
-        [SerializeField] private BindTextMeshPro _damageText;
-        [SerializeField] private BindTextMeshPro _attackText;
+        [SerializeField] private TextMeshProUGUI _healthText;
+        [SerializeField] private TextMeshProUGUI _damageText;
+        [SerializeField] private TextMeshProUGUI _attackText;
 
         public void SetText(EntityData entityData)
         {
-            _healthText.Prefix = "Health: ";
+            _healthText.text = "Health: " + entityData.InitHealth.Value;
+            _damageText.text = "Damage: " + entityData.InitDamage.Value;
+            _attackText.text = "AttackSpeed: " + entityData.InitAttackSpeed.Value;
         }
     }
 }

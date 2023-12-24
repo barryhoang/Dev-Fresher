@@ -15,27 +15,26 @@ namespace GameManager
     public class GameManager : MonoBehaviour
     {
         [SerializeField] private ScriptableEventNoParam _combat;
+        [SerializeField] private ScriptableEventNoParam _nextLevel;
         [SerializeField] private ScriptableListCharacter _listCharacters;
         [SerializeField] private ScriptableListEnemy _listEnemies;
         [SerializeField] private IntVariable _timeRound;
+        [SerializeField] private GameObject _panelNextLevel;
         [SerializeField] private Button _buttonFight;
         [SerializeField] private Button _buttonNextLevel;
-        
-        
         
         private void Start()
         {
             _combat.OnRaised += OnCombat;
+            _nextLevel.OnRaised += OnClickButtonNextLevel;
             _buttonFight.onClick.AddListener(OnClickButtonFight);
             _buttonNextLevel.onClick.AddListener(OnClickButtonNextLevel);
         }
 
         private void OnClickButtonNextLevel()
         {
-            int random = Random.Range(1, 5);
             //TODO animation nextLevel
-            _timeRound.ResetToInitialValue();
-            SpawnManager.instance.Spawn(random);
+            Timing.RunCoroutine(NextLevel().CancelWith(gameObject));
         }
 
         private void OnCombat()
@@ -55,7 +54,9 @@ namespace GameManager
             {
                 if (_listCharacters.IsEmpty || _listEnemies.IsEmpty)
                 {
+                    Timing.KillCoroutines("Combat");
                     Timing.KillCoroutines("Timer");
+                    _nextLevel.Raise();
                     yield break;
                 }
                 
@@ -65,6 +66,18 @@ namespace GameManager
             }
         }
 
+        private IEnumerator<float> NextLevel()
+        {
+            _panelNextLevel.SetActive(true);
+            yield return Timing.WaitForSeconds(0.4f);
+            _timeRound.ResetToInitialValue();
+            _panelNextLevel.SetActive(true);
+            int random = Random.Range(1, 5);
+            SpawnManager.instance.Spawn(random);
+            _panelNextLevel.SetActive(false);
+
+        }
+        
         private IEnumerator<float> CountDownTimer()
         {
             while (_timeRound >= 0)

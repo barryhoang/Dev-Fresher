@@ -43,6 +43,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Entiy
+    uniqueID: 564890297
+    locked: 0
   - name: UI
     uniqueID: 459795741
     locked: 0
