@@ -1036,9 +1036,8 @@ namespace MEC
         /// coroutine. If the running coroutine has more work to do you may run a new "part 2" coroutine 
         /// function to complete the task before ending the current one.
         /// </summary>
-        /// <param name="attackRate"></param>
         /// <returns>The number of coroutines that were killed.</returns>
-        public static int KillCoroutines(IEnumerator<float> attackRate)
+        public static int KillCoroutines()
         {
             return _instance == null ? 0 : _instance.KillCoroutinesOnInstance();
         }
@@ -1167,9 +1166,8 @@ namespace MEC
         /// <summary>
         /// This will pause all coroutines running on the current MEC instance until ResumeCoroutines is called.
         /// </summary>
-        /// <param name="countDownTime"></param>
         /// <returns>The number of coroutines that were paused.</returns>
-        public static int PauseCoroutines(IEnumerator<float> countDownTime)
+        public static int PauseCoroutines()
         {
             return _instance == null ? 0 : _instance.PauseCoroutinesOnInstance();
         }
