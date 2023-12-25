@@ -19,12 +19,13 @@ public class Enemy : MonoBehaviour
     [SerializeField] private ScriptableListHero _scriptableListHero;
 
     [SerializeField] private ScriptableEventInt _onEnemyDamaged;
-    [SerializeField] private ScriptableEventNoParam _onEnemyHittingHero;
     [SerializeField] private ScriptableEventNoParam _onEnemyDeath;
     [SerializeField] private ScriptableEventNoParam _onEnemySpawn;
 
     public Animator Animator;
     public static Enemy Instance;
+    private float _curTime = 0;
+    private const float nextDamage = 1;
 
     private void Awake()
     {
@@ -35,43 +36,25 @@ public class Enemy : MonoBehaviour
         _enemyHealth.OnValueChanged += OnHealthChanged;
     }
 
-    private void Start()
-    {
-        //Timing.RunCoroutine(UpdateTiming().CancelWith(gameObject));
-        /*Timing.RunCoroutine(_Move().CancelWith(gameObject));
-        Timing.RunCoroutine(_Col().CancelWith(gameObject));*/
-    }
-    
-    /*private IEnumerator<float> UpdateTiming()
-    {
-        yield return Timing.WaitForOneFrame;
-        Move();
-        Col();
-    }*/
-    
     private void Update()
     {
+        Move();
+        OnTriggerStay2D();
         Animator.SetFloat("HP",Mathf.Abs(_enemyHealth.Value));
-        /*if (GameManager.Instance.gameState == GameState.HittingPhase)
-        {
-            _onEnemyHittingHero.Raise();
-        }*/
     }
     
-    
-    /*private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay2D()
     {
-        if (other.CompareTag("Player"))
+        var closest = _scriptableListHero.GetClosest(transform.position);
+        if (_curTime <= 0 && closest != null)
         {
-            GameManager.Instance.gameState = GameState.HittingPhase;
-            Debug.Log("Collide");
             _onEnemyDamaged.Raise(0);
+            _curTime = nextDamage;
         }
-    }*/
-
-    private void OnDestroy()
-    {
-        _enemyHealth.OnValueChanged -= OnHealthChanged;
+        else 
+        {
+            _curTime -= Time.deltaTime;
+        }
     }
 
     private void OnHealthChanged(float value)
@@ -111,7 +94,6 @@ public class Enemy : MonoBehaviour
         Vector3 _targetPos = new Vector3((_initialPos.x)+1f,0f,0f);
         float endValue = _targetPos.x - 1f;
         float duration = 0.5f;
-        //Tween.PositionX(transform, endValue, duration, Ease.InOutSine);
         Sequence.Create(cycles: 10, CycleMode.Yoyo).Chain(Tween.PositionX(transform, endValue, duration));
     }
     
@@ -122,35 +104,20 @@ public class Enemy : MonoBehaviour
             var closest = _scriptableListHero.GetClosest(transform.position);
             if (closest != null)
             {
-                var distance = Vector2.Distance(transform.position, closest.transform.position);
+                var distance = (transform.position - closest.transform.position).sqrMagnitude;
                 if (distance > 1f)
                 {
                     Animator.SetBool("isMoving",true);
-                    //GameManager.Instance.gameState = GameState.MovingPhase;
-                    distance = Vector2.Distance(transform.position, closest.transform.position);
-                    var position = transform.position;
-                    var dir = closest.transform.position - position;
-                    position += _enemySpeed * dir.normalized * Time.deltaTime;
-                    transform.position = position;
+                    var newPos = transform.position;
+                    newPos =  closest.transform.position - transform.position;
+                    transform.position += newPos.normalized *_enemySpeed * Time.deltaTime;
                 }
 
                 if (distance <= 1f)
                 {
-                    //GameManager.Instance.gameState = GameState.HittingPhase;
                     Animator.SetBool("isMoving",false);
                 }
             }
-        }
-    }
-
-    public void Col()
-    {
-        Collider[] col = Physics.OverlapBox(transform.position, transform.localScale / 2, Quaternion.identity);
-        int i = 0;
-        while (i < col.Length)
-        {
-            _onEnemyDamaged.Raise(0);
-            i++;
         }
     }
  }

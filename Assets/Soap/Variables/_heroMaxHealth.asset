@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: _heroMaxHealth
   m_EditorClassIdentifier: 
   _guid: c5e923cb61982a147a63d8534d528183
-  _value: 1000000
+  _value: 100
   _debugLogEnabled: 0
   _saved: 0
   _defaultValue: 0

@@ -17,13 +17,13 @@ public class Hero : MonoBehaviour
     [SerializeField] private ScriptableListEnemy _scriptableListEnemy;
     
     [SerializeField] private ScriptableEventInt _onHeroDamaged;
-    [SerializeField] private ScriptableEventNoParam _onHeroHittingEnemy;
     [SerializeField] private ScriptableEventNoParam _onHeroDeath;
     [SerializeField] private ScriptableEventNoParam _onHeroSpawn;
-    [SerializeField] private Enemy _enemy;
 
     public Animator Animator;
     public static Hero Instance;
+    private float _curTime = 0;
+    private const float nextDamage = 1;
 
     private void Awake()
     {
@@ -34,27 +34,26 @@ public class Hero : MonoBehaviour
         _heroHealth.OnValueChanged += OnHealthChanged;
     }
 
-    private void Start()
-    {
-        Timing.RunCoroutine(UpdateTiming().CancelWith(gameObject));
-        //Timing.RunCoroutine(_Move().CancelWith(gameObject));
-        //Timing.RunCoroutine(_Col().CancelWith(gameObject));
-    }
-
     private void Update()
     {
+        Move();
+        OnTriggerStay2D();
         Animator.SetFloat("HP", Mathf.Abs(_heroHealth.Value));
-        /*if (GameManager.Instance.gameState == GameState.HittingPhase)
-        {
-            _onHeroHittingEnemy.Raise();
-        }*/
     }
     
-    private void OnDestroy()
+    private void OnTriggerStay2D()
     {
-        _heroHealth.OnValueChanged -= OnHealthChanged;
+        if (_curTime <= 0)
+        {
+            _onHeroDamaged.Raise(0);
+            _curTime = nextDamage;
+        }
+        else 
+        {
+            _curTime -= Time.deltaTime;
+        }
     }
-    
+
     private void OnHealthChanged(float value)
     {
         var diff = value - _heroHealth;
@@ -94,83 +93,31 @@ public class Hero : MonoBehaviour
              float duration = 1f;
              Sequence.Create(cycles: 10, CycleMode.Yoyo).Chain(Tween.PositionX(transform, endValue, duration));
          }
-    
-    private IEnumerator<float> UpdateTiming()
-    {
-        /*if(gameObject != null)
-        {
-            yield return Timing.WaitForOneFrame;
-            var closest = _scriptableListEnemy.GetClosest(transform.position);
-            if (closest != null)
-            {
-                var distance = Vector2.Distance(transform.position, closest.transform.position);
-                while (distance > 1f)
-                {
-                    /*Animator.SetBool("isMoving",true);
-                    GameManager.Instance.gameState = GameState.MovingPhase;#1#
-                    distance = Vector2.Distance(transform.position, closest.transform.position);
-                    var position = transform.position;
-                    var dir = closest.transform.position - position;
-                    position += _heroSpeed * dir.normalized * Time.deltaTime;
-                    transform.position = position;
-                    yield return Timing.WaitForOneFrame;
-                }
-
-                while (distance <= 1f)
-                {
-                    //GameManager.Instance.gameState = GameState.HittingPhase;
-                    Animator.SetBool("isMoving",false);
-                }
-            }
-        }*/
-        yield return Timing.WaitForOneFrame;
-        Move();
-        Col();
-    }
 
     public void Move()
     {
         if(gameObject != null)
         {
-            
             var closest = _scriptableListEnemy.GetClosest(transform.position);
-            _enemy = closest;
             if (closest != null)
             {
-                //var distance = Vector2.Distance(transform.position, closest.transform.position);
                 var distance = (transform.position - closest.transform.position).sqrMagnitude;
-                Debug.Log("distance "+(distance));
                 if (distance > 1f)
                 {
                     Animator.SetBool("isMoving",true);
-                    //GameManager.Instance.gameState = GameState.MovingPhase;
                     var newPos = transform.position;
-                    //Debug.Log("pos Cu "+ newPos);
                     newPos =  closest.transform.position - transform.position;
                     transform.position += newPos.normalized *_heroSpeed * Time.deltaTime;
-                    //transform.Translate(newPos);
                 }
 
-                /*if (distance <= 1f)
+                if (distance <= 1f)
                 {
-                    GameManager.Instance.gameState = GameState.HittingPhase;
                     Animator.SetBool("isMoving",false);
-                    Debug.Log("distance = 0");
-                }*/
+                }
             }
         }
     }
-
-    public void Col()
-    {
-        Collider[] col = Physics.OverlapBox(transform.position, transform.localScale / 2, Quaternion.identity);
-        int i = 0;
-        while (i < col.Length)
-        {
-            _onHeroDamaged.Raise(0);
-            i++;
-        }
-    }
+    
 }
 /*public void DetectE()
     {
@@ -200,13 +147,14 @@ public class Hero : MonoBehaviour
         .SetEase(Ease.OutQuad) // Set the ease type (optional)
         .OnComplete(AnimationComplete);
 }*/
-/*private void OnTriggerEnter(Collider other)
+/*public void Col()
 {
-    if (other.CompareTag("Enemy"))
+    Collider[] col = Physics.OverlapBox(transform.position, transform.localScale / 2, Quaternion.identity);
+    int i = 0;
+        while (i < col.Length)
     {
-        GameManager.Instance.gameState = GameState.HittingPhase;
-        Debug.Log("Collide");
         _onHeroDamaged.Raise(0);
+        i++;
     }
 }*/
 

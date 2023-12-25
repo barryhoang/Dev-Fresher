@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: _enemyMaxHealth
   m_EditorClassIdentifier: 
   _guid: 2b1aefb2c36656f40ad770950d6f571f
-  _value: 1000
+  _value: 100
   _debugLogEnabled: 0
   _saved: 0
   _defaultValue: 0
