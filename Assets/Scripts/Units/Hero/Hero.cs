@@ -24,6 +24,7 @@ public class Hero : MonoBehaviour
     public static Hero Instance;
     private float _curTime = 0;
     private const float nextDamage = 1;
+    private HeroStateMachines HSM;
 
     private void Awake()
     {
@@ -37,6 +38,10 @@ public class Hero : MonoBehaviour
     private void Update()
     {
         Move();
+        /*if (HSM.currentState == HeroStateMachines.TurnState.MOVING)
+        {
+            Move();
+        }*/
         Animator.SetFloat("HP", Mathf.Abs(_heroHealth.Value));
     }
 
