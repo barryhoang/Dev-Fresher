@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Entity;
 using MEC;
 using UnityEngine;
@@ -13,7 +14,7 @@ namespace StateManager
             instance = this;
         }
 
-        public void AttackSystem(ScriptableListCharacter character,ScriptableListEnemy enemies)
+        public IEnumerator<float> AttackSystem(ScriptableListCharacter character,ScriptableListEnemy enemies)
         {
             foreach (var entity in character)
             {
@@ -37,6 +38,7 @@ namespace StateManager
                     }
                 }
             }
+            yield return 0;
         }
     }
 }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FloatVariable
   m_EditorClassIdentifier: 
   _guid: 99722ac6a705327489c2187766c0a6f7
-  _value: 2
+  _value: 5
   _debugLogEnabled: 0
   _saved: 0
   _defaultValue: 0

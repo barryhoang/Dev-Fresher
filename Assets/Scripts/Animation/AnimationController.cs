@@ -1,10 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using MEC;
 using PrimeTween;
 using UnityEngine;
 
-namespace New_Folder_1
+namespace Animation
 {
     public enum AnimationName
     {
@@ -37,9 +36,6 @@ namespace New_Folder_1
                     return;
                 case AnimationName.Attack:
                     _animator.SetBool("Idle", setTrue);
-                    _tweenSettings.endValue += transform.position.x + 0.2f;
-                    Tween.PositionX(transform,transform.position.x+ 0.2f,0.1f).OnComplete(
-                        ()=> Tween.PositionX(transform,transform.position.x - 0.2f,0.1f));
                     return;
                 case AnimationName.Hit:
                     _animator.SetTrigger("Hit");
@@ -56,14 +52,12 @@ namespace New_Folder_1
             }
         }
 
-        private IEnumerator<float> AttackAnimation()
+        public IEnumerator<float> AttackAnimation()
         {
-            dir.Normalize();
-            
-            Tween.PositionX(transform,_tweenSettings);
-            yield return Timing.WaitForSeconds(0.3f);
-            _tweenSettings.endValue += transform.position.x - 0.2f;
-            Tween.PositionX(transform,_tweenSettings);
+            _animator.SetBool("Idle", true);
+            Tween.PositionX(transform, transform.position.x + 0.2f, 0.1f);
+            yield return Timing.WaitForSeconds(0.1f);
+            Tween.PositionX(transform, transform.position.x - 0.2f, 0.1f);
         }
         
         

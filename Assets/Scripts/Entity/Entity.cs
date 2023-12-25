@@ -1,7 +1,8 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using Animation;
 using MEC;
-using New_Folder_1;
 using Obvious.Soap;
 using UI;
 using UnityEngine;
@@ -18,10 +19,11 @@ namespace Entity
         [SerializeField] private Image healthBar;
         [SerializeField] private StatPanel _panelStats;
         [SerializeField] private AnimationController _aniController;
-        private Vector3 posStart;
+       
         private Entity _objectAttack;
         private float _currentHealth;
-
+        
+        public Vector3 posStart;
         public bool isReadyAttack;
         public bool isAttack;
         public bool isAttacking;
@@ -49,13 +51,14 @@ namespace Entity
 
         public void Move(Entity entity)
         {
-            if (isAttacking)
+            if (isAttacking || entity == null)
             {
                 return;
             }
             
             _aniController.SetAnimation(AnimationName.Idle,false);
-            var posTaget = entity.transform.position;
+            
+            var posTaget  = entity.transform.position;
             var position = transform.position;
             var distance = Vector3.Distance(position, posTaget);
             if (distance <= 1f)
@@ -65,9 +68,11 @@ namespace Entity
                 _aniController.SetAnimation(AnimationName.Move,false);
                 return;
             }
+            
             Vector2 dir = posTaget - position;
             dir.Normalize();
             position += (Vector3)(_speed * Time.deltaTime * dir);
+            
             //TODO amimation Move
             _aniController.SetAnimation(AnimationName.Move,true);
             transform.position = position;
@@ -76,9 +81,9 @@ namespace Entity
         public void ResetPosAndState()
         {
             _panelStats.SetText(_entityData);
-            transform.position = posStart;
-            transform.GetChild(0).localPosition = Vector3.zero;
             _currentHealth = _entityData.InitHealth.Value;
+            transform.position = posStart;
+            transform.GetChild(0).position = posStart;
             healthBar.fillAmount = 1;
             isReadyAttack = false;
             isAttacking = false;
@@ -92,15 +97,13 @@ namespace Entity
             {
                 isAttacking = true;
                 //TODO amimation Attack
-                _aniController.dir = _objectAttack.transform.position - transform.position;
-                _aniController.dir.Normalize();
                 _aniController.SetAnimation(AnimationName.Attack,true);
                 _objectAttack.TakeDamage();
                 if (!_objectAttack.gameObject.activeInHierarchy)
                 {
                     isReadyAttack = false;
                     isAttacking = false;
-                    yield break;
+                    isAttack = false;
                 }
                 yield return Timing.WaitForSeconds(_entityData.InitAttackSpeed);
             }

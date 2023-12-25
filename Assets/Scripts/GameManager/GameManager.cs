@@ -1,12 +1,9 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using Entity;
 using MEC;
 using Obvious.Soap;
 using StateManager;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -22,25 +19,32 @@ namespace GameManager
         [SerializeField] private GameObject _panelNextLevel;
         [SerializeField] private Button _buttonFight;
         [SerializeField] private Button _buttonNextLevel;
-        
+
+        private bool isCombat;
+
+
         private void Start()
         {
-            _combat.OnRaised += OnCombat;
-            _nextLevel.OnRaised += OnClickButtonNextLevel;
+            SpawnManager.instance.Spawn(4);
             _buttonFight.onClick.AddListener(OnClickButtonFight);
             _buttonNextLevel.onClick.AddListener(OnClickButtonNextLevel);
+            _combat.OnRaised += OnCombat;
+            _nextLevel.OnRaised += OnClickButtonNextLevel;
+            
+           
         }
+        
 
         private void OnClickButtonNextLevel()
         {
             //TODO animation nextLevel
-            Timing.RunCoroutine(NextLevel().CancelWith(gameObject));
         }
 
         private void OnCombat()
         {
+            isCombat = true;
             Timing.RunCoroutine(CountDownTimer().CancelWith(gameObject), "Timer");
-            Timing.RunCoroutine(Combat().CancelWith(gameObject), "Combat");
+            Timing.RunCoroutine(NextLevel().CancelWith(gameObject),"NextLevel");
         }
 
         private void OnClickButtonFight()
@@ -50,37 +54,37 @@ namespace GameManager
 
         private IEnumerator<float> Combat()
         {
-            while (true)
+            while (isCombat)
             {
-                if (_listCharacters.IsEmpty || _listEnemies.IsEmpty)
+                if (SpawnManager.instance.CheckAll())
                 {
-                    Timing.KillCoroutines("Combat");
-                    Timing.KillCoroutines("Timer");
-                    _nextLevel.Raise();
-                    yield break;
+                    isCombat = false;
                 }
-                
-                MoveManager.instance.Move(_listCharacters,_listEnemies);
-                AttackManager.instance.AttackSystem(_listCharacters,_listEnemies);
+                else
+                {
+                    SpawnManager.instance.CheckEntityDie();
+                    MoveManager.instance.Move(_listCharacters,_listEnemies);
+                    yield return Timing.WaitUntilDone(Timing.RunCoroutine(AttackManager.instance.AttackSystem(_listCharacters, _listEnemies).CancelWith(gameObject)));
+                }
                 yield return Timing.WaitForOneFrame;
             }
         }
 
         private IEnumerator<float> NextLevel()
         {
+            yield return Timing.WaitUntilDone(Timing.RunCoroutine(Combat().CancelWith(gameObject)));
             _panelNextLevel.SetActive(true);
-            yield return Timing.WaitForSeconds(0.4f);
-            _timeRound.ResetToInitialValue();
-            _panelNextLevel.SetActive(true);
+            yield return Timing.WaitForSeconds(1f);
             int random = Random.Range(1, 5);
             SpawnManager.instance.Spawn(random);
+            _timeRound.ResetToInitialValue();
             _panelNextLevel.SetActive(false);
-
+            
         }
         
         private IEnumerator<float> CountDownTimer()
         {
-            while (_timeRound >= 0)
+            while (isCombat && _timeRound.Value > 0)
             {
                 yield return Timing.WaitForSeconds(1f);
                 _timeRound.Value--;
@@ -90,8 +94,7 @@ namespace GameManager
         private void OnDisable()
         {
             _combat.OnRaised -= OnCombat;
-            Timing.KillCoroutines("Kill");
-            Timing.KillCoroutines("Combat");
+            _nextLevel.OnRaised -= OnClickButtonNextLevel;
         }
     }
 }
