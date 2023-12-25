@@ -665,7 +665,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4396510079784516975, guid: ad6fc2500e0b0af4f98bc526ffe2372d, type: 3}
       propertyPath: _eventResponses.Array.data[0]._response.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
-      value: 20
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 5826877030582690496, guid: ad6fc2500e0b0af4f98bc526ffe2372d, type: 3}
       propertyPath: m_LocalPosition.x

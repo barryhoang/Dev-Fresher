@@ -39,14 +39,20 @@ public class Enemy : MonoBehaviour
     private void Update()
     {
         Move();
-        OnTriggerStay2D();
         Animator.SetFloat("HP",Mathf.Abs(_enemyHealth.Value));
     }
     
-    private void OnTriggerStay2D()
+    private void OnTriggerEnter(Collider other)
     {
-        var closest = _scriptableListHero.GetClosest(transform.position);
-        if (_curTime <= 0 && closest != null)
+        if (other.CompareTag("Player"))
+        {
+            _onEnemyDamaged.Raise(0);
+        }
+    }
+    
+    /*private void OnTriggerStay2D(Collider2D other)
+    {
+        if (_curTime <= 0 && other.CompareTag("Player"))
         {
             _onEnemyDamaged.Raise(0);
             _curTime = nextDamage;
@@ -55,7 +61,7 @@ public class Enemy : MonoBehaviour
         {
             _curTime -= Time.deltaTime;
         }
-    }
+    }*/
 
     private void OnHealthChanged(float value)
     {

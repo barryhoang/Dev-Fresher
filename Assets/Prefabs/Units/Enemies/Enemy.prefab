@@ -109,7 +109,6 @@ MonoBehaviour:
   _scriptableListEnemy: {fileID: 11400000, guid: e7b54fe464ebae34883282879631ce06, type: 2}
   _scriptableListHero: {fileID: 11400000, guid: af4ed7abec162544db132a1b76e9cfca, type: 2}
   _onEnemyDamaged: {fileID: 11400000, guid: 7642c45f9a36b904ab993a621a250d20, type: 2}
-  _onEnemyHittingHero: {fileID: 11400000, guid: ff19a3f3cc1d9a043aaee72256202151, type: 2}
   _onEnemyDeath: {fileID: 11400000, guid: 0e8e5f38e95d8784aae81fcde8fb4472, type: 2}
   _onEnemySpawn: {fileID: 11400000, guid: 15ecbcf3653c7d44ea56946546b09720, type: 2}
   Animator: {fileID: 2908774642349630332}
@@ -135,22 +134,6 @@ MonoBehaviour:
         - m_Target: {fileID: 2913119054340110734}
           m_TargetAssemblyTypeName: Enemy, Assembly-CSharp
           m_MethodName: Die
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - ScriptableEvent: {fileID: 11400000, guid: ff19a3f3cc1d9a043aaee72256202151, type: 2}
-    Response:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 2913119054340110734}
-          m_TargetAssemblyTypeName: Enemy, Assembly-CSharp
-          m_MethodName: TweenAttack
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -270,7 +253,7 @@ MonoBehaviour:
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 10
+            m_IntArgument: 100
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0

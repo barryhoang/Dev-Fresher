@@ -108,9 +108,7 @@ MonoBehaviour:
   _enemySpeed: {fileID: 11400000, guid: 05c40932b7090fe48af13e6dab0c01bf, type: 2}
   _scriptableListEnemy: {fileID: 11400000, guid: e7b54fe464ebae34883282879631ce06, type: 2}
   _scriptableListHero: {fileID: 11400000, guid: af4ed7abec162544db132a1b76e9cfca, type: 2}
-  _onCollide: {fileID: 11400000, guid: 3ab48ab057a9e234c94e1c42f64bc185, type: 2}
   _onEnemyDamaged: {fileID: 11400000, guid: 7642c45f9a36b904ab993a621a250d20, type: 2}
-  _onEnemyHeal: {fileID: 11400000, guid: 99161987ae4b0e841a0cd0fc4ec73cae, type: 2}
   _onEnemyDeath: {fileID: 11400000, guid: ad072a8584330884d9ba7cd1c68bffd3, type: 2}
   _onEnemySpawn: {fileID: 11400000, guid: 15ecbcf3653c7d44ea56946546b09720, type: 2}
   Animator: {fileID: 1072461595650798514}
@@ -129,13 +127,13 @@ MonoBehaviour:
   _binding: 0
   _disableAfterSubscribing: 0
   _eventResponses:
-  - ScriptableEvent: {fileID: 11400000, guid: c8d6d49bb493ed4478e56cad205c4e11, type: 2}
+  - ScriptableEvent: {fileID: 11400000, guid: ad072a8584330884d9ba7cd1c68bffd3, type: 2}
     Response:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 2040849150728429074}
           m_TargetAssemblyTypeName: Enemy, Assembly-CSharp
-          m_MethodName: IsNotMoving
+          m_MethodName: Die
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -244,7 +242,7 @@ MonoBehaviour:
   _binding: 0
   _disableAfterSubscribing: 0
   _eventResponses:
-  - _scriptableEvent: {fileID: 11400000, guid: 3ab48ab057a9e234c94e1c42f64bc185, type: 2}
+  - _scriptableEvent: {fileID: 11400000, guid: 7642c45f9a36b904ab993a621a250d20, type: 2}
     _response:
       m_PersistentCalls:
         m_Calls:

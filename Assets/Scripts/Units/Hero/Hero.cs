@@ -37,13 +37,20 @@ public class Hero : MonoBehaviour
     private void Update()
     {
         Move();
-        OnTriggerStay2D();
         Animator.SetFloat("HP", Mathf.Abs(_heroHealth.Value));
     }
-    
-    private void OnTriggerStay2D()
+
+    private void OnTriggerEnter(Collider other)
     {
-        if (_curTime <= 0)
+        if (other.CompareTag("Enemy"))
+        {
+            _onHeroDamaged.Raise(0);
+        }
+    }
+
+    /*private void OnTriggerStay2D(Collider2D other)
+    {
+        if (_curTime <= 0 && other.CompareTag("Enemy"))
         {
             _onHeroDamaged.Raise(0);
             _curTime = nextDamage;
@@ -52,7 +59,7 @@ public class Hero : MonoBehaviour
         {
             _curTime -= Time.deltaTime;
         }
-    }
+    }*/
 
     private void OnHealthChanged(float value)
     {
@@ -74,7 +81,7 @@ public class Hero : MonoBehaviour
         }*/
     }
     
-    public void TakeDamamge(int damage)
+    public void TakeDamage(int damage)
     {
         _heroHealth.Add(-damage);
     }
@@ -117,7 +124,6 @@ public class Hero : MonoBehaviour
             }
         }
     }
-    
 }
 /*public void DetectE()
     {
