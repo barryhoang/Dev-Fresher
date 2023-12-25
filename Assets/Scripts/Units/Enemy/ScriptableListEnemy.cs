@@ -10,7 +10,12 @@ namespace Obvious.Soap
         {
             if (IsEmpty)
                 return null;
+            
             var closest = _list.OrderBy(enemy => (position - enemy.transform.position).sqrMagnitude).First();
+            foreach (var enemy in _list)
+            {
+                Debug.Log("distance " +(position - enemy.transform.position).sqrMagnitude);
+            }
             return closest;
         }
     }

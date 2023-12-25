@@ -139,7 +139,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &179774097
 Transform:
   m_ObjectHideFlags: 0
@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f2f52124be99eb45a512175602aedf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameState: 2
+  gameState: 0
 --- !u!4 &406227620 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6718763424063213315, guid: e7393ed6a5816624c9ad18f43dde92f5, type: 3}
@@ -649,7 +649,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1708764832585269826, guid: ad6fc2500e0b0af4f98bc526ffe2372d, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5826877030582690496, guid: ad6fc2500e0b0af4f98bc526ffe2372d, type: 3}
       propertyPath: m_LocalPosition.x

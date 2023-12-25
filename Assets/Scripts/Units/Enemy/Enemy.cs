@@ -37,17 +37,25 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
-        Timing.RunCoroutine(_Move().CancelWith(gameObject));
-        Timing.RunCoroutine(_Col().CancelWith(gameObject));
+        //Timing.RunCoroutine(UpdateTiming().CancelWith(gameObject));
+        /*Timing.RunCoroutine(_Move().CancelWith(gameObject));
+        Timing.RunCoroutine(_Col().CancelWith(gameObject));*/
     }
+    
+    /*private IEnumerator<float> UpdateTiming()
+    {
+        yield return Timing.WaitForOneFrame;
+        Move();
+        Col();
+    }*/
     
     private void Update()
     {
         Animator.SetFloat("HP",Mathf.Abs(_enemyHealth.Value));
-        if (GameManager.Instance.gameState == GameState.HittingPhase)
+        /*if (GameManager.Instance.gameState == GameState.HittingPhase)
         {
             _onEnemyHittingHero.Raise();
-        }
+        }*/
     }
     
     
@@ -107,41 +115,42 @@ public class Enemy : MonoBehaviour
         Sequence.Create(cycles: 10, CycleMode.Yoyo).Chain(Tween.PositionX(transform, endValue, duration));
     }
     
-    private IEnumerator<float> _Move()
+    public void Move()
     {
-        yield return Timing.WaitForOneFrame;
-        var closest = _scriptableListHero.GetClosest(transform.position);
-        if (closest != null)
+        if(gameObject != null)
         {
-            var distance = Vector2.Distance(transform.position, closest.transform.position);
-            while (distance > 1f)
+            var closest = _scriptableListHero.GetClosest(transform.position);
+            if (closest != null)
             {
-                Animator.SetBool("isMoving",true);
-                GameManager.Instance.gameState = GameState.MovingPhase;
-                distance = Vector2.Distance(transform.position, closest.transform.position);
-                var position = transform.position;
-                var dir = closest.transform.position - position;
-                position += _enemySpeed * dir.normalized * Time.deltaTime;
-                transform.position = position;
-                yield return Timing.WaitForOneFrame;
-            }
-            while (distance <= 1f)
-            {
-                //GameManager.Instance.gameState = GameState.HittingPhase;
-                Animator.SetBool("isMoving",false);
+                var distance = Vector2.Distance(transform.position, closest.transform.position);
+                if (distance > 1f)
+                {
+                    Animator.SetBool("isMoving",true);
+                    //GameManager.Instance.gameState = GameState.MovingPhase;
+                    distance = Vector2.Distance(transform.position, closest.transform.position);
+                    var position = transform.position;
+                    var dir = closest.transform.position - position;
+                    position += _enemySpeed * dir.normalized * Time.deltaTime;
+                    transform.position = position;
+                }
+
+                if (distance <= 1f)
+                {
+                    //GameManager.Instance.gameState = GameState.HittingPhase;
+                    Animator.SetBool("isMoving",false);
+                }
             }
         }
     }
-    
-    private IEnumerator<float> _Col()
+
+    public void Col()
     {
         Collider[] col = Physics.OverlapBox(transform.position, transform.localScale / 2, Quaternion.identity);
         int i = 0;
         while (i < col.Length)
-        { 
-            _onEnemyDamaged.Raise(0); 
+        {
+            _onEnemyDamaged.Raise(0);
             i++;
-            yield return Timing.WaitForOneFrame;
         }
     }
  }

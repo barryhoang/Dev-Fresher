@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: _heroSpeed
   m_EditorClassIdentifier: 
   _guid: 3b3bfdfc5f598ae4089ff55e75e5d15f
-  _value: 4
+  _value: 100
   _debugLogEnabled: 0
   _saved: 0
   _defaultValue: 0

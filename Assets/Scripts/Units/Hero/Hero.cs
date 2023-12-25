@@ -20,7 +20,8 @@ public class Hero : MonoBehaviour
     [SerializeField] private ScriptableEventNoParam _onHeroHittingEnemy;
     [SerializeField] private ScriptableEventNoParam _onHeroDeath;
     [SerializeField] private ScriptableEventNoParam _onHeroSpawn;
-    
+    [SerializeField] private Enemy _enemy;
+
     public Animator Animator;
     public static Hero Instance;
 
@@ -35,29 +36,19 @@ public class Hero : MonoBehaviour
 
     private void Start()
     {
-        Timing.RunCoroutine(_Move().CancelWith(gameObject));
-        Timing.RunCoroutine(_Col().CancelWith(gameObject));
+        Timing.RunCoroutine(UpdateTiming().CancelWith(gameObject));
+        //Timing.RunCoroutine(_Move().CancelWith(gameObject));
+        //Timing.RunCoroutine(_Col().CancelWith(gameObject));
     }
 
     private void Update()
     {
         Animator.SetFloat("HP", Mathf.Abs(_heroHealth.Value));
-        if (GameManager.Instance.gameState == GameState.HittingPhase)
+        /*if (GameManager.Instance.gameState == GameState.HittingPhase)
         {
             _onHeroHittingEnemy.Raise();
-        }
+        }*/
     }
-
-    
-    /*private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Enemy"))
-        {
-            GameManager.Instance.gameState = GameState.HittingPhase;
-            Debug.Log("Collide");
-            _onHeroDamaged.Raise(0);
-        }
-    }*/
     
     private void OnDestroy()
     {
@@ -104,9 +95,9 @@ public class Hero : MonoBehaviour
              Sequence.Create(cycles: 10, CycleMode.Yoyo).Chain(Tween.PositionX(transform, endValue, duration));
          }
     
-    private IEnumerator<float> _Move()
+    private IEnumerator<float> UpdateTiming()
     {
-        if(gameObject != null)
+        /*if(gameObject != null)
         {
             yield return Timing.WaitForOneFrame;
             var closest = _scriptableListEnemy.GetClosest(transform.position);
@@ -115,8 +106,8 @@ public class Hero : MonoBehaviour
                 var distance = Vector2.Distance(transform.position, closest.transform.position);
                 while (distance > 1f)
                 {
-                    Animator.SetBool("isMoving",true);
-                    GameManager.Instance.gameState = GameState.MovingPhase;
+                    /*Animator.SetBool("isMoving",true);
+                    GameManager.Instance.gameState = GameState.MovingPhase;#1#
                     distance = Vector2.Distance(transform.position, closest.transform.position);
                     var position = transform.position;
                     var dir = closest.transform.position - position;
@@ -131,18 +122,53 @@ public class Hero : MonoBehaviour
                     Animator.SetBool("isMoving",false);
                 }
             }
+        }*/
+        yield return Timing.WaitForOneFrame;
+        Move();
+        Col();
+    }
+
+    public void Move()
+    {
+        if(gameObject != null)
+        {
+            
+            var closest = _scriptableListEnemy.GetClosest(transform.position);
+            _enemy = closest;
+            if (closest != null)
+            {
+                //var distance = Vector2.Distance(transform.position, closest.transform.position);
+                var distance = (transform.position - closest.transform.position).sqrMagnitude;
+                Debug.Log("distance "+(distance));
+                if (distance > 1f)
+                {
+                    Animator.SetBool("isMoving",true);
+                    //GameManager.Instance.gameState = GameState.MovingPhase;
+                    var newPos = transform.position;
+                    //Debug.Log("pos Cu "+ newPos);
+                    newPos =  closest.transform.position - transform.position;
+                    transform.position += newPos.normalized *_heroSpeed * Time.deltaTime;
+                    //transform.Translate(newPos);
+                }
+
+                /*if (distance <= 1f)
+                {
+                    GameManager.Instance.gameState = GameState.HittingPhase;
+                    Animator.SetBool("isMoving",false);
+                    Debug.Log("distance = 0");
+                }*/
+            }
         }
     }
 
-    private IEnumerator<float> _Col()
+    public void Col()
     {
         Collider[] col = Physics.OverlapBox(transform.position, transform.localScale / 2, Quaternion.identity);
         int i = 0;
         while (i < col.Length)
-        { 
-            _onHeroDamaged.Raise(0); 
+        {
+            _onHeroDamaged.Raise(0);
             i++;
-            yield return Timing.WaitForOneFrame;
         }
     }
 }
@@ -174,3 +200,13 @@ public class Hero : MonoBehaviour
         .SetEase(Ease.OutQuad) // Set the ease type (optional)
         .OnComplete(AnimationComplete);
 }*/
+/*private void OnTriggerEnter(Collider other)
+{
+    if (other.CompareTag("Enemy"))
+    {
+        GameManager.Instance.gameState = GameState.HittingPhase;
+        Debug.Log("Collide");
+        _onHeroDamaged.Raise(0);
+    }
+}*/
+
