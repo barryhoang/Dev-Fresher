@@ -15,3 +15,4 @@ MonoBehaviour:
   _levelDetail:
   - {fileID: 11400000, guid: eafbd7cab89251e4e8a09eab9462bc2a, type: 2}
   - {fileID: 11400000, guid: 4d299d5181dccb3418119e1c44e560e7, type: 2}
+  - {fileID: 11400000, guid: 20282968ab14af648968157bfb9981fd, type: 2}

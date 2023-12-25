@@ -35,10 +35,10 @@ namespace Minh
              _gameObjectID = enemyGameObject.GetInstanceID().ToString();
             _health = characterStats._maxHealth;
         }
-
+        
         private void Start()
         {
-            _soapListEnemy.Add(this);
+           
             _characterState = CharacterState.Idle;
             Timing.RunCoroutine(CheckHealth().CancelWith(gameObject));
             Timing.RunCoroutine(EnemyMove().CancelWith(gameObject),"enemyMove"+ _gameObjectID);
@@ -54,6 +54,10 @@ namespace Minh
            Debug.Log(_gameManager._gameState); 
         }
 
+        public void AddToList()
+        {
+            _soapListEnemy.Add(this);
+        }
 
         private void OnTriggerEnter2D(Collider2D other)
         {

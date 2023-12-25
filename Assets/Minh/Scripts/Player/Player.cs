@@ -26,23 +26,25 @@ namespace Minh
         [SerializeField] public GameObject _gameManagerGameObject;
         public int _health;
         public GameManager _gameManager;
-        
+
 
         private void Awake()
         {
-           
             GameObject _healthbar1 = Instantiate(_healthBar, gameObject.transform, true);
             _healthBarScript = _healthbar1.GetComponent<HealthBar>();
             _healthBarScript.Init(gameObject);
             _gameObjectID = gameObject.GetInstanceID().ToString();
-           
         }
 
         private void Start()
         {
-          
         }
-        
+
+        public void AddToList()
+        {
+            _soapListPlayer.Add(this);
+        }
+
         private void OnTriggerStay2D(Collider2D other)
         {
             if (_characterState == CharacterState.Idle)
@@ -53,8 +55,8 @@ namespace Minh
                     Timing.PauseCoroutines("playerMove" + _gameObjectID);
                     _characterState = CharacterState.Attack;
                     Timing.RunCoroutine(PlayerAttack(enemy).CancelWith(gameObject), "playerAttack" + _gameObjectID);
-                        
-                        
+
+
                     Debug.Log("Attackkkk");
                 }
             }
@@ -66,10 +68,8 @@ namespace Minh
             _characterState = CharacterState.Idle;
             Timing.RunCoroutine(CheckHealth().CancelWith(gameObject));
             Timing.RunCoroutine(PlayerMove().CancelWith(gameObject), "playerMove" + _gameObjectID);
-       
-            _gameManagerGameObject=GameObject.Find("GameManager");
+            _gameManagerGameObject = GameObject.Find("GameManager");
             _gameManager = _gameManagerGameObject.GetComponent<GameManager>();
-            _soapListPlayer.Add(this);
             _healthBarScript.HealthBarSize(characterStats._maxHealth.Value, _health);
         }
 
@@ -85,10 +85,7 @@ namespace Minh
         //     _characterState = CharacterState.Idle;
         //     Timing.ResumeCoroutines("playerMove" + _gameObjectID);
         // }
-        private void OnDestroy()
-        {
-            
-        }
+
         private IEnumerator<float> CheckHealth()
         {
             while (true)
@@ -104,25 +101,25 @@ namespace Minh
 
         private void CheckEnemyHealth(Enemy enemy)
         {
-            if (enemy._health <= 0||enemy==null)
+            if (enemy._health <= 0 || enemy == null)
             {
-                Timing.KillCoroutines("playerAttack"+_gameObjectID);
+                Timing.KillCoroutines("playerAttack" + _gameObjectID);
                 _characterState = CharacterState.Idle;
                 Timing.ResumeCoroutines("playerMove" + _gameObjectID);
             }
         }
-        
-        
-         private IEnumerator<float> PlayerAttack(Enemy enemy)
+
+
+        private IEnumerator<float> PlayerAttack(Enemy enemy)
         {
             _attackPosition = enemy.gameObject.transform.position;
-            
+
             while (true)
             {
                 CheckEnemyHealth(enemy);
                 if (_characterState == CharacterState.Attack)
                 {
-                    Debug.Log("Attack"+_gameObjectID);
+                    Debug.Log("Attack" + _gameObjectID);
                     if (enemy != null)
                     {
                         Tween.Position(transform, _attackPosition, _tweenSettings);
@@ -139,18 +136,16 @@ namespace Minh
         {
             if (_characterState == CharacterState.Attack)
             {
-                Debug.Log("Attacking"+_gameObjectID);
-               CheckEnemyHealth(enemy);
+                Debug.Log("Attacking" + _gameObjectID);
+                CheckEnemyHealth(enemy);
                 enemy.TakeDamage(characterStats._damage);
-               
             }
         }
-        
+
         private IEnumerator<float> PlayerMove()
         {
             while (true)
             {
-                
                 if (_gameManager._gameState == GameState.Fighting)
                 {
                     if (_characterState == CharacterState.Idle)
@@ -158,10 +153,9 @@ namespace Minh
                         if (_soapListEnemy != null)
                         {
                             var closet = _soapListEnemy.GetClosest(transform.position);
-                           
+
                             if (closet != null)
                             {
-                               
                                 Move(closet.transform.position);
                                 _attackPosition = closet.transform.position;
                             }

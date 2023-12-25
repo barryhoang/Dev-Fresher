@@ -2,9 +2,10 @@
 using Obvious.Soap;
 using UnityEngine;
 
+
 namespace Minh
 {
-    public class PlayerPlacement : UnityEngine.MonoBehaviour
+    public class PlayerPlacement : MonoBehaviour
     {
         [SerializeField] private Collider2D _characterCollider;
         [SerializeField] private IntVariable _startxPosition;
@@ -74,6 +75,10 @@ namespace Minh
             }
         }
 
+        public void Init(Vector3 offset)
+        {
+            transform.position = new Vector3(-7+offset.x, 3+offset.y, 0);
+        }
         void OnMouseDown()
         {
             // Bắt đầu kéo thả khi chuột được nhấn
