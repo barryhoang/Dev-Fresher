@@ -118,6 +118,7 @@ MonoBehaviour:
   _gameManagerGameObject: {fileID: 0}
   _health: 0
   _gameManager: {fileID: 0}
+  _enemyPlacement: {fileID: 6688992649258739350}
 --- !u!114 &-2635526388856692558
 MonoBehaviour:
   m_ObjectHideFlags: 0

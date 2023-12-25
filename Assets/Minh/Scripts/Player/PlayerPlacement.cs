@@ -48,15 +48,14 @@ namespace Minh
                 var transform1 = transform;
                 transform1.position = cursorWorldPoint + _offset;
 
-                
                 Vector3Int cellPosition = grid.WorldToCell(transform1.position);
                 Vector3 cellCenter = grid.GetCellCenterWorld(cellPosition);
                 Debug.Log(cellPosition+"PLAYER CELL POSITION");
 
-                if (!_characterCollider.bounds.Contains(cellCenter))
-                {
-                    transform.position = cellCenter;
-                }
+                // if (!_characterCollider.bounds.Contains(cellCenter))
+                // {
+                //     transform.position = cellCenter;
+                // }
 
                 if (cellPosition.x < _startxPosition || cellPosition.x >_endxPosition  || cellPosition.y < _startxPosition || cellPosition.y > _endyPosition)
                 {
@@ -69,7 +68,7 @@ namespace Minh
                 {
                     _prevTransform = transform.position;
 
-                    
+                    transform.position = cellCenter;
                     _isDragging = false;
                 }
             }
@@ -88,7 +87,7 @@ namespace Minh
             
         }
 
-        private void SnapToGrid()
+        public void SnapToGrid()
         {
             Vector3Int cellPosition = grid.WorldToCell(transform.position);
             transform.position = grid.GetCellCenterWorld(cellPosition);

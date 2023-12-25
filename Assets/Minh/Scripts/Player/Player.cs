@@ -53,10 +53,8 @@ namespace Minh
                 {
                     var enemy = other.GetComponent<Enemy>();
                     Timing.PauseCoroutines("playerMove" + _gameObjectID);
-                    _characterState = CharacterState.Attack;
+                    
                     Timing.RunCoroutine(PlayerAttack(enemy).CancelWith(gameObject), "playerAttack" + _gameObjectID);
-
-
                     Debug.Log("Attackkkk");
                 }
             }
@@ -78,8 +76,7 @@ namespace Minh
             _soapListPlayer.Remove(this);
             _soapListDeadPlayer.Add(this);
         }
-
-
+        
         // private void OnTriggerExit2D(Collider2D other)
         // {
         //     _characterState = CharacterState.Idle;
@@ -112,22 +109,41 @@ namespace Minh
 
         private IEnumerator<float> PlayerAttack(Enemy enemy)
         {
+           
+            _playerPlacement.SnapToGrid();
             _attackPosition = enemy.gameObject.transform.position;
-
+            _characterState = CharacterState.Attack;
+            Vector2 distance = enemy.transform.position - transform.position;
+            Vector2 offset=new Vector2();
+            if (distance.x > 0)
+            {
+                offset.x = 0.5f;
+            }
+            else if(distance.x<0)
+            {
+                offset.y = -0.5f;
+            }
+            if (distance.y<0)
+            {
+                offset.y = 0.5f;
+            }
+            else if(distance.y>0)
+            {
+                offset.y = -0.5f;
+            }
             while (true)
             {
+               
                 CheckEnemyHealth(enemy);
                 if (_characterState == CharacterState.Attack)
                 {
                     Debug.Log("Attack" + _gameObjectID);
                     if (enemy != null)
                     {
-                        Tween.Position(transform, _attackPosition, _tweenSettings);
+                        Tween.Position(transform, (Vector2)transform.position+distance-offset, _tweenSettings);
                     }
-
                     Attack(enemy);
                 }
-
                 yield return Timing.WaitForSeconds(1f / characterStats._attackRate);
             }
         }
@@ -153,9 +169,18 @@ namespace Minh
                         if (_soapListEnemy != null)
                         {
                             var closet = _soapListEnemy.GetClosest(transform.position);
-
                             if (closet != null)
                             {
+                                var distance = (closet.transform.position.x-transform.position.x);
+                               
+                                if (distance <= 0)
+                                {
+                                    transform.localScale=new Vector3(-1,1,1);
+                                }
+                                else
+                                {
+                                    transform.localScale=new Vector3(1,1,1);
+                                }
                                 Move(closet.transform.position);
                                 _attackPosition = closet.transform.position;
                             }

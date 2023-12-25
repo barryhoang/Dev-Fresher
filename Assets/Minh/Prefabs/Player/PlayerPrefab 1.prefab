@@ -120,7 +120,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterStats: {fileID: 11400000, guid: 129a7ac50b09db740a58d59aa0bc8559, type: 2}
   _tweenSettings:
-    duration: 0.3
+    duration: 0.5
     ease: 0
     customEase:
       serializedVersion: 2
@@ -140,7 +140,7 @@ MonoBehaviour:
   _onFightRaise: {fileID: 11400000, guid: f013c4f158bea1a4cb5d83efd003901e, type: 2}
   _healthBar: {fileID: 817751589942492302, guid: a4d382cdc6a0aa84697e55080dbd4f97, type: 3}
   _playerPlacement: {fileID: 8878303018202227690}
-  _gameManagerGameObject: {fileID: 6543441363557232792, guid: 29c48c4a8af7eee4891d6a2a04a00f9d, type: 3}
+  _gameManagerGameObject: {fileID: 0}
   _health: 0
   _gameManager: {fileID: 271132822316533965, guid: 29c48c4a8af7eee4891d6a2a04a00f9d, type: 3}
 --- !u!50 &2967772443789969847
