@@ -143,6 +143,15 @@ MonoBehaviour:
   _gameManagerGameObject: {fileID: 0}
   _health: 0
   _gameManager: {fileID: 271132822316533965, guid: 29c48c4a8af7eee4891d6a2a04a00f9d, type: 3}
+  _movePosition:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
 --- !u!50 &2967772443789969847
 Rigidbody2D:
   serializedVersion: 4

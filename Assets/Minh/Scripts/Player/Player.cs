@@ -26,6 +26,7 @@ namespace Minh
         [SerializeField] public GameObject _gameManagerGameObject;
         public int _health;
         public GameManager _gameManager;
+        [SerializeField]private Vector3[] _movePosition;
 
 
         private void Awake()
@@ -38,6 +39,7 @@ namespace Minh
 
         private void Start()
         {
+            CheckingMove();
         }
 
         public void AddToList()
@@ -82,6 +84,24 @@ namespace Minh
         //     _characterState = CharacterState.Idle;
         //     Timing.ResumeCoroutines("playerMove" + _gameObjectID);
         // }
+        private void CheckingMove()
+        {
+            int k = 0;
+            for (int i = -1; i <= 1; i++)
+            {
+                for (int j = -1; j <= 1; j++)
+                {
+                    Vector3Int cellPosition = _playerPlacement.grid.WorldToCell(new Vector2(transform.position.x+i,transform.position.y+j));
+                    Vector3Int playerCellPosition = _playerPlacement.grid.WorldToCell(transform.position);
+                    if (cellPosition != playerCellPosition)
+                    {
+                        _movePosition[k] = cellPosition;
+                        k++;
+                    }
+                    
+                }
+            }
+        }
 
         private IEnumerator<float> CheckHealth()
         {
