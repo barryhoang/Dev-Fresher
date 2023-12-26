@@ -1,18 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyStateMachines : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public Enemy enemy;
+    public TurnState currentState;
+    
+    public enum TurnState
     {
-        
+        IDLE,
+        MOVING,
+        HITTING,
+        DEAD
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        currentState = TurnState.IDLE;
+    }
+
+    private void Update()
+    {
+        Debug.Log("Enemy Current State: "+ currentState);
+        switch (currentState)
+        {
+            case (TurnState.IDLE):
+                currentState = TurnState.MOVING;
+                break;
+            case (TurnState.MOVING):
+                enemy.Move();
+                break;
+            case (TurnState.HITTING):
+                break;
+            case (TurnState.DEAD):
+                break;
+        }
     }
 }

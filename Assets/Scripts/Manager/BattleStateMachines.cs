@@ -14,12 +14,8 @@ public class BattleStateMachines : MonoBehaviour
     }
 
     public PerformAction battleStates;
-    public List<HandleTurn> PerformList = new List<HandleTurn>();
     public List<GameObject> Heroes = new List<GameObject>();
     public List<GameObject> Enemies = new List<GameObject>();
-    
-    /*public ScriptableListHero _scriptableListHero;
-    public ScriptableListEnemy _scriptableListEnemy;*/
 
     private void Start()
     {
@@ -40,10 +36,5 @@ public class BattleStateMachines : MonoBehaviour
             case (PerformAction.PERFORMACTION):
                 break;
         }
-    }
-
-    public void CollectAction(HandleTurn input)
-    {
-        PerformList.Add(input);
     }
 }
