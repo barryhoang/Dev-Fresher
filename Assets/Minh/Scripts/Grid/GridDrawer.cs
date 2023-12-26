@@ -40,7 +40,7 @@ namespace Minh
             GameObject gridLine = Instantiate(gridLinePrefab, Vector3.zero, Quaternion.identity);
             LineRenderer lineRenderer = gridLine.GetComponent<LineRenderer>();
             gridLine.transform.SetParent(gameObject.transform);
-
+            
             if (lineRenderer != null)
             {
                 lineRenderer.positionCount = 2;

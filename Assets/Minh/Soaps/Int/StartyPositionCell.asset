@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StartyPositionCell
   m_EditorClassIdentifier: 
   _guid: 3c1dd30b569080642b7367746ae15320
-  _value: -5
+  _value: 0
   _debugLogEnabled: 0
   _saved: 0
   _defaultValue: 0

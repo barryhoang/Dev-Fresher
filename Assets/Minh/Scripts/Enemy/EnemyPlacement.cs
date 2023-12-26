@@ -6,7 +6,7 @@ namespace Minh
 {
     public class EnemyPlacement : MonoBehaviour
     {
-        [SerializeField] private Grid _grid;
+        [SerializeField] private UnityEngine.Grid _grid;
         [SerializeField] private Collider2D _enemyCollider;
 
         public void Init()

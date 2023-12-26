@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StartxPositionCell
   m_EditorClassIdentifier: 
   _guid: b08359d1f2cacf84c87906d5f23c36ef
-  _value: -9
+  _value: 0
   _debugLogEnabled: 0
   _saved: 0
   _defaultValue: 0

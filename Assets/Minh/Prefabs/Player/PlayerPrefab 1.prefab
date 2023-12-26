@@ -152,6 +152,7 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
+  _grid: {fileID: 2950313496757005590, guid: 2dba85504093bcb43b6d6c755458b92a, type: 3}
 --- !u!50 &2967772443789969847
 Rigidbody2D:
   serializedVersion: 4

@@ -1,5 +1,6 @@
 ﻿using System;
 using Obvious.Soap;
+using UnityEditor.Tilemaps;
 using UnityEngine;
 
 
@@ -20,7 +21,7 @@ namespace Minh
         private Vector3 _offset;
         public Vector3 _prevTransform;
         public Vector3 cellCenterBefore;
-        public Grid grid;
+        public UnityEngine.Grid grid;
 
         private void Awake()
         {
@@ -30,7 +31,7 @@ namespace Minh
 
         private void Start()
         {
-            
+           
             SnapToGrid();
             _prevTransform = transform.position;
         }
@@ -61,8 +62,7 @@ namespace Minh
                 {
                     Checking();
                 }
-               
-
+                
                 // Check Mouse Button Up
                 if (Input.GetMouseButtonUp(0))
                 {
@@ -76,7 +76,7 @@ namespace Minh
 
         public void Init(Vector3 offset)
         {
-            transform.position = new Vector3(-7+offset.x, 3+offset.y, 0);
+            transform.position = new Vector3(0+offset.x, 0+offset.y, 0);
         }
         void OnMouseDown()
         {
