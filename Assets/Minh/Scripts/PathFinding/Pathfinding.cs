@@ -44,7 +44,30 @@ namespace Minh
                     OpenList.Remove(CurrentNode);
                     ClosedList.Add(CurrentNode);
                 }
+
+                if (CurrentNode == TargetNode)
+                {
+                    GetFinalPath(StartNode, TargetNode);
+                }
+
+                foreach (Node NeighboreNode in _grid.GetNeighboringNodes(CurrentNode))
+                {
+                    
+                }
             }
         }
+        private void GetFinalPath(Node a_StartingNode, Node a_EndNode)
+        {
+            List<Node> FinalPath=new List<Node>();
+            Node CurrentNode = a_EndNode;
+            while (CurrentNode != a_StartingNode)
+            {
+                FinalPath.Add(CurrentNode);
+                CurrentNode = CurrentNode.Parent;
+            }
+            FinalPath.Reverse();
+            _grid.FinalPath = FinalPath;
+        }
     }
+   
 }

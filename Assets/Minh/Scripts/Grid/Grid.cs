@@ -61,6 +61,52 @@ namespace Minh
 
             return grid[x, y];
         }
+
+        public List<Node> GetNeighboringNodes(Node a_Node)
+        {
+            List<Node> NeighboringNodes=new List<Node>();
+            int xCheck;
+            int yCheck;
+            xCheck = a_Node.gridX + 1;
+            yCheck = a_Node.gridY;
+            if (xCheck >= 0 && xCheck < _gridSizeX)
+            {
+                if (yCheck >= 0 && yCheck < _gridSizeX)
+                {
+                    NeighboringNodes.Add(grid[xCheck,yCheck]);
+                }
+                
+            }
+            xCheck = a_Node.gridX - 1;
+            yCheck = a_Node.gridY;
+            if (xCheck >= 0 && xCheck < _gridSizeX)
+            {
+                if (yCheck >= 0 && yCheck < _gridSizeX)
+                {
+                    NeighboringNodes.Add(grid[xCheck,yCheck]);
+                }
+            }
+            xCheck = a_Node.gridX ;
+            yCheck = a_Node.gridY+1;
+            if (xCheck >= 0 && xCheck < _gridSizeX)
+            {
+                if (yCheck >= 0 && yCheck < _gridSizeX)
+                {
+                    NeighboringNodes.Add(grid[xCheck,yCheck]);
+                }
+            }
+            xCheck = a_Node.gridX - 1;
+            yCheck = a_Node.gridY;
+            if (xCheck >= 0 && xCheck < _gridSizeX)
+            {
+                if (yCheck >= 0 && yCheck < _gridSizeX)
+                {
+                    NeighboringNodes.Add(grid[xCheck,yCheck]);
+                }
+            }
+
+            return NeighboringNodes;
+        }
         private void OnDrawGizmos()
         {
             Gizmos.DrawWireCube(transform.position,new Vector3(gridWorldSize.x,1,gridWorldSize.y));

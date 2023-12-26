@@ -4,8 +4,8 @@ namespace Minh
 {
     public class GridDrawer : UnityEngine.MonoBehaviour
     {
-        [SerializeField] private IntVariable _startxPosition;
-        [SerializeField] private IntVariable _startyPosition;
+        [SerializeField] private FloatVariable _startxPosition;
+        [SerializeField] private FloatVariable _startyPosition;
         [SerializeField] private IntVariable _gridSizeX;
         [SerializeField] private IntVariable _gridSizeY;
        
@@ -19,8 +19,8 @@ namespace Minh
 
         public void DrawGrid()
         {
-            int startX = _startxPosition;
-            int startY = _startyPosition;
+            float startX = _startxPosition;
+            float startY = _startyPosition;
 
             for (int x = 0; x <= _gridSizeX; x++)
             {

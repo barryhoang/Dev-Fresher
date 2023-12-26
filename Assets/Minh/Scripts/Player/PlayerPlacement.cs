@@ -9,14 +9,14 @@ namespace Minh
     public class PlayerPlacement : MonoBehaviour
     {
         [SerializeField] private Collider2D _characterCollider;
-        [SerializeField] private IntVariable _startxPosition;
-        [SerializeField] private IntVariable _startyPosition;
+        [SerializeField] private FloatVariable _startxPosition;
+        [SerializeField] private FloatVariable _startyPosition;
         [SerializeField] private IntVariable _gridSizex;
         [SerializeField] private IntVariable _gridSizey;
         [SerializeField] private Vector3Reference _Position;
 
-        private int _endxPosition;
-        private int _endyPosition;
+        private float _endxPosition;
+        private float _endyPosition;
         private bool _isDragging = false;
         private Vector3 _offset;
         public Vector3 _prevTransform;
@@ -25,8 +25,8 @@ namespace Minh
 
         private void Awake()
         {
-            _endxPosition = _startxPosition + _gridSizex - 1;
-            _endyPosition = _startyPosition + _gridSizey - 1;
+            _endxPosition = _startxPosition + (float)(_gridSizex - 1);
+            _endyPosition = _startyPosition + (float)(_gridSizey - 1);
         }
 
         private void Start()

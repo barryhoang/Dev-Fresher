@@ -50,8 +50,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _characterCollider: {fileID: 7564636379822865080}
-  _startxPosition: {fileID: 11400000, guid: b08359d1f2cacf84c87906d5f23c36ef, type: 2}
-  _startyPosition: {fileID: 11400000, guid: 3c1dd30b569080642b7367746ae15320, type: 2}
+  _startxPosition: {fileID: 11400000, guid: 369d59539df527945a331e519e8e68b6, type: 2}
+  _startyPosition: {fileID: 11400000, guid: 7b795a39545880b4ab62402c831c12fb, type: 2}
   _gridSizex: {fileID: 11400000, guid: 023b4886ac02e224c938303e08646cf7, type: 2}
   _gridSizey: {fileID: 11400000, guid: 785e541221905ab4d9ebbf0932c2972d, type: 2}
   _Position:
@@ -142,7 +142,7 @@ MonoBehaviour:
   _playerPlacement: {fileID: 8878303018202227690}
   _gameManagerGameObject: {fileID: 0}
   _health: 0
-  _gameManager: {fileID: 271132822316533965, guid: 29c48c4a8af7eee4891d6a2a04a00f9d, type: 3}
+  _gameManager: {fileID: 0}
   _movePosition:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
