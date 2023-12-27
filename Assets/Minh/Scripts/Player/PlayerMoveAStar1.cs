@@ -7,7 +7,7 @@ using MEC;
 
 namespace Minh
 {
-    public class PlayerMoveAStar : MonoBehaviour
+    public class PlayerMoveAStar1 : MonoBehaviour
     {
         [SerializeField] private Tilemap _targetTilemap;
         [SerializeField] private GridManager _gridManager;
@@ -35,7 +35,7 @@ namespace Minh
         {
             while (true)
             {
-                if (Input.GetMouseButtonDown(0))
+                if (Input.GetMouseButtonDown(1))
                 {
                     _targetTilemap.ClearAllTiles();
                     Vector3 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -58,8 +58,8 @@ namespace Minh
                         }
 
                         prevPosition = transform.position;
-                         _gridManager.Set((int)prevPosition.x,(int)prevPosition.y,0);
-                          _gridManager.Set((int)transform.position.x,(int)transform.position.y,2);
+                        // _gridManager.Set((int)prevPosition.x,(int)prevPosition.y,0);
+                        //  _gridManager.Set((int)transform.position.x,(int)transform.position.y,2);
                         _currentX = _targetPosX;
                         _currentY = _targetPosY;
                     }
