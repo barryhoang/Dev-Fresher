@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Obvious.Soap
 {
-    [CreateAssetMenu(fileName = "scriptable_list_Enemy.asset", menuName = "Soap/ScriptableLists/Enemy")]
+    [CreateAssetMenu(fileName = "scriptable_list_Enemy.asset", menuName = "Soap/Lists/Enemy")]
     public class ScriptableListEnemy : ScriptableList<Enemy>
     {
         public Enemy GetClosest(Vector3 position)

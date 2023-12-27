@@ -42,3 +42,6 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: HighLight
+    uniqueID: 4118990315
+    locked: 0

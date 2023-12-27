@@ -1,9 +1,11 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyStateMachines : MonoBehaviour
 {
     public Enemy enemy;
     public TurnState currentState;
+    public Button StartButton;
     
     public enum TurnState
     {
@@ -16,6 +18,8 @@ public class EnemyStateMachines : MonoBehaviour
     private void Start()
     {
         currentState = TurnState.IDLE;
+        Button button = StartButton.GetComponent<Button>();
+        button.onClick.AddListener(StartOnClick);
     }
 
     private void Update()
@@ -24,15 +28,18 @@ public class EnemyStateMachines : MonoBehaviour
         switch (currentState)
         {
             case (TurnState.IDLE):
-                currentState = TurnState.MOVING;
                 break;
             case (TurnState.MOVING):
-                enemy.Move();
+                Destroy(StartButton);
                 break;
             case (TurnState.HITTING):
                 break;
             case (TurnState.DEAD):
                 break;
         }
+    }
+    private void StartOnClick()
+    {
+        currentState = TurnState.MOVING;
     }
 }

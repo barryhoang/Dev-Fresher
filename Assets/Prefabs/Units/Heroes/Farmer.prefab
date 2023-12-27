@@ -5144,8 +5144,8 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
+  m_Interpolate: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!61 &495054345682021866
@@ -5244,6 +5244,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hero: {fileID: 1893417773393270969}
   currentState: 0
+  StartButton: {fileID: 1511408815650534045, guid: 29465b7656aa29a49885d8a333decef7, type: 3}
 --- !u!114 &1893417773393270969
 MonoBehaviour:
   m_ObjectHideFlags: 0

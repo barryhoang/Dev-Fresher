@@ -1,9 +1,11 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HeroStateMachines : MonoBehaviour
 {
     public Hero hero;
     public TurnState currentState;
+    public Button StartButton;
     
     public enum TurnState
     {
@@ -16,6 +18,8 @@ public class HeroStateMachines : MonoBehaviour
     private void Start()
     {
         currentState = TurnState.IDLE;
+        Button button = StartButton.GetComponent<Button>();
+        button.onClick.AddListener(StartOnClick);
     }
 
     private void Update()
@@ -24,7 +28,6 @@ public class HeroStateMachines : MonoBehaviour
         switch (currentState)
         {
             case (TurnState.IDLE):
-                currentState = TurnState.MOVING;
                 break;
             case (TurnState.MOVING):
                 hero.Move();
@@ -34,5 +37,9 @@ public class HeroStateMachines : MonoBehaviour
             case (TurnState.DEAD):
                 break;
         }
+    }
+    private void StartOnClick()
+    {
+        currentState = TurnState.MOVING;
     }
 }

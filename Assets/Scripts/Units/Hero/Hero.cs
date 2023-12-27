@@ -3,6 +3,7 @@ using MEC;
 using Obvious.Soap;
 using UnityEngine;
 using PrimeTween;
+using Random = System.Random;
 
 public class Hero : MonoBehaviour
 {
@@ -20,6 +21,11 @@ public class Hero : MonoBehaviour
     [SerializeField] private ScriptableEventNoParam _onHeroSpawn;
 
     [SerializeField] private Animator Animator;
+
+    [SerializeField] private Rigidbody2D selectedObject;
+    [SerializeField] private Vector3 offset;
+    [SerializeField] private Vector3 mousePos;
+    
     
     
     private void Awake()
@@ -34,6 +40,27 @@ public class Hero : MonoBehaviour
         if (_heroHealth <= 0)
         {
             Die();
+        }
+        mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        if (Input.GetMouseButtonDown(0))
+        {
+            Collider2D targetObject = Physics2D.OverlapPoint(mousePos);
+            if (targetObject)
+            {
+                selectedObject = targetObject.transform.gameObject.GetComponent<Rigidbody2D>();
+                offset = selectedObject.transform.position - mousePos;
+            }
+        }
+        if (Input.GetMouseButtonUp(0) && selectedObject)
+        {
+            selectedObject = null;
+        }
+    }
+    void FixedUpdate()
+    {
+        if (selectedObject)
+        {
+            selectedObject.MovePosition(mousePos + offset);
         }
     }
     private void OnTriggerStay2D(Collider2D other)
@@ -77,16 +104,17 @@ public class Hero : MonoBehaviour
                 if (distance <= 1f)
                 {
                     Animator.SetBool("isMoving",false);
-                    Timing.RunCoroutine(_TweenAttack().CancelWith(closest.gameObject));
+                    //Timing.RunCoroutine(_TweenAttack().CancelWith(closest.gameObject));
                 }
             }
         }
     }
+    
     private IEnumerator<float> _TweenAttack()
     {
         while (true)
         {
-            Tween.PositionX(transform, 2, 1, Ease.Default, 2, CycleMode.Yoyo);
+            Tween.PositionX(transform, 1, 1, Ease.Default, 2, CycleMode.Yoyo);
             //Tween.PositionX(transform, -3f, 1, Ease.Default, 2, CycleMode.Yoyo);
             yield return Timing.WaitForOneFrame;
         }
