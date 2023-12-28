@@ -17,11 +17,21 @@ public class PlayerHealth : MonoBehaviour
     {
         _currentHealth.Value = _maxHealth;
         _currentHealth.OnValueChanged += OnHealthChanged;
+        _currentHealth.MinMax = new Vector2(0, _maxHealth);
+        _maxHealth.OnValueChanged += OnMaxHealthChanged;
+    }
+
+    private void OnMaxHealthChanged(float newValue)
+    {
+        _currentHealth.MinMax = new Vector2(0, newValue);
+        var diff = newValue - _maxHealth.PreviousValue;
+        _currentHealth.Add(diff);
     }
 
     void OnDestroy()
     {
         _currentHealth.OnValueChanged -= OnHealthChanged;
+        _maxHealth.OnValueChanged -= OnMaxHealthChanged;
     }
     
 

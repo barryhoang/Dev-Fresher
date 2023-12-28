@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: float_playerHealth
   m_EditorClassIdentifier: 
   _guid: 0f555f8490107e24988c4df8d0900fcc
-  _value: 90
+  _value: 100
   _debugLogEnabled: 0
   _saved: 0
   _defaultValue: 0
   _resetOn: 0
   _isClamped: 1
-  _minMax: {x: 0, y: 3.4028235e+38}
+  _minMax: {x: 0, y: 100}

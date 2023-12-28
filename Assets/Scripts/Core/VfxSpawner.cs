@@ -9,6 +9,7 @@ public class VfxSpawner : MonoBehaviour
     [SerializeField] private ScriptableListEnemy _scriptableListEnemy;
     [SerializeField] private GameObject _spawnVfxPrefab;
     [SerializeField] private GameObject _destroyVfxPrefab;
+    [SerializeField] private GameObject _expVfxPrefab;
 
     private void Awake()
     {
@@ -30,5 +31,6 @@ public class VfxSpawner : MonoBehaviour
     private void OnEnemyDied(Enemy obj)
     {
         Instantiate(_destroyVfxPrefab, obj.transform.position, Quaternion.identity);
+        Instantiate(_expVfxPrefab, obj.transform.position, Quaternion.identity);
     }
 }
