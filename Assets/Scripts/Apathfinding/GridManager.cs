@@ -46,8 +46,6 @@ namespace Apathfinding
                     }
                 }
             }
-
-            PhysicCheck();
             _pathfinding.Init();
         }
 

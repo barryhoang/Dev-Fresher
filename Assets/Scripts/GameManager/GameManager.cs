@@ -30,8 +30,6 @@ namespace GameManager
             _buttonNextLevel.onClick.AddListener(OnClickButtonNextLevel);
             _combat.OnRaised += OnCombat;
             _nextLevel.OnRaised += OnClickButtonNextLevel;
-            
-           
         }
         
 

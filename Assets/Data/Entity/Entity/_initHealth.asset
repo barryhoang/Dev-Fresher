@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: _initHealth
   m_EditorClassIdentifier: 
   _guid: 77910779efe3299419f08bde68cfa287
-  _value: 10
+  _value: 100
   _debugLogEnabled: 0
   _saved: 0
   _defaultValue: 0

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Apathfinding;
 using Entity;
+using MEC;
 using UnityEngine;
 
 namespace StateManager
@@ -21,31 +22,18 @@ namespace StateManager
             {
                 var position = entity.transform.position;
                 var closest = enemy.GetClosest(position);
-                if (closest == null) return;
-                int currentX = (int) position.x;
-                int currentY = (int) position.y;
-                int targetX = 0;
-                int targetY = 0;
-                int index = 0;
-                if (!entity.isMove)
-                {
-                    for (int i = 0; i < closest.isFull.Count; i++)
+                if(!entity.isMoving)
+                    foreach (var pos in closest.posAttacks)
                     {
-                        if (!closest.isFull[i])
-                        { 
-                            targetX = (int) closest.posAttack[i].transform.position.x;
-                            targetY = (int) closest.posAttack[i].transform.position.y;
-                            index = i;
+                        if (!pos.isFull)
+                        {
+                            pos.isFull = true;
+                            entity.isMove = true;
+                            entity.isMoving = true;
+                            Timing.RunCoroutine(entity.Move(closest, pos.posAttack.position).CancelWith(entity.gameObject));
                             break;
                         }
                     }
-                }
-                List<PathNode> pathNodes = GridManager.instance._pathfinding.FindPath(currentX, currentY, targetX,   targetY, position);
-                if (pathNodes.Count > 0)
-                {
-                    entity.Move(closest,pathNodes[0],index);
-                }
-               
             }
             // foreach (var entity in enemy)
             // {
