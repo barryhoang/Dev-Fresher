@@ -5,20 +5,13 @@ public class HeroStateMachines : MonoBehaviour
 {
     public Hero hero;
     public TurnState currentState;
-    public Button StartButton;
+    [SerializeField] private Button startButton;
     
-    public enum TurnState
-    {
-        IDLE,
-        MOVING,
-        HITTING,
-        DEAD
-    }
 
     private void Start()
     {
         currentState = TurnState.IDLE;
-        Button button = StartButton.GetComponent<Button>();
+        Button button = startButton.GetComponent<Button>();
         button.onClick.AddListener(StartOnClick);
     }
 
@@ -29,17 +22,25 @@ public class HeroStateMachines : MonoBehaviour
         {
             case (TurnState.IDLE):
                 break;
-            case (TurnState.MOVING):
+            case (TurnState.PLAYING):
                 hero.Move();
-                break;
-            case (TurnState.HITTING):
+                Destroy(startButton);
                 break;
             case (TurnState.DEAD):
                 break;
         }
     }
+    
+    
     private void StartOnClick()
     {
-        currentState = TurnState.MOVING;
+        currentState = TurnState.PLAYING;
+    }
+    
+    public enum TurnState
+    {
+        IDLE,
+        PLAYING,
+        DEAD
     }
 }

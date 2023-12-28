@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4107327392536009216}
   - component: {fileID: 3259020848995181767}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: HPUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58,7 +58,7 @@ GameObject:
   - component: {fileID: 5781853292030836278}
   - component: {fileID: 4302361256287545028}
   - component: {fileID: 3660319400813462395}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -165,7 +165,7 @@ GameObject:
   - component: {fileID: 736991398632023413}
   - component: {fileID: 2913119054340110734}
   - component: {fileID: 4396510079784516975}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -293,7 +293,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1708764832585269826}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -362,7 +362,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemy: {fileID: 2913119054340110734}
   currentState: 0
-  StartButton: {fileID: 1511408815650534045, guid: 29465b7656aa29a49885d8a333decef7, type: 3}
+  startButton: {fileID: 0}
 --- !u!114 &2913119054340110734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -375,16 +375,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e027bd9b9d9ad6c42ba64cff7d475588, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _curTime: 0
-  _receivedDmgDelay: 1
-  _enemyHealth: {fileID: 11400000, guid: e99994883d26c124ea6a1be0c0032291, type: 2}
-  _enemyMaxHealth: {fileID: 11400000, guid: 2b1aefb2c36656f40ad770950d6f571f, type: 2}
-  _enemySpeed: {fileID: 11400000, guid: 05c40932b7090fe48af13e6dab0c01bf, type: 2}
-  _scriptableListEnemy: {fileID: 11400000, guid: e7b54fe464ebae34883282879631ce06, type: 2}
-  _scriptableListHero: {fileID: 11400000, guid: af4ed7abec162544db132a1b76e9cfca, type: 2}
-  _onEnemyDamaged: {fileID: 11400000, guid: 7642c45f9a36b904ab993a621a250d20, type: 2}
-  _onEnemySpawn: {fileID: 11400000, guid: 15ecbcf3653c7d44ea56946546b09720, type: 2}
-  Animator: {fileID: 2908774642349630332}
+  curTime: 0
+  receivedDmgDelay: 1
+  enemyHealth: {fileID: 11400000, guid: e99994883d26c124ea6a1be0c0032291, type: 2}
+  enemyMaxHealth: {fileID: 11400000, guid: 2b1aefb2c36656f40ad770950d6f571f, type: 2}
+  enemySpeed: {fileID: 11400000, guid: 05c40932b7090fe48af13e6dab0c01bf, type: 2}
+  scriptableListEnemy: {fileID: 11400000, guid: e7b54fe464ebae34883282879631ce06, type: 2}
+  scriptableListHero: {fileID: 11400000, guid: af4ed7abec162544db132a1b76e9cfca, type: 2}
+  onEnemyDamaged: {fileID: 11400000, guid: 7642c45f9a36b904ab993a621a250d20, type: 2}
+  onEnemySpawn: {fileID: 11400000, guid: 15ecbcf3653c7d44ea56946546b09720, type: 2}
+  ESM: {fileID: 736991398632023413}
+  animator: {fileID: 2908774642349630332}
 --- !u!114 &4396510079784516975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -427,7 +428,7 @@ GameObject:
   - component: {fileID: 661919909541477603}
   - component: {fileID: 3716051866644627364}
   - component: {fileID: 250169021379624590}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -503,7 +504,7 @@ GameObject:
   - component: {fileID: 6284197928909360934}
   - component: {fileID: 595277279820162873}
   - component: {fileID: 5648082813862341105}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -662,7 +663,7 @@ GameObject:
   - component: {fileID: 2117245102318233648}
   - component: {fileID: 7898790524139666145}
   - component: {fileID: 4673144248896170860}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Image (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -754,7 +755,7 @@ GameObject:
   - component: {fileID: 6167499668888041575}
   - component: {fileID: 5465080086918483709}
   - component: {fileID: 3336120546987079768}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: HPBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}

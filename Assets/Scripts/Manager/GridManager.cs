@@ -1,48 +1,65 @@
-/*using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using Obvious.Soap;
-using Random = UnityEngine.Random;
+using UnityEngine.Tilemaps;
 
+[RequireComponent(typeof(Tilemap))]
+[RequireComponent(typeof(Grid))]
 public class GridManager : MonoBehaviour
 {
-    [SerializeField] private Tile tilePrefab;
-    [SerializeField] private Transform cam;
+    Tilemap tilemap;
+    GridMap grid;
+
+    [SerializeField] private TileSet tileSet;
     
-    [SerializeField] private IntVariable _width;
-    [SerializeField] private IntVariable _height;
+    [SerializeField] private Transform Cam;
+    
 
-    private static Dictionary<Vector2, Tile> _tiles;
-    [SerializeField] private GameObject Grid;
-    public static GridManager Instance;
-
-    void Awake() => Instance = this;
-
-    public void _GenerateGrid()
+    void Start()
     {
-        _tiles = new Dictionary<Vector2, Tile>();
-               for (var x = 0; x < _width; x++)
-               {
-                   for (var y = 0; y < _height; y++)
-                   {
-                       var spawnedTile = Instantiate(tilePrefab, new Vector3(x, y), Quaternion.identity);
-                       spawnedTile.name = $"Tile {x} {y}";
-                       _tiles[new Vector2(x, y)] = spawnedTile;
-                   }
-               }
-       
-               cam.transform.position = new Vector3((float)_width / 2 - 0.5f, (float)_height / 2 - 0.5f, -10);
-               GameManager.Instance.ChangeState(GameState.SpawnHeroes);
-           }
-       
-           public Tile HeroSpawnTile()
-           {
-               return _tiles.Where(t => t.Key.x < _width / 2 ).OrderBy(t => Random.value).First().Value;
-           }
-           public Tile EnemySpawnTile()
-           {
-               return _tiles.Where(t => t.Key.x > _width / 2 ).OrderBy(t => Random.value).First().Value;
-           }
-}*/
+        tilemap = GetComponent<Tilemap>();
+        grid = GetComponent<GridMap>();
+        grid.Init(20, 10);
+        Set(1,1,1);
+        Set(2,2,2);
+        Set(4,3,3);
+        Set(10,3,3);
+        Set(11,4,4);
+        Set(12,3,4);
+        Set(7,6,4);
+        Set(15,5,5);
+        Set(13,10,5);
+        Set(2,1,2);
+        UpdateTileMap();
+    }
+
+    void UpdateTileMap()
+    {
+        for (int x = 0; x < grid.length; x++)
+        {
+            for (int y = 0; y < grid.height; y++)
+            {
+                UpdateTile(x, y);
+            }
+        }
+    }
+
+    private void UpdateTile(int x, int y)
+    {
+        int tileId = grid.Get(x, y);
+        if (tileId == -1)
+        {
+            return;
+        }
+        
+        tilemap.SetTile(new Vector3Int(x,y,0),tileSet.tiles[tileId] );
+        
+        Cam.transform.position = new Vector3((float)grid.length/2 - 0.5f, (float)grid.height/2 - 0.5f,-10);
+    }
+
+    public void Set(int x, int y, int to)
+    {
+        grid.Set(x,y,to);
+        UpdateTile(x,y);
+    }
+}

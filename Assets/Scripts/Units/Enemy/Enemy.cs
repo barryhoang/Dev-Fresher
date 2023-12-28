@@ -4,87 +4,94 @@ using PrimeTween;
 
 public class Enemy : MonoBehaviour
 {
+    [SerializeField] private float curTime = 0;
+    [SerializeField] private float receivedDmgDelay = 1;
     
-    [SerializeField] private float _curTime = 0;
-    [SerializeField] private float _receivedDmgDelay = 1;
+    [SerializeField] private FloatVariable enemyHealth;
+    [SerializeField] private FloatVariable enemyMaxHealth;
+    [SerializeField] private FloatVariable enemySpeed;
+    [SerializeField] private ScriptableListEnemy scriptableListEnemy;
+    [SerializeField] private ScriptableListHero scriptableListHero;
+    [SerializeField] private ScriptableEventInt onEnemyDamaged;
+    [SerializeField] private ScriptableEventNoParam onEnemySpawn;
     
-    [SerializeField] private FloatVariable _enemyHealth;
-    [SerializeField] private FloatVariable _enemyMaxHealth;
-    [SerializeField] private FloatVariable _enemySpeed;
+    [SerializeField] private EnemyStateMachines ESM;
+    [SerializeField] private Animator animator;
     
-    [SerializeField] private ScriptableListEnemy _scriptableListEnemy;
-    [SerializeField] private ScriptableListHero _scriptableListHero;
-
-    [SerializeField] private ScriptableEventInt _onEnemyDamaged;
-    [SerializeField] private ScriptableEventNoParam _onEnemySpawn;
+    private int Hp = Animator.StringToHash("HP");
+    private int IsMoving = Animator.StringToHash("isMoving");
     
-    [SerializeField] private Animator Animator;
-
-
+    
     private void Awake()
     {
-        _onEnemySpawn.Raise();
-        _scriptableListEnemy.Add(this);
-        _enemyHealth.Value = _enemyMaxHealth;
+        onEnemySpawn.Raise();
+        scriptableListEnemy.Add(this);
+        enemyHealth.Value = enemyMaxHealth;
+        animator.SetFloat(Hp,Mathf.Abs(enemyHealth.Value));
     }
+    
     private void Update()
     {
-        Animator.SetFloat("HP",Mathf.Abs(_enemyHealth.Value));
-        if (_enemyHealth <= 0)
+        if (enemyHealth <= 0)
         {
+            animator.SetFloat(Hp, 0);
             Die();
         }
     }
+    
     private void OnTriggerStay2D(Collider2D other)
     {
-        if (_curTime <= 0 && other.CompareTag("Player"))
+        if (curTime <= 0 && other.CompareTag("Player"))
         {
-            _onEnemyDamaged.Raise(0);
-            _curTime = _receivedDmgDelay;
+            onEnemyDamaged.Raise(0);
+            curTime = receivedDmgDelay;
+            TweenAttack();
         }
         else 
         {
-            _curTime -= Time.deltaTime;
+            curTime -= Time.deltaTime;
         }
     }
     
+
     public void TakeDamamge(int damage)
     {
-        _enemyHealth.Add(-damage);
+        enemyHealth.Add(-damage);
     }
+    
     public void Die()
     {
-        Destroy(gameObject);
-        _scriptableListEnemy.Remove(this);
+        Destroy(gameObject.GetComponent<BoxCollider2D>());
+        scriptableListEnemy.Remove(this);
+        ESM.currentState = EnemyStateMachines.TurnState.DEAD;
     }
+    
     public void Move()
     {
         if(gameObject != null)
         {
-            var closest = _scriptableListHero.GetClosest(transform.position);
+            var closest = scriptableListHero.GetClosest(transform.position);
             if (closest != null)
             {
                 var distance = (transform.position - closest.transform.position).sqrMagnitude;
                 if (distance > 1f)
                 {
-                    Animator.SetBool("isMoving",true);
+                    animator.SetBool(IsMoving,true);
                     var newPos = transform.position;
                     newPos =  closest.transform.position - transform.position;
-                    transform.position += newPos.normalized *_enemySpeed * Time.deltaTime;
+                    transform.position += newPos.normalized *enemySpeed * Time.deltaTime;
                 }
 
                 if (distance <= 1f)
                 {
-                    Animator.SetBool("isMoving",false);
-                    //TweenAttack();
+                    animator.SetBool(IsMoving,false);
                 }
             }
         }
     }
 
-    private void TweenAttack()
+    public void TweenAttack()
     {
-        Vector3 _initialPos = transform.position;
-        Tween.PositionX(transform, (_initialPos.x), 1, Ease.Default, 2, CycleMode.Yoyo);
+        Tween.PositionX(transform, transform.position.x-0.3f, 0.5f, Ease.Default, 2, CycleMode.Yoyo);
     }
  }

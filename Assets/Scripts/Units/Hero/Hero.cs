@@ -1,46 +1,75 @@
-using System.Collections.Generic;
-using MEC;
 using Obvious.Soap;
 using UnityEngine;
 using PrimeTween;
-using Random = System.Random;
 
 public class Hero : MonoBehaviour
 {
-    [SerializeField] private float _curTime = 0;
-    [SerializeField] private float _receivedDmgDelay = 2;
+    [SerializeField] private float curTime = 0;
+    [SerializeField] private float receivedDmgDelay = 1;
     
-    [SerializeField] private FloatVariable _heroHealth;
-    [SerializeField] private FloatVariable _heroMaxHealth;
-    [SerializeField] private FloatVariable _heroSpeed;
-    
-    [SerializeField] private ScriptableListHero _scriptableListHero;
-    [SerializeField] private ScriptableListEnemy _scriptableListEnemy;
-    
-    [SerializeField] private ScriptableEventInt _onHeroDamaged;
-    [SerializeField] private ScriptableEventNoParam _onHeroSpawn;
+    [SerializeField] private FloatVariable heroHealth;
+    [SerializeField] private FloatVariable heroMaxHealth;
+    [SerializeField] private FloatVariable heroSpeed;
+    [SerializeField] private ScriptableListHero scriptableListHero;
+    [SerializeField] private ScriptableListEnemy scriptableListEnemy;
+    [SerializeField] private ScriptableEventInt onHeroDamaged;
+    [SerializeField] private ScriptableEventNoParam onHeroSpawn;
 
-    [SerializeField] private Animator Animator;
+    [SerializeField] private HeroStateMachines HSM;
+    [SerializeField] private Animator animator;
+    
+    private static readonly int Hp = Animator.StringToHash("HP");
+    private static readonly int IsMoving = Animator.StringToHash("isMoving");
+    private Rigidbody2D selectedObject;
+    private Vector3 mousePos;
+    private Vector3 offset;
 
-    [SerializeField] private Rigidbody2D selectedObject;
-    [SerializeField] private Vector3 offset;
-    [SerializeField] private Vector3 mousePos;
-    
-    
-    
+
+
     private void Awake()
     {
-        _onHeroSpawn.Raise();
-        _scriptableListHero.Add(this);
-        _heroHealth.Value = _heroMaxHealth;
+        onHeroSpawn.Raise();
+        scriptableListHero.Add(this);
+        heroHealth.Value = heroMaxHealth;
+        animator.SetFloat(Hp, Mathf.Abs(heroHealth.Value));
     }
+    
     private void Update()
     {
-        Animator.SetFloat("HP", Mathf.Abs(_heroHealth.Value));
-        if (_heroHealth <= 0)
+        if (heroHealth <= 0)
         {
+            animator.SetFloat(Hp, 0);
             Die();
         }
+        
+        SetHero();
+    }
+
+    private void FixedUpdate()
+    {
+        if (selectedObject)
+        {
+            selectedObject.MovePosition(mousePos + offset);
+        }
+    }
+    
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (curTime <= 0 && other.CompareTag("Enemy"))
+        {
+            onHeroDamaged.Raise(0);
+            curTime = receivedDmgDelay;
+            TweenAttack();
+        }
+        else 
+        {
+            curTime -= Time.deltaTime;
+        }
+    }
+    
+
+    private void SetHero()
+    {
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         if (Input.GetMouseButtonDown(0))
         {
@@ -51,73 +80,52 @@ public class Hero : MonoBehaviour
                 offset = selectedObject.transform.position - mousePos;
             }
         }
+
         if (Input.GetMouseButtonUp(0) && selectedObject)
         {
             selectedObject = null;
         }
     }
-    void FixedUpdate()
-    {
-        if (selectedObject)
-        {
-            selectedObject.MovePosition(mousePos + offset);
-        }
-    }
-    private void OnTriggerStay2D(Collider2D other)
-    {
-        if (_curTime <= 0 && other.CompareTag("Enemy"))
-        {
-            _onHeroDamaged.Raise(0);
-            _curTime = _receivedDmgDelay;
-        }
-        else 
-        {
-            _curTime -= Time.deltaTime;
-        }
-    }
     
     public void TakeDamage(int damage)
     {
-        _heroHealth.Add(-damage);
+        heroHealth.Add(-damage);
     }
+    
     public void Die()
     {
-        Destroy(gameObject);
-        _scriptableListHero.Remove(this);
+        Destroy(gameObject.GetComponent<BoxCollider2D>());
+        scriptableListHero.Remove(this);
+        HSM.currentState = HeroStateMachines.TurnState.DEAD;
     }
+    
     public void Move()
     {
         if(gameObject != null)
         {
-            var closest = _scriptableListEnemy.GetClosest(transform.position);
+            var closest = scriptableListEnemy.GetClosest(transform.position);
             if (closest != null)
             {
                 var distance = (transform.position - closest.transform.position).sqrMagnitude;
                 if (distance > 1f)
                 {
-                    Animator.SetBool("isMoving",true);
+                    animator.SetBool(IsMoving,true);
                     var newPos = transform.position;
                     newPos =  closest.transform.position - transform.position;
-                    transform.position += newPos.normalized *_heroSpeed * Time.deltaTime;
+                    transform.position += newPos.normalized *heroSpeed * Time.deltaTime;
                 }
 
                 if (distance <= 1f)
                 {
-                    Animator.SetBool("isMoving",false);
-                    //Timing.RunCoroutine(_TweenAttack().CancelWith(closest.gameObject));
+                    animator.SetBool(IsMoving,false);
                 }
             }
         }
     }
-    
-    private IEnumerator<float> _TweenAttack()
+
+    public void TweenAttack()
     {
-        while (true)
-        {
-            Tween.PositionX(transform, 1, 1, Ease.Default, 2, CycleMode.Yoyo);
-            //Tween.PositionX(transform, -3f, 1, Ease.Default, 2, CycleMode.Yoyo);
-            yield return Timing.WaitForOneFrame;
-        }
+        Tween.PositionX(transform, transform.position.x+0.3f, 0.5f, Ease.Default, 2, CycleMode.Yoyo);
     }
 }
 
