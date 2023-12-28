@@ -36,6 +36,7 @@ namespace Animation
                     return;
                 case AnimationName.Attack:
                     _animator.SetBool("Idle", setTrue);
+                    Timing.RunCoroutine(AttackAnimation().CancelWith(gameObject)); 
                     return;
                 case AnimationName.Hit:
                     _animator.SetTrigger("Hit");

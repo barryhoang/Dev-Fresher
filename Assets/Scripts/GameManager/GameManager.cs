@@ -86,6 +86,7 @@ namespace GameManager
         {
             while (isCombat && _timeRound.Value > 0)
             {
+                
                 yield return Timing.WaitForSeconds(1f);
                 _timeRound.Value--;
             }
