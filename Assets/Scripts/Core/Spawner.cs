@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using MEC;
 using Obvious.Soap;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -17,14 +19,29 @@ public class Spawner : MonoBehaviour
     private float _timer;
     private bool _isActive;
 
-    private IEnumerator Start()
+    private void Start()
     {
-        _timer = _spawnInterval;
-        yield return new WaitForSeconds(_initialDelay);
-        _isActive = true;
+        Timing.RunCoroutine(_Start());
     }
 
-    private void Update()
+    private IEnumerator<float> _Start()
+    {
+        _timer = _spawnInterval;
+        yield return Timing.WaitForSeconds(_initialDelay);
+        _isActive = true;
+        
+        while (_isActive)
+        {
+            for (int i = 0; i < _amount; i++)
+            {
+                Spawn();
+            }
+
+            yield return Timing.WaitForSeconds(_spawnInterval);
+        }
+    }
+
+    /*private void Update()
     {
         _timer += Time.deltaTime;
         if (_timer >= _initialDelay)
@@ -36,6 +53,7 @@ public class Spawner : MonoBehaviour
             }
         }
     }
+    */
 
     void Spawn()
     {
@@ -47,5 +65,10 @@ public class Spawner : MonoBehaviour
             Mathf.Sin(angleInRad) * range);
         var spawnPosition = _playerPosition.Value + relativePosition;
         Instantiate(_prefab, spawnPosition, Quaternion.identity, transform);
+    }
+    
+    private void StopSpawning()
+    {
+        _isActive = false;
     }
 }

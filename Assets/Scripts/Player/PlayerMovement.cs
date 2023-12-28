@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using MEC;
 using Obvious.Soap;
 using UnityEngine;
 
@@ -16,8 +17,22 @@ public class PlayerMovement : MonoBehaviour
         _playerTransform.Value = transform;
     }
 
-    void Update()
+    private void Start()
+    {
+        Timing.RunCoroutine(_PlayerMovement());
+    }
+
+    /*void Update()
     {
         transform.position += _input.Value * _speed * Time.deltaTime * _speedMultiplier;
+    }*/
+
+    IEnumerator<float> _PlayerMovement()
+    {
+        while (true)
+        {
+            transform.position += _input.Value * _speed * Time.deltaTime * _speedMultiplier;
+            yield return Timing.WaitForOneFrame;
+        }
     }
 }

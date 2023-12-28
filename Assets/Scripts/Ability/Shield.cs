@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using MEC;
 using Obvious.Soap;
 using UnityEngine;
 
@@ -15,9 +16,24 @@ public class Shield : MonoBehaviour
         enemy.Die();
     }
 
-    private void Update()
+    private void Start()
+    {
+        Timing.RunCoroutine(_RotateAround());
+    }
+
+    /*private void Update()
     {
         transform.RotateAround(transform.parent.transform.position, Vector3.up, 
             _speed.Value * _speedMultiplyer.Value * Time.deltaTime);
-    }
+    }*/
+
+    IEnumerator<float> _RotateAround()
+    {
+        while (true)
+        {
+            transform.RotateAround(transform.parent.transform.position, Vector3.up, 
+                        _speed.Value * _speedMultiplyer.Value * Time.deltaTime);
+            yield return Timing.WaitForOneFrame;
+        }
+    } 
 }

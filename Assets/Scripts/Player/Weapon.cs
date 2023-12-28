@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using MEC;
 using Obvious.Soap;
 using UnityEngine;
 
@@ -18,13 +19,28 @@ public class Weapon : MonoBehaviour
         _ownerTransform = transform.parent == null ? transform : transform.parent;
     }
     
-    private void Update()
+    private void Start()
+    {
+        Timing.RunCoroutine(_ShootCoroutine());
+    }
+    
+    /*private void Update()
     {
         _timer += Time.deltaTime;
         if (_timer >= 1f/ _fireRate)
         {
             ShootAtClosestEnemy();
             _timer = 0f;
+        }
+    }*/
+    
+    private IEnumerator<float> _ShootCoroutine()
+    {
+        while (true)
+        {
+            yield return Timing.WaitForSeconds(1f / _fireRate.Value);
+
+            ShootAtClosestEnemy();
         }
     }
 
