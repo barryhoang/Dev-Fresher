@@ -52,7 +52,7 @@ namespace Minh
                 Player _playerScript;
                 _playerScript = player.GetComponent<Player>();
                 playerPlacement = player.GetComponent<PlayerPlacement>();
-                playerPlacement.Init(new Vector3(0,i+offset,0));
+                playerPlacement.Init(new Vector3(0,i+2,0));
                 offset = offset + 2;
                 _playerScript.AddToList();
 

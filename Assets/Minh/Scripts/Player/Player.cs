@@ -113,9 +113,10 @@ namespace Minh
                 var closet = _soapListEnemy.GetClosest(transform.position);
                 _currentX = (int) transform.position.x;
                 _currentY = (int) transform.position.y;
-                List<PathNode> path2 = _pathfinding.FindPath(_currentX, _currentY, (int) closet.transform.position.x,
-                    (int) closet.transform.position.y);
                 
+                List<PathNode> path2 = _pathfinding.FindPath(_currentX, _currentY, (int) closet.transform.position.x,
+                    (int) closet.transform.position.y,"player");
+               
                 // if (path != null)
                 // {
                 //     for (int i = 0; i < path.Count - 1; i++)
@@ -124,33 +125,26 @@ namespace Minh
                 //transform.position = new Vector3(path[i].xPos, path[i].yPos, 0);
                 // yield return Timing.WaitUntilDone(
                 //     Timing.RunCoroutine(playerMovement(new Vector3(path[i].xPos, path[i].yPos, 0))));
-                
+
                 if (Vector2.Distance(closet.transform.position, transform.position) > 1.45f)
                 {
                     _prevPosition = transform.position;
-                    
-                   
+                   // _gridManager.Set((int) _prevPosition.x, (int) _prevPosition.y, 0);
                     Tween.Position(transform, new Vector3(path2[0].xPos, path2[0].yPos, 0), _tweenSettings);
-                   //_gridManager.Set(path2[0].xPos, path2[0].yPos, 3);
+                    _gridManager.Set(path2[0].xPos, path2[0].yPos, 3);
+                    yield return Timing.WaitForSeconds(_tweenSettings.duration);
                 }
-            
-             //   _gridManager.Set(path2[0].xPos, path2[0].yPos, 3);
-                Debug.Log(Vector2.Distance(closet.transform.position,transform.position));
-                yield return Timing.WaitForSeconds(_tweenSettings.duration);
-              
+
+                
+
+                Debug.Log(Vector2.Distance(closet.transform.position, transform.position));
+
 
                 yield return Timing.WaitForSeconds(0.3f);
+               // _gridManager.Set(path2[0].xPos, path2[0].yPos, 0);
             }
         }
-        // private IEnumerator<float> playerMovement(Vector3 movePosition)
-        // {
-        //     //
-        //     
-        //  //   ;
-        //   // 
-        //     
-        //     
-        // }
+
         // private IEnumerator<float> CheckHealth()
         // {
         //     while (true)

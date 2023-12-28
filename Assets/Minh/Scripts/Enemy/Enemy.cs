@@ -120,8 +120,10 @@ namespace Minh
                 var closet = _soapListPlayer.GetClosest(transform.position);
                 _currentX = (int) this.transform.position.x;
                 _currentY = (int) this.transform.position.y;
+                
                 List<PathNode> path = _pathfinding.FindPath(_currentX, _currentY, (int) closet.transform.position.x,
-                    (int) closet.transform.position.y);
+                    (int) closet.transform.position.y,"enemy");
+                 
                 Debug.Log(transform.position);
                 
                 // if (path != null)
@@ -136,18 +138,21 @@ namespace Minh
                 if (Vector2.Distance(closet.transform.position, transform.position) > 1.45f)
                 {
                     _prevPosition = transform.position;
-                   //_gridManager.Set((int) _prevPosition.x, (int) _prevPosition.y, 3);
-                    
+                   _gridManager.Set((int) _prevPosition.x, (int) _prevPosition.y, 0);
+                   _gridManager.Set(path[0].xPos, path[0].yPos, 2);
                     Tween.Position(transform, new Vector3(path[0].xPos, path[0].yPos, 0), _tweenSettings);
-                   // _gridManager.Set(path[0].xPos, path[0].yPos, 3);
+                  
                 }
                 
                
                 Debug.Log(Vector2.Distance(closet.transform.position,transform.position));
                 yield return Timing.WaitForSeconds(_tweenSettings.duration);
-              
-
+                
+                
+                
+               
                 yield return Timing.WaitForSeconds(0.3f);
+               // _gridManager.Set(path[0].xPos, path[0].yPos, 0);
             }
         }
         // private IEnumerator<float> PlayerMove()

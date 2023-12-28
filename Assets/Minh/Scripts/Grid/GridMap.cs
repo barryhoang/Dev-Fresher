@@ -59,7 +59,18 @@ namespace Minh
 
         internal bool CheckWalkable(int xPos, int yPos)
         {
+         
             return _grid[xPos, yPos] == 0;
+        }
+        internal bool CheckWalkable1(int xPos, int yPos)
+        {
+         
+            return _grid[xPos, yPos] == 2;
+        }
+        internal bool CheckWalkable2(int xPos, int yPos)
+        {
+         
+            return _grid[xPos, yPos] == 3;
         }
     }
 }

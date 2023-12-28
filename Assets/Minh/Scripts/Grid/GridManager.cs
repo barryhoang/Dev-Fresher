@@ -17,7 +17,10 @@ namespace Minh
             _tilemap = GetComponent<Tilemap>();
             _gridMap = GetComponent<GridMap>();
             _gridMap.Init(_gridMap._length,_gridMap._height);
-            
+            Set(0,0,3);
+             Set(5,5,3);
+            // Set(1,1,3);
+            // Set(1,0,3);
             UpdateTileMap();
         }
 

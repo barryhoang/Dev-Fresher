@@ -28,12 +28,11 @@ namespace Minh
     [RequireComponent(typeof(GridMap))]
     public class Pathfinding : MonoBehaviour
     {
-        [SerializeField]GridMap gridMap;
+        [SerializeField] GridMap gridMap;
         [SerializeField] PathNode[,] pathNodes;
 
         private void Start()
         {
-            
             Init();
         }
 
@@ -45,20 +44,19 @@ namespace Minh
             }
 
             pathNodes = new PathNode[gridMap._length, gridMap._height];
-    
+
             for (int x = 0; x < gridMap._length; x++)
             {
                 for (int y = 0; y < gridMap._height; y++)
                 {
                     pathNodes[x, y] = new PathNode(x, y);
-                    
                 }
             }
-            Debug.Log("PATH NODE"+pathNodes.Length);
 
+            Debug.Log("PATH NODE" + pathNodes.Length);
         }
 
-        public List<PathNode> FindPath(int startX, int startY, int endX, int endY)
+        public List<PathNode> FindPath(int startX, int startY, int endX, int endY, string a)
         {
             Debug.Log(startX);
             Debug.Log(startY);
@@ -84,7 +82,7 @@ namespace Minh
                     }
 
                     if (currentNode.fValue == openList[i].fValue
-                        && currentNode.hValue > openList[i].hValue
+                        && currentNode.hValue >= openList[i].hValue
                     )
                     {
                         currentNode = openList[i];
@@ -101,9 +99,9 @@ namespace Minh
                 }
 
                 List<PathNode> neighbourNodes = new List<PathNode>();
-                for (int x = -1; x < 2; x++)
+                for (int x = -1; x <= 1; x++)
                 {
-                    for (int y = -1; y < 2; y++)
+                    for (int y = -1; y <= 1; y++)
                     {
                         if (x == 0 && y == 0)
                         {
@@ -126,9 +124,22 @@ namespace Minh
                         continue;
                     }
 
-                    if (gridMap.CheckWalkable(neighbourNodes[i].xPos, neighbourNodes[i].yPos) == false)
+                    if (a == "player")
                     {
-                        continue;
+                        if (gridMap.CheckWalkable(neighbourNodes[i].xPos, neighbourNodes[i].yPos) == false &&
+                            gridMap.CheckWalkable1(neighbourNodes[i].xPos, neighbourNodes[i].yPos) == false)
+                        {
+                            continue;
+                        }
+                    }
+
+                    if (a == "enemy")
+                    {
+                        if (gridMap.CheckWalkable(neighbourNodes[i].xPos, neighbourNodes[i].yPos) == false &&
+                            gridMap.CheckWalkable2(neighbourNodes[i].xPos, neighbourNodes[i].yPos) == false)
+                        {
+                            continue;
+                        }
                     }
 
                     int movementCost = currentNode.gValue + CalculateDistance(currentNode, neighbourNodes[i]);
