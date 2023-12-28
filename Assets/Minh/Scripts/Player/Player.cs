@@ -5,7 +5,8 @@ using Obvious.Soap;
 using UnityEngine;
 using PrimeTween;
 using Unity.VisualScripting;
-using UnityEditor.Tilemaps;
+using UnityEngine.Tilemaps;
+using Sequence = PrimeTween.Sequence;
 
 namespace Minh
 {
@@ -28,10 +29,19 @@ namespace Minh
         [SerializeField] public GameObject _gameManagerGameObject;
         public int _health;
         public GameManager _gameManager;
-        [SerializeField]private Vector3[] _movePosition;
-        [SerializeField] private UnityEngine.Grid _grid;
-       [SerializeField]private bool[,] _takenPosition=new bool[17,9];
+        [SerializeField] private Vector3[] _movePosition;
+        [SerializeField] private GameObject _grid;
+        [SerializeField] private GameObject _mainTileMap;
+        [SerializeField] private GameObject _grid1;
+        [SerializeField] private GameObject _highlightTilemap;
+        [SerializeField] private Tilemap _targetTilemap;
+        [SerializeField] private GridManager _gridManager;
+        [SerializeField] private TileBase _hightlightTile;
+        [SerializeField] private Pathfinding _pathfinding;
+        [SerializeField] private int _currentX = 0;
+        [SerializeField] private int _currentY = 0;
 
+        private Vector3 _prevPosition;
 
         private void Awake()
         {
@@ -39,11 +49,18 @@ namespace Minh
             _healthBarScript = _healthbar1.GetComponent<HealthBar>();
             _healthBarScript.Init(gameObject);
             _gameObjectID = gameObject.GetInstanceID().ToString();
+            _grid = GameObject.Find("Grid");
+            _mainTileMap = _grid.transform.Find("MainTileMap").gameObject;
+            _gridManager = _mainTileMap.GetComponent<GridManager>();
+            _pathfinding = _mainTileMap.GetComponent<Pathfinding>();
+            _grid1 = GameObject.Find("Grid (1)");
+            _highlightTilemap = _grid1.transform.Find("HighlightTileMap").gameObject;
+            _targetTilemap = _highlightTilemap.GetComponent<Tilemap>();
         }
 
         private void Start()
         {
-          //  Timing.RunCoroutine(Move());
+            Timing.RunCoroutine(PlayerMove());
         }
 
         public void AddToList()
@@ -51,20 +68,20 @@ namespace Minh
             _soapListPlayer.Add(this);
         }
 
-        private void OnTriggerStay2D(Collider2D other)
-        {
-            if (_characterState == CharacterState.Idle)
-            {
-                if (_soapListEnemy != null)
-                {
-                    var enemy = other.GetComponent<Enemy>();
-                    // Timing.PauseCoroutines("playerMove" + _gameObjectID);
-                    //
-                    // Timing.RunCoroutine(PlayerAttack(enemy).CancelWith(gameObject), "playerAttack" + _gameObjectID);
-                    Debug.Log("Attackkkk");
-                }
-            }
-        }
+        // private void OnTriggerStay2D(Collider2D other)
+        // {
+        //     if (_characterState == CharacterState.Idle)
+        //     {
+        //         if (_soapListEnemy != null)
+        //         {
+        //             var enemy = other.GetComponent<Enemy>();
+        //             // Timing.PauseCoroutines("playerMove" + _gameObjectID);
+        //             //
+        //             // Timing.RunCoroutine(PlayerAttack(enemy).CancelWith(gameObject), "playerAttack" + _gameObjectID);
+        //             Debug.Log("Attackkkk");
+        //         }
+        //     }
+        // }
 
         private void OnEnable()
         {
@@ -85,57 +102,55 @@ namespace Minh
 
         private void Update()
         {
-            
         }
 
-        private IEnumerator<float> CheckingMove()
-        {
-            int k = 0;
-            for (int i = -1; i <= 1; i++)
-            {
-                for (int j = -1; j <= 1; j++)
-                {
-                    Vector3Int cellPosition = _grid.WorldToCell(new Vector2(transform.position.x+i,transform.position.y+j));
-                    Vector3Int playerCellPosition = _grid.WorldToCell(transform.position);
-                    if (cellPosition != playerCellPosition)
-                    {
-                        _movePosition[k] = cellPosition;
-                        k++;
-                    }
-                }
-            }
 
-            yield return Timing.WaitForOneFrame;
-
-        }
-
-        private IEnumerator<float> Move()
+        private IEnumerator<float> PlayerMove()
         {
             while (true)
             {
-                yield return Timing.WaitUntilDone(Timing.RunCoroutine(CheckingMove()));
+                _targetTilemap.ClearAllTiles();
                 var closet = _soapListEnemy.GetClosest(transform.position);
-                Vector3 closetGridPos = _grid.WorldToCell(closet.transform.position);
-                Vector3 playerCellPosition1 = _grid.WorldToCell(transform.position);
-                Vector3 directionNormal = (closetGridPos - playerCellPosition1);
-                Vector3 diretionNormalize = directionNormal.normalized;
-                Vector3Int directionInt = Vector3Int.RoundToInt(diretionNormalize);
-                if(_takenPosition[(int)(transform.position.x+directionInt.x),(int)(transform.position.y+directionInt.y)]==true)
-                {
-                    if (directionInt.x < directionInt.y)
-                    {
-                        directionInt.y = directionInt.y - 1;
-                    }
-                    
-                }
-                Debug.Log("Direction INt" + directionInt);
-                Tween.Position(transform, (transform.position + directionInt), 1f);
-                _takenPosition[(int) transform.position.x, (int) transform.position.y] = true;
-                _takenPosition[(int) playerCellPosition1.x, (int) playerCellPosition1.y] = false;
+                _currentX = (int) transform.position.x;
+                _currentY = (int) transform.position.y;
+                List<PathNode> path2 = _pathfinding.FindPath(_currentX, _currentY, (int) closet.transform.position.x,
+                    (int) closet.transform.position.y);
                 
+                // if (path != null)
+                // {
+                //     for (int i = 0; i < path.Count - 1; i++)
+                //     {
+                //Tween.Position(transform, new Vector3(path[i].xPos, path[i].yPos, 0), _tweenSettings);
+                //transform.position = new Vector3(path[i].xPos, path[i].yPos, 0);
+                // yield return Timing.WaitUntilDone(
+                //     Timing.RunCoroutine(playerMovement(new Vector3(path[i].xPos, path[i].yPos, 0))));
+                
+                if (Vector2.Distance(closet.transform.position, transform.position) > 1.45f)
+                {
+                    _prevPosition = transform.position;
+                    
+                   
+                    Tween.Position(transform, new Vector3(path2[0].xPos, path2[0].yPos, 0), _tweenSettings);
+                   //_gridManager.Set(path2[0].xPos, path2[0].yPos, 3);
+                }
+            
+             //   _gridManager.Set(path2[0].xPos, path2[0].yPos, 3);
+                Debug.Log(Vector2.Distance(closet.transform.position,transform.position));
+                yield return Timing.WaitForSeconds(_tweenSettings.duration);
+              
+
                 yield return Timing.WaitForSeconds(0.3f);
             }
         }
+        // private IEnumerator<float> playerMovement(Vector3 movePosition)
+        // {
+        //     //
+        //     
+        //  //   ;
+        //   // 
+        //     
+        //     
+        // }
         // private IEnumerator<float> CheckHealth()
         // {
         //     while (true)
@@ -246,7 +261,7 @@ namespace Minh
         //     }
         // }
         public void TakeDamage(int damage)
-        
+
         {
             _health -= damage;
             _healthBarScript.HealthBarSize(characterStats._maxHealth.Value, _health);

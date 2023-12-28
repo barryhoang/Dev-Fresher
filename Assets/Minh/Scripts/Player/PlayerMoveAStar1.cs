@@ -49,17 +49,14 @@ namespace Minh
                     {
                         for (int i = 0; i < path.Count - 1; i++)
                         {
-                            _targetTilemap.SetTile(new Vector3Int(path[i].xPos, path[i].yPos, 0), _hightlightTile);
-                            //Tween.Position(transform, new Vector3(path[i].xPos, path[i].yPos, 0), _tweenSettings);
                             
-                            //transform.position = new Vector3(path[i].xPos, path[i].yPos, 0);
                             yield return Timing.WaitUntilDone(
                                 Timing.RunCoroutine(Move(new Vector3(path[i].xPos, path[i].yPos, 0))));
+                            
                         }
 
-                        prevPosition = transform.position;
-                        // _gridManager.Set((int)prevPosition.x,(int)prevPosition.y,0);
-                        //  _gridManager.Set((int)transform.position.x,(int)transform.position.y,2);
+                      
+                        
                         _currentX = _targetPosX;
                         _currentY = _targetPosY;
                     }
@@ -71,7 +68,10 @@ namespace Minh
 
         private IEnumerator<float> Move(Vector3 movePosition)
         {
+            prevPosition = transform.position;
             Tween.Position(transform, movePosition, _tweenSettings);
+            _gridManager.Set((int)prevPosition.x,(int)prevPosition.y,0);
+            _gridManager.Set((int)movePosition.x,(int)movePosition.y,3);
             yield return Timing.WaitForSeconds(_tweenSettings.duration);
         }
     }

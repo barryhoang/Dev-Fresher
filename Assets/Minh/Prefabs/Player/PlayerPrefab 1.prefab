@@ -128,7 +128,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    cycles: 2
+    cycles: 1
     cycleMode: 1
     startDelay: 0
     endDelay: 0
@@ -152,7 +152,16 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
-  _grid: {fileID: 2950313496757005590, guid: 2dba85504093bcb43b6d6c755458b92a, type: 3}
+  _grid: {fileID: 3926160243480509466, guid: 2dba85504093bcb43b6d6c755458b92a, type: 3}
+  _mainTileMap: {fileID: 0}
+  _grid1: {fileID: 8655015522394250470, guid: e8aa70fc35a93f94b8f7ec0153ca49f4, type: 3}
+  _highlightTilemap: {fileID: 0}
+  _targetTilemap: {fileID: 0}
+  _gridManager: {fileID: 0}
+  _hightlightTile: {fileID: 11400000, guid: a4c40eb806c64f645be1973a0455adbe, type: 2}
+  _pathfinding: {fileID: 0}
+  _currentX: 0
+  _currentY: 0
 --- !u!50 &2967772443789969847
 Rigidbody2D:
   serializedVersion: 4

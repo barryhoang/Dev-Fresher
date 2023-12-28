@@ -43,7 +43,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1739486698688313977}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -119,6 +119,16 @@ MonoBehaviour:
   _health: 0
   _gameManager: {fileID: 0}
   _enemyPlacement: {fileID: 6688992649258739350}
+  _grid: {fileID: 0}
+  _mainTileMap: {fileID: 0}
+  _grid1: {fileID: 0}
+  _highlightTilemap: {fileID: 0}
+  _targetTilemap: {fileID: 0}
+  _gridManager: {fileID: 0}
+  _hightlightTile: {fileID: 0}
+  _pathfinding: {fileID: 0}
+  _currentX: 0
+  _currentY: 0
 --- !u!114 &-2635526388856692558
 MonoBehaviour:
   m_ObjectHideFlags: 0
