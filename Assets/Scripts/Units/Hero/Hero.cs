@@ -1,6 +1,7 @@
 using Obvious.Soap;
 using UnityEngine;
 using PrimeTween;
+using Unity.VisualScripting;
 
 public class Hero : MonoBehaviour
 {
@@ -13,10 +14,11 @@ public class Hero : MonoBehaviour
     [SerializeField] private ScriptableListHero scriptableListHero;
     [SerializeField] private ScriptableListEnemy scriptableListEnemy;
     [SerializeField] private ScriptableEventInt onHeroDamaged;
-    [SerializeField] private ScriptableEventNoParam onHeroSpawn;
 
     [SerializeField] private HeroStateMachines HSM;
     [SerializeField] private Animator animator;
+    [SerializeField] private Grid grid;
+    [SerializeField] private GridMap gridMap;
     
     private static readonly int Hp = Animator.StringToHash("HP");
     private static readonly int IsMoving = Animator.StringToHash("isMoving");
@@ -28,7 +30,6 @@ public class Hero : MonoBehaviour
 
     private void Awake()
     {
-        onHeroSpawn.Raise();
         scriptableListHero.Add(this);
         heroHealth.Value = heroMaxHealth;
         animator.SetFloat(Hp, Mathf.Abs(heroHealth.Value));
@@ -43,6 +44,7 @@ public class Hero : MonoBehaviour
         }
         
         SetHero();
+        //SnapHero();
     }
 
     private void FixedUpdate()
@@ -70,6 +72,7 @@ public class Hero : MonoBehaviour
 
     private void SetHero()
     {
+        var heroPosX = transform.position.x;
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         if (Input.GetMouseButtonDown(0))
         {
@@ -85,6 +88,20 @@ public class Hero : MonoBehaviour
         {
             selectedObject = null;
         }
+        //Debug.Log(heroPosX);
+        //Debug.Log(gridMap.CheckHeroPos(heroPosX));
+        /*if (gridMap.CheckHeroPos(heroPosX))
+        {
+            
+        }*/
+        
+    }
+
+    private void SnapHero()
+    {
+        Vector3Int cellPos;
+        cellPos = grid.WorldToCell(transform.position);
+        transform.position = grid.GetCellCenterWorld(cellPos);
     }
     
     public void TakeDamage(int damage)

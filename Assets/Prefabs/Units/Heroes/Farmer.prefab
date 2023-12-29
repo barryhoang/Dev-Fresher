@@ -248,7 +248,7 @@ GameObject:
   - component: {fileID: 495054345682021866}
   - component: {fileID: 9103245653046930603}
   - component: {fileID: 2893549161811652219}
-  - component: {fileID: 7088704196051885100}
+  - component: {fileID: 8951411417428003026}
   - component: {fileID: 1893417773393270969}
   - component: {fileID: 4963414720032333258}
   m_Layer: 0
@@ -435,7 +435,7 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
---- !u!114 &7088704196051885100
+--- !u!114 &8951411417428003026
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -470,9 +470,10 @@ MonoBehaviour:
   scriptableListHero: {fileID: 11400000, guid: af4ed7abec162544db132a1b76e9cfca, type: 2}
   scriptableListEnemy: {fileID: 11400000, guid: e7b54fe464ebae34883282879631ce06, type: 2}
   onHeroDamaged: {fileID: 11400000, guid: 245d85acfb83cf744a3b7b9164e1f659, type: 2}
-  onHeroSpawn: {fileID: 11400000, guid: ad52b6ae07113114db186de67bd0fa4e, type: 2}
+  HSM: {fileID: 8951411417428003026}
   animator: {fileID: 9103245653046930603}
-  HSM: {fileID: 7088704196051885100}
+  grid: {fileID: 0}
+  gridMap: {fileID: 0}
 --- !u!114 &4963414720032333258
 MonoBehaviour:
   m_ObjectHideFlags: 0

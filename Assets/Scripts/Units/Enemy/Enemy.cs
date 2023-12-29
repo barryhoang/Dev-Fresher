@@ -13,7 +13,6 @@ public class Enemy : MonoBehaviour
     [SerializeField] private ScriptableListEnemy scriptableListEnemy;
     [SerializeField] private ScriptableListHero scriptableListHero;
     [SerializeField] private ScriptableEventInt onEnemyDamaged;
-    [SerializeField] private ScriptableEventNoParam onEnemySpawn;
     
     [SerializeField] private EnemyStateMachines ESM;
     [SerializeField] private Animator animator;
@@ -24,7 +23,6 @@ public class Enemy : MonoBehaviour
     
     private void Awake()
     {
-        onEnemySpawn.Raise();
         scriptableListEnemy.Add(this);
         enemyHealth.Value = enemyMaxHealth;
         animator.SetFloat(Hp,Mathf.Abs(enemyHealth.Value));
