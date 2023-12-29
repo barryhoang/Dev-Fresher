@@ -23,30 +23,35 @@ namespace StateManager
                 var position = entity.transform.position;
                 var closest = enemy.GetClosest(position);
                 if(!entity.isMoving)
-                    foreach (var pos in closest.posAttacks)
+                    for (int i = 0; i < closest.posAttacks.Count;i++)
                     {
-                        if (!pos.isFull)
+                        if (!closest.posAttacks[i].isFull)
                         {
-                            pos.isFull = true;
+                            closest.posAttacks[i].isFull = true;
                             entity.isMove = true;
                             entity.isMoving = true;
-                            Timing.RunCoroutine(entity.Move(closest, pos.posAttack.position).CancelWith(entity.gameObject));
+                            Timing.RunCoroutine(entity.Move(closest, i).CancelWith(entity.gameObject));
                             break;
                         }
                     }
             }
-            // foreach (var entity in enemy)
-            // {
-            //     var position = entity.transform.position;
-            //     var closest = character.GetClosest(entity.transform.position);
-            //     int currentX = (int) position.x;
-            //     int currentY = (int) position.y;
-            //     var position1 = closest.transform.position;
-            //     int targetX = (int)  position1.x;
-            //     int targetY = (int)  position1.y;
-            //     List<PathNode> pathNodes = GridManager.instance._pathfinding.FindPath(currentX, currentY, targetX,targetY, position);
-            //     entity.Move(closest,pathNodes);
-            // }   
+            foreach (var entity in enemy)
+            {
+                var position = entity.transform.position;
+                var closest = character.GetClosest(position);
+                if(!entity.isMoving)
+                    for (int i = 0; i < closest.posAttacks.Count;i++)
+                    {
+                        if (!closest.posAttacks[i].isFull)
+                        {
+                            closest.posAttacks[i].isFull = true;
+                            entity.isMove = true;
+                            entity.isMoving = true;
+                            Timing.RunCoroutine(entity.Move(closest, i).CancelWith(entity.gameObject));
+                            break;
+                        }
+                    }
+            }   
         }
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Apathfinding
@@ -43,8 +44,6 @@ namespace Apathfinding
             return true;
         }
 
-    
-    
         internal bool CheckWalkable(int xPos, int yPos,Vector3 posStart)
         {
             if (grid[(int) posStart.x, (int) posStart.y] != 0)

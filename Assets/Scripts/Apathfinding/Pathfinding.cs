@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Apathfinding;
+using Obvious.Soap;
 using UnityEngine;
 
 namespace Apathfinding
@@ -31,25 +32,20 @@ namespace Apathfinding
     [RequireComponent(typeof(GridMap))]
     public class Pathfinding : MonoBehaviour
     {
-        // public GridMap gridMap;
         public PathNode[,] pathNodes;
-    
-        public void Init()
+        public GridMapVariable gridMap;
+        
+        
+        public List<PathNode> FindPath(int startX, int startY, int endX, int endY,Vector3 posStart) 
         {
-            GridMap gridMap = GridManager.instance.gridMap;
-            
-            pathNodes = new PathNode[gridMap.length, gridMap.height];
-            for (int x = 0; x < gridMap.length; x++) 
+            pathNodes = new PathNode[gridMap.size.x, gridMap.size.x];
+            for (int x = 0; x < gridMap.size.x; x++) 
             {
-                for (int y = 0; y < gridMap.height; y++) 
+                for (int y = 0; y < gridMap.size.x; y++) 
                 {
                     pathNodes[x, y] = new PathNode(x,y);
                 }
             }
-        }
-
-        public List<PathNode> FindPath(int startX, int startY, int endX, int endY,Vector3 posStart) 
-        {
             PathNode startNode = pathNodes[startX, startY];
             PathNode endNode = pathNodes[endX, endY];
 
@@ -94,7 +90,7 @@ namespace Apathfinding
                         if (x == 1 && y == 1 || y== 1 && x == 1) {continue; } 
                         if (x == -1 && y == -1 || y == -1 && x == -1) {continue; }
                         if(x == 1 && y == -1 || y == 1 && x == -1){continue; }
-                        if (GridManager.instance.gridMap.CheckPosition(currentNode.xPos + x, currentNode.yPos + y) == false) 
+                        if (gridMap.CheckPosition(currentNode.xPos + x, currentNode.yPos + y) == false) 
                         {
                             continue;
                         }
@@ -106,7 +102,7 @@ namespace Apathfinding
                 for (int i = 0; i < neighbourNodes.Count; i++) 
                 {
                     if (closedList.Contains(neighbourNodes[i])) { continue; }
-                    if (GridManager.instance.gridMap.CheckWalkable(neighbourNodes[i].xPos, neighbourNodes[i].yPos,posStart) == false) { continue; }
+                    if (gridMap.CheckWalkable(neighbourNodes[i].xPos, neighbourNodes[i].yPos,posStart) == false) { continue; }
 
                     int movementCost = currentNode.gValue + CalculateDistance(currentNode, neighbourNodes[i]);
 
@@ -122,7 +118,6 @@ namespace Apathfinding
                         {
                             openList.Add(neighbourNodes[i]);
                         }
-
                     }
 
                 }
@@ -130,12 +125,7 @@ namespace Apathfinding
             }
             return null;
         }
-        // public void SetGrid(int x, int y , int to)
-        // {
-        //     gridMap.Set(x,y,to);
-        // }
-    
-
+        
         private List<PathNode> RetracePath(PathNode startNode, PathNode endNode)
         {
             List<PathNode> path = new List<PathNode>();

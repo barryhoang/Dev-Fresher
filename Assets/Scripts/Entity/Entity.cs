@@ -16,7 +16,8 @@ namespace Entity
         [SerializeField] protected FloatVariable _speed;
         [SerializeField] protected Tilemap _tilemap;
         [SerializeField] protected StatPanel _panelStats;
-        [SerializeField] protected bool isDrag;
+        [SerializeField] protected bool _isDrag;
+        [SerializeField] protected GridMapVariable _gridMap;
         
         [SerializeField] private Image healthBar;
         [SerializeField] private AnimationController _aniController;
@@ -31,6 +32,7 @@ namespace Entity
         public bool isAttack;
         public bool isAttacking;
         public List<PosAttack> posAttacks;
+        public List<PathNode> PathNodes;
 
         protected virtual void OnEnable()
         {
@@ -38,6 +40,8 @@ namespace Entity
             posStart = _tilemap.WorldToCell(transform.position);
             _panelStats.SetText(_entityData);
             _currentHealth = _entityData.InitHealth.Value;
+            _gridMap.Value[0, 1] = 2;
+            Debug.Log(_gridMap.Value[0,1]);
         }
         protected virtual void OnDisable()
         {
@@ -46,7 +50,7 @@ namespace Entity
 
         private void OnMouseEnter()
         {
-            if(!isDrag)
+            if(!_isDrag)
                 _panelStats.gameObject.SetActive(true);
         }
         private void OnMouseExit()
@@ -54,37 +58,62 @@ namespace Entity
             _panelStats.gameObject.SetActive(false);
         }
 
-        public IEnumerator<float> Move(Entity entity,Vector3 posAttack)
+        public IEnumerator<float> Move(Entity entity,int index)
         {
             if (isAttacking || entity == null)
             {
                 isMove = false;
             }
+            _aniController.SetAnimation(AnimationName.Idle,false);
+            _aniController.SetAnimation(AnimationName.Move,true);
+            
+            var currentX = (int) transform.position.x;
+            var currentY = (int) transform.position.y;
+            
+            int targetOldX = -1;
+            int targetOldY = -1;
+            var targetX = (int) entity.posAttacks[index].posAttack.position.x;
+            var targetY = (int) entity.posAttacks[index].posAttack.position.y;
+            var pathNodes = GridManager.instance._pathfinding.FindPath(currentX, currentY, targetX, targetY, transform.position);
+            int currentIndex = 0;
             while (isMove)
             {
+                _aniController.SetAnimation(AnimationName.Move,true);
                 isMoving = true;
-                var currentX = (int) transform.position.x;
-                var currentY = (int) transform.position.y;
-                var targetX = (int) posAttack.x;
-                var targetY = (int) posAttack.y;
-            
-                var pathNodes = GridManager.instance._pathfinding.FindPath(currentX, currentY, targetX, targetY, transform.position);
-
-                if (pathNodes.Count > 0)
+                targetX = (int) entity.posAttacks[index].posAttack.position.x;
+                targetY = (int) entity.posAttacks[index].posAttack.position.y;
+               
+                if (targetOldX != targetX || targetOldY != targetY)
                 {
-                    Debug.Log(GridManager.instance.gridMap.Get(pathNodes[0].xPos,pathNodes[0].yPos));
-                    var target = new Vector3(pathNodes[0].xPos,pathNodes[0].yPos);
-                    var dir = (target - transform.position).normalized;
-                    transform.position += dir * _speed * Time.deltaTime;
-                }
-
-                if (Vector3.Distance(posAttack, transform.position) < 0.1f)
+                    pathNodes = GridManager.instance._pathfinding.FindPath(currentX, currentY, targetX, targetY, transform.position);
+                    // currentIndex = 0;
+                    targetOldX = targetX;
+                    targetOldY = targetY;
+                } 
+               
+                if (pathNodes != null)
                 {
-                    _objectAttack = entity;
-                    isReadyAttack = true;
-                    isMove = false;
-                }
+                    var target = new Vector3(pathNodes[currentIndex].xPos,pathNodes[currentIndex].yPos);
+                    if (Vector3.Distance(target, transform.position) > 0.1f)
+                    {
+                        var dir = (target - transform.position).normalized;
+                        transform.position += dir * _speed * Time.deltaTime;
+                        PathNodes = pathNodes;
+                    }
+                    else
+                    {
+                        currentIndex++;
+                        if (pathNodes.Count <= currentIndex)
+                        {
+                            // currentIndex = 0;
+                            _objectAttack = entity;
+                            isReadyAttack = true;
+                            isMove = false;
+                            _aniController.SetAnimation(AnimationName.Move,false);
+                        }
+                    }
                    
+                }
                 yield return Timing.WaitForOneFrame;
             }
         }
