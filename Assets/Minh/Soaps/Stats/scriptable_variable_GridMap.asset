@@ -2,16 +2,18 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 32
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 469aa0043ac848bb8de9969b7635fec3, type: 3}
-  m_Name: Level1
+  m_Script: {fileID: 11500000, guid: 4c263e6bfe07a544ca91d669e9c470d5, type: 3}
+  m_Name: scriptable_variable_GridMap
   m_EditorClassIdentifier: 
-  enemyDetailList:
-  - enemyPrefab: {fileID: 1739486698688313977, guid: a7ae7c98682f58c4cb91be5209ff6b04, type: 3}
-    spawnPosition: {x: 17, y: 5, z: 0}
+  _guid: 1d709f085b0933148b2aaa9da61344e8
+  _debugLogEnabled: 0
+  _saved: 0
+  _resetOn: 0
+  size: {x: 18, y: 10}

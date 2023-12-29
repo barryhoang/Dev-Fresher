@@ -44,7 +44,7 @@ namespace Minh
 
                     _targetPosX = clickPosition.x;
                     _targetPosY = clickPosition.y;
-                    List<PathNode> path = _pathfinding.FindPath(_currentX, _currentY, _targetPosX, _targetPosY,"player");
+                    List<PathNode> path = _pathfinding.FindPath(_currentX, _currentY, _targetPosX, _targetPosY);
                     if (path != null)
                     {
                         for (int i = 0; i < path.Count - 1; i++)

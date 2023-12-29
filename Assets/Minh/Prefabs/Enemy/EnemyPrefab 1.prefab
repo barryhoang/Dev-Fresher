@@ -112,6 +112,7 @@ MonoBehaviour:
   _soapListEnemy: {fileID: 11400000, guid: 067fa1efe4778ab4dae330de7552c1bf, type: 2}
   _soapListPlayer: {fileID: 11400000, guid: 486a80f453221e6438366f425062a365, type: 2}
   _onFight: {fileID: 11400000, guid: f013c4f158bea1a4cb5d83efd003901e, type: 2}
+  _gridMap: {fileID: 11400000, guid: 1d709f085b0933148b2aaa9da61344e8, type: 2}
   _healthBar: {fileID: 817751589942492302, guid: a4d382cdc6a0aa84697e55080dbd4f97, type: 3}
   _characterState: 0
   enemyGameObject: {fileID: 1739486698688313977}

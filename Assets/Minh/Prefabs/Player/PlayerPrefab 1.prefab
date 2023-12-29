@@ -137,6 +137,7 @@ MonoBehaviour:
   _soapListEnemy: {fileID: 11400000, guid: 067fa1efe4778ab4dae330de7552c1bf, type: 2}
   _soapListPlayer: {fileID: 11400000, guid: 486a80f453221e6438366f425062a365, type: 2}
   _soapListDeadPlayer: {fileID: 11400000, guid: 89064d31e7dc24b4b9397c0441925b0c, type: 2}
+  _gridMap: {fileID: 11400000, guid: 1d709f085b0933148b2aaa9da61344e8, type: 2}
   _onFightRaise: {fileID: 11400000, guid: f013c4f158bea1a4cb5d83efd003901e, type: 2}
   _healthBar: {fileID: 817751589942492302, guid: a4d382cdc6a0aa84697e55080dbd4f97, type: 3}
   _playerPlacement: {fileID: 8878303018202227690}
@@ -177,17 +178,17 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!114 &7824649075094168062
 MonoBehaviour:

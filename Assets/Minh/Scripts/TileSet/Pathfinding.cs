@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Obvious.Soap;
 using UnityEngine;
 
 namespace Minh
@@ -30,6 +31,7 @@ namespace Minh
     {
         [SerializeField] GridMap gridMap;
         [SerializeField] PathNode[,] pathNodes;
+        [SerializeField] private GridMapVariable _gridMap;
 
         private void Start()
         {
@@ -43,21 +45,22 @@ namespace Minh
                 gridMap = GetComponent<GridMap>();
             }
 
-            pathNodes = new PathNode[gridMap._length, gridMap._height];
+            pathNodes = new PathNode[_gridMap.size.x, _gridMap.size.y];
 
-            for (int x = 0; x < gridMap._length; x++)
+            for (int x = 0; x < _gridMap.size.x; x++)
             {
-                for (int y = 0; y < gridMap._height; y++)
+                for (int y = 0; y < _gridMap.size.y; y++)
                 {
                     pathNodes[x, y] = new PathNode(x, y);
                 }
             }
 
-            Debug.Log("PATH NODE" + pathNodes.Length);
+            Debug.Log("PATH NODE" + _gridMap.Value.Length);
         }
 
-        public List<PathNode> FindPath(int startX, int startY, int endX, int endY, string a)
+        public List<PathNode> FindPath(int startX, int startY, int endX, int endY)
         {
+            Debug.Log("PATH NODE" + _gridMap.Value.Length);
             Debug.Log(startX);
             Debug.Log(startY);
             Debug.Log(endX);
@@ -88,7 +91,6 @@ namespace Minh
                         currentNode = openList[i];
                     }
                 }
-
                 openList.Remove(currentNode);
                 closedList.Add(currentNode);
 
@@ -108,7 +110,7 @@ namespace Minh
                             continue;
                         }
 
-                        if (gridMap.CheckPosition(currentNode.xPos + x, currentNode.yPos + y) == false)
+                        if (_gridMap.CheckPosition(currentNode.xPos + x, currentNode.yPos + y) == false)
                         {
                             continue;
                         }
@@ -124,23 +126,12 @@ namespace Minh
                         continue;
                     }
 
-                    if (a == "player")
+
+                    if (_gridMap.CheckWalkable(neighbourNodes[i].xPos, neighbourNodes[i].yPos) == false)
                     {
-                        if (gridMap.CheckWalkable(neighbourNodes[i].xPos, neighbourNodes[i].yPos) == false &&
-                            gridMap.CheckWalkable1(neighbourNodes[i].xPos, neighbourNodes[i].yPos) == false)
-                        {
-                            continue;
-                        }
+                        continue;
                     }
 
-                    if (a == "enemy")
-                    {
-                        if (gridMap.CheckWalkable(neighbourNodes[i].xPos, neighbourNodes[i].yPos) == false &&
-                            gridMap.CheckWalkable2(neighbourNodes[i].xPos, neighbourNodes[i].yPos) == false)
-                        {
-                            continue;
-                        }
-                    }
 
                     int movementCost = currentNode.gValue + CalculateDistance(currentNode, neighbourNodes[i]);
 

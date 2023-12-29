@@ -1,4 +1,5 @@
 ﻿using System;
+using Obvious.Soap;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -10,15 +11,16 @@ namespace Minh
     {
         private Tilemap _tilemap;
         private GridMap _gridMap;
+        [SerializeField]private GridMapVariable _gridMap1;
 
         [SerializeField] private TileSet _tileSet;
         private void Start()
         {
             _tilemap = GetComponent<Tilemap>();
             _gridMap = GetComponent<GridMap>();
-            _gridMap.Init(_gridMap._length,_gridMap._height);
-            Set(0,0,3);
-             Set(5,5,3);
+            _gridMap.Init(_gridMap1.size.x, _gridMap1.size.y);
+          //  Set(0,0,3);
+         //    Set(5,5,3);
             // Set(1,1,3);
             // Set(1,0,3);
             UpdateTileMap();

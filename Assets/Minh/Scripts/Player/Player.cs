@@ -16,6 +16,7 @@ namespace Minh
         [SerializeField] private ScriptableListEnemy _soapListEnemy;
         [SerializeField] private ScriptableListPlayer _soapListPlayer;
         [SerializeField] private ScriptableListPlayer _soapListDeadPlayer;
+        [SerializeField] private GridMapVariable _gridMap;
         [SerializeField] private ScriptableEventNoParam _onFightRaise;
         [SerializeField] private GameObject _healthBar;
         [SerializeField] private PlayerPlacement _playerPlacement;
@@ -61,6 +62,7 @@ namespace Minh
         private void Start()
         {
             Timing.RunCoroutine(PlayerMove());
+            Debug.Log("GRID MAP VALUE" + _gridMap.Value[5, 5]);
         }
 
         public void AddToList()
@@ -100,22 +102,43 @@ namespace Minh
             _soapListDeadPlayer.Add(this);
         }
 
-        private void Update()
+
+        private void Checking()
         {
-        }
-
-
+            for (int i = -1; i <= 1; i++)
+            {
+                for (int j = -1; j <= 1; j++)
+                {
+                    if (transform.position.x == 0 || transform.position.y == 0)
+                    {
+                        if (j == -1 || i == -1)
+                        {
+                            
+                        }
+                        else
+                        {
+                            Debug.Log("Check" +
+                                      _gridMap.Value[(int) transform.position.x + i, (int) transform.position.y + j] +
+                                      "GRID MAP" + ((int) transform.position.x + i) + ((int) transform.position.y + j));
+                        }
+                    }
+                }
+            }
+        } 
         private IEnumerator<float> PlayerMove()
         {
             while (true)
             {
+                
                 _targetTilemap.ClearAllTiles();
                 var closet = _soapListEnemy.GetClosest(transform.position);
-                _currentX = (int) transform.position.x;
-                _currentY = (int) transform.position.y;
+                _currentX = (int) this.transform.position.x;
+                _currentY = (int) this.transform.position.y;
                 
-                List<PathNode> path2 = _pathfinding.FindPath(_currentX, _currentY, (int) closet.transform.position.x,
-                    (int) closet.transform.position.y,"player");
+                List<PathNode> path = _pathfinding.FindPath(_currentX, _currentY, (int) closet.transform.position.x,
+                    (int) closet.transform.position.y);
+                 
+                Debug.Log(transform.position);
                
                 // if (path != null)
                 // {
@@ -125,146 +148,164 @@ namespace Minh
                 //transform.position = new Vector3(path[i].xPos, path[i].yPos, 0);
                 // yield return Timing.WaitUntilDone(
                 //     Timing.RunCoroutine(playerMovement(new Vector3(path[i].xPos, path[i].yPos, 0))));
-
-                if (Vector2.Distance(closet.transform.position, transform.position) > 1.45f)
-                {
-                    _prevPosition = transform.position;
-                   // _gridManager.Set((int) _prevPosition.x, (int) _prevPosition.y, 0);
-                    Tween.Position(transform, new Vector3(path2[0].xPos, path2[0].yPos, 0), _tweenSettings);
-                    _gridManager.Set(path2[0].xPos, path2[0].yPos, 3);
-                    yield return Timing.WaitForSeconds(_tweenSettings.duration);
-                }
-
                 
-
-                Debug.Log(Vector2.Distance(closet.transform.position, transform.position));
-
-
+                //if (Vector2.Distance(closet.transform.position, transform.position) > 1.45f)
+                //{
+                    _prevPosition = transform.position;
+                   _gridManager.Set((int) _prevPosition.x, (int) _prevPosition.y, 0);
+                   _gridMap.Value[path[0].xPos, path[0].yPos] = true;
+                   Tween.Position(transform, new Vector3(path[0].xPos, path[0].yPos, 0), _tweenSettings);
+                 //  Debug.Log(_gridMap.Value[path[0].xPos,path[0].yPos]);
+                  //  _gridMap.Value[(int) transform.position.x, (int) transform.position.y] = true;
+               
+              //  }
+                
+               
+//                Debug.Log(Vector2.Distance(closet.transform.position,transform.position));
+                yield return Timing.WaitForSeconds(_tweenSettings.duration);
+                
+                
+                
+               
                 yield return Timing.WaitForSeconds(0.3f);
-               // _gridManager.Set(path2[0].xPos, path2[0].yPos, 0);
+               // _gridManager.Set(path[0].xPos, path[0].yPos, 0);
             }
         }
 
-        // private IEnumerator<float> CheckHealth()
-        // {
-        //     while (true)
-        //     {
-        //         if (_health <= 0)
-        //         {
-        //             gameObject.SetActive(false);
-        //         }
-        //         yield return Timing.WaitForOneFrame;
-        //     }
-        // }
-        //
-        // private void CheckEnemyHealth(Enemy enemy)
-        // {
-        //     if (enemy._health <= 0 || enemy == null)
-        //     {
-        //         Timing.KillCoroutines("playerAttack" + _gameObjectID);
-        //         _characterState = CharacterState.Idle;
-        //         Timing.ResumeCoroutines("playerMove" + _gameObjectID);
-        //     }
-        // }
+    // private void Update()
+    // {
+    // Checking();
+    // }
+
+    // private IEnumerator<float> PlayerMove()
+    // {
+    //     while (true)
+    //     {
+    //         
+    //     }
+    // }
+
+    // private IEnumerator<float> CheckHealth()
+    // {
+    //     while (true)
+    //     {
+    //         if (_health <= 0)
+    //         {
+    //             gameObject.SetActive(false);
+    //         }
+    //         yield return Timing.WaitForOneFrame;
+    //     }
+    // }
+    //
+    // private void CheckEnemyHealth(Enemy enemy)
+    // {
+    //     if (enemy._health <= 0 || enemy == null)
+    //     {
+    //         Timing.KillCoroutines("playerAttack" + _gameObjectID);
+    //         _characterState = CharacterState.Idle;
+    //         Timing.ResumeCoroutines("playerMove" + _gameObjectID);
+    //     }
+    // }
 
 
-        // private IEnumerator<float> PlayerAttack(Enemy enemy)
-        // {
-        //    
-        //     _playerPlacement.SnapToGrid();
-        //     _attackPosition = enemy.gameObject.transform.position;
-        //     _characterState = CharacterState.Attack;
-        //     Vector2 distance = enemy.transform.position - transform.position;
-        //     Vector2 offset=new Vector2();
-        //     if (distance.x > 0)
-        //     {
-        //         offset.x = 0.5f;
-        //     }
-        //     else if(distance.x<0)
-        //     {
-        //         offset.y = -0.5f;
-        //     }
-        //     if (distance.y<0)
-        //     {
-        //         offset.y = 0.5f;
-        //     }
-        //     else if(distance.y>0)
-        //     {
-        //         offset.y = -0.5f;
-        //     }
-        //     while (true)
-        //     {
-        //        
-        //         CheckEnemyHealth(enemy);
-        //         if (_characterState == CharacterState.Attack)
-        //         {
-        //             Debug.Log("Attack" + _gameObjectID);
-        //             if (enemy != null)
-        //             {
-        //                 Tween.Position(transform, (Vector2)transform.position+distance-offset, _tweenSettings);
-        //             }
-        //             Attack(enemy);
-        //         }
-        //         yield return Timing.WaitForSeconds(1f / characterStats._attackRate);
-        //     }
-        // }
+    // private IEnumerator<float> PlayerAttack(Enemy enemy)
+    // {
+    //    
+    //     _playerPlacement.SnapToGrid();
+    //     _attackPosition = enemy.gameObject.transform.position;
+    //     _characterState = CharacterState.Attack;
+    //     Vector2 distance = enemy.transform.position - transform.position;
+    //     Vector2 offset=new Vector2();
+    //     if (distance.x > 0)
+    //     {
+    //         offset.x = 0.5f;
+    //     }
+    //     else if(distance.x<0)
+    //     {
+    //         offset.y = -0.5f;
+    //     }
+    //     if (distance.y<0)
+    //     {
+    //         offset.y = 0.5f;
+    //     }
+    //     else if(distance.y>0)
+    //     {
+    //         offset.y = -0.5f;
+    //     }
+    //     while (true)
+    //     {
+    //        
+    //         CheckEnemyHealth(enemy);
+    //         if (_characterState == CharacterState.Attack)
+    //         {
+    //             Debug.Log("Attack" + _gameObjectID);
+    //             if (enemy != null)
+    //             {
+    //                 Tween.Position(transform, (Vector2)transform.position+distance-offset, _tweenSettings);
+    //             }
+    //             Attack(enemy);
+    //         }
+    //         yield return Timing.WaitForSeconds(1f / characterStats._attackRate);
+    //     }
+    // }
 
-        // private void Attack(Enemy enemy)
-        // {
-        //     if (_characterState == CharacterState.Attack)
-        //     {
-        //         Debug.Log("Attacking" + _gameObjectID);
-        //         CheckEnemyHealth(enemy);
-        //         enemy.TakeDamage(characterStats._damage);
-        //     }
-        // }
-        //
-        // private IEnumerator<float> PlayerMove()
-        // {
-        //     while (true)
-        //     {
-        //         if (_gameManager._gameState == GameState.Fighting)
-        //         {
-        //             if (_characterState == CharacterState.Idle)
-        //             {
-        //                 if (_soapListEnemy != null)
-        //                 {
-        //                     var closet = _soapListEnemy.GetClosest(transform.position);
-        //                     var direction = (closet.transform.position - transform.position).normalized;
-        //                     Debug.Log("Direction"+direction);
-        //                     if (closet != null)
-        //                     {
-        //                         var distance = (closet.transform.position.x-transform.position.x);
-        //                        
-        //                         if (distance <= 0)
-        //                         {
-        //                             transform.localScale=new Vector3(-1,1,1);
-        //                         }
-        //                         else
-        //                         {
-        //                             transform.localScale=new Vector3(1,1,1);
-        //                         }
-        //                         Move(closet.transform.position);
-        //                         _attackPosition = closet.transform.position;
-        //                     }
-        //                 }
-        //             }
-        //         }
-        //
-        //         yield return Timing.WaitForOneFrame;
-        //     }
-        // }
-        public void TakeDamage(int damage)
+    // private void Attack(Enemy enemy)
+    // {
+    //     if (_characterState == CharacterState.Attack)
+    //     {
+    //         Debug.Log("Attacking" + _gameObjectID);
+    //         CheckEnemyHealth(enemy);
+    //         enemy.TakeDamage(characterStats._damage);
+    //     }
+    // }
+    //
+    // private IEnumerator<float> PlayerMove()
+    // {
+    //     while (true)
+    //     {
+    //         if (_gameManager._gameState == GameState.Fighting)
+    //         {
+    //             if (_characterState == CharacterState.Idle)
+    //             {
+    //                 if (_soapListEnemy != null)
+    //                 {
+    //                     var closet = _soapListEnemy.GetClosest(transform.position);
+    //                     var direction = (closet.transform.position - transform.position).normalized;
+    //                     Debug.Log("Direction"+direction);
+    //                     if (closet != null)
+    //                     {
+    //                         var distance = (closet.transform.position.x-transform.position.x);
+    //                        
+    //                         if (distance <= 0)
+    //                         {
+    //                             transform.localScale=new Vector3(-1,1,1);
+    //                         }
+    //                         else
+    //                         {
+    //                             transform.localScale=new Vector3(1,1,1);
+    //                         }
+    //                         Move(closet.transform.position);
+    //                         _attackPosition = closet.transform.position;
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //
+    //         yield return Timing.WaitForOneFrame;
+    //     }
+    // }
+    public void TakeDamage(int damage)
 
-        {
-            _health -= damage;
-            _healthBarScript.HealthBarSize(characterStats._maxHealth.Value, _health);
-        }
-
-
-        protected override void Move(Vector3 target)
-        {
-            base.Move(target);
-        }
+    {
+    _health -= damage;
+    _healthBarScript.HealthBarSize(characterStats._maxHealth.Value, _health);
     }
+
+
+    protected override void Move(Vector3 target)
+    {
+    base.Move(target);
+    }
+}
+
 }

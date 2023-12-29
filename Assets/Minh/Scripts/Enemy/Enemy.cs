@@ -14,6 +14,7 @@ namespace Minh
         [SerializeField] private ScriptableListEnemy _soapListEnemy;
         [SerializeField] private ScriptableListPlayer _soapListPlayer;
         [SerializeField] private ScriptableEventNoParam _onFight;
+        [SerializeField] private GridMapVariable _gridMap;
         [SerializeField] private GameObject _healthBar;
 
         private Vector3 _distance;
@@ -57,6 +58,7 @@ namespace Minh
 
         private void Start()
         {
+            
             _characterState = CharacterState.Idle;
            // Timing.RunCoroutine(CheckHealth().CancelWith(gameObject));
            // Timing.RunCoroutine(EnemyMove().CancelWith(gameObject), "enemyMove" + _gameObjectID);
@@ -111,48 +113,55 @@ namespace Minh
         public void OnFight()
         {
         }
+
         private IEnumerator<float> EnemyMove()
         {
             while (true)
             {
-                
-                _targetTilemap.ClearAllTiles();
-                var closet = _soapListPlayer.GetClosest(transform.position);
-                _currentX = (int) this.transform.position.x;
-                _currentY = (int) this.transform.position.y;
-                
-                List<PathNode> path = _pathfinding.FindPath(_currentX, _currentY, (int) closet.transform.position.x,
-                    (int) closet.transform.position.y,"enemy");
-                 
-                Debug.Log(transform.position);
-                
-                // if (path != null)
-                // {
-                //     for (int i = 0; i < path.Count - 1; i++)
-                //     {
-                //Tween.Position(transform, new Vector3(path[i].xPos, path[i].yPos, 0), _tweenSettings);
-                //transform.position = new Vector3(path[i].xPos, path[i].yPos, 0);
-                // yield return Timing.WaitUntilDone(
-                //     Timing.RunCoroutine(playerMovement(new Vector3(path[i].xPos, path[i].yPos, 0))));
-                
-                if (Vector2.Distance(closet.transform.position, transform.position) > 1.45f)
+
+                while (true)
                 {
+
+                    _targetTilemap.ClearAllTiles();
+                    var closet = _soapListPlayer.GetClosest(transform.position);
+                    _currentX = (int) this.transform.position.x;
+                    _currentY = (int) this.transform.position.y;
+
+                    List<PathNode> path = _pathfinding.FindPath(_currentX, _currentY, (int) closet.transform.position.x,
+                        (int) closet.transform.position.y);
+
+                    Debug.Log(transform.position);
+
+                    // if (path != null)
+                    // {
+                    //     for (int i = 0; i < path.Count - 1; i++)
+                    //     {
+                    //Tween.Position(transform, new Vector3(path[i].xPos, path[i].yPos, 0), _tweenSettings);
+                    //transform.position = new Vector3(path[i].xPos, path[i].yPos, 0);
+                    // yield return Timing.WaitUntilDone(
+                    //     Timing.RunCoroutine(playerMovement(new Vector3(path[i].xPos, path[i].yPos, 0))));
+
+                    //if (Vector2.Distance(closet.transform.position, transform.position) > 1.45f)
+                    //{
                     _prevPosition = transform.position;
-                   _gridManager.Set((int) _prevPosition.x, (int) _prevPosition.y, 0);
-                   _gridManager.Set(path[0].xPos, path[0].yPos, 2);
+                    _gridManager.Set((int) _prevPosition.x, (int) _prevPosition.y, 0);
+                    _gridMap.Value[path[0].xPos, path[0].yPos] = true;
                     Tween.Position(transform, new Vector3(path[0].xPos, path[0].yPos, 0), _tweenSettings);
-                  
+                    //  Debug.Log(_gridMap.Value[path[0].xPos,path[0].yPos]);
+                    //  _gridMap.Value[(int) transform.position.x, (int) transform.position.y] = true;
+
+                    //  }
+
+
+//                Debug.Log(Vector2.Distance(closet.transform.position,transform.position));
+                    yield return Timing.WaitForSeconds(_tweenSettings.duration);
+
+
+
+
+                    yield return Timing.WaitForSeconds(0.3f);
+                    // _gridManager.Set(path[0].xPos, path[0].yPos, 0);
                 }
-                
-               
-                Debug.Log(Vector2.Distance(closet.transform.position,transform.position));
-                yield return Timing.WaitForSeconds(_tweenSettings.duration);
-                
-                
-                
-               
-                yield return Timing.WaitForSeconds(0.3f);
-               // _gridManager.Set(path[0].xPos, path[0].yPos, 0);
             }
         }
         // private IEnumerator<float> PlayerMove()

@@ -10,7 +10,7 @@ namespace Minh
     {
         [SerializeField] public int _height;
         [SerializeField] public int _length;
-
+        [SerializeField] private GridMapVariable _gridMap;
         private int[,] _grid;
 
         public void Init(int length, int height)
@@ -29,7 +29,7 @@ namespace Minh
                 return; 
                 
             }
-            _grid[x, y] = to;
+          //  _grid[x, y] = to;
         }
 
         public int Get(int x, int y)
@@ -59,18 +59,9 @@ namespace Minh
 
         internal bool CheckWalkable(int xPos, int yPos)
         {
-         
-            return _grid[xPos, yPos] == 0;
+
+            return _gridMap.Value[xPos, yPos];
         }
-        internal bool CheckWalkable1(int xPos, int yPos)
-        {
-         
-            return _grid[xPos, yPos] == 2;
-        }
-        internal bool CheckWalkable2(int xPos, int yPos)
-        {
-         
-            return _grid[xPos, yPos] == 3;
-        }
+       
     }
 }

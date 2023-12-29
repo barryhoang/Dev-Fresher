@@ -9,9 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 469aa0043ac848bb8de9969b7635fec3, type: 3}
-  m_Name: Level1
+  m_Script: {fileID: 11500000, guid: 8702d19e19e75364c8b4abf14fa676d2, type: 3}
+  m_Name: scriptable_list_GridMap
   m_EditorClassIdentifier: 
-  enemyDetailList:
-  - enemyPrefab: {fileID: 1739486698688313977, guid: a7ae7c98682f58c4cb91be5209ff6b04, type: 3}
-    spawnPosition: {x: 17, y: 5, z: 0}
