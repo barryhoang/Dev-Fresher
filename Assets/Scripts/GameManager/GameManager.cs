@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Apathfinding;
 using Entity;
 using MEC;
 using Obvious.Soap;
@@ -60,10 +61,13 @@ namespace GameManager
                 }
                 else
                 {
+                    GridManager.instance.UpdateGrid();
                     SpawnManager.instance.CheckEntityDie();
                     MoveManager.instance.Move(_listCharacters,_listEnemies);
+                    GridManager.instance.ResetValue();
                     yield return Timing.WaitUntilDone(Timing.RunCoroutine(AttackManager.instance.AttackSystem(_listCharacters, _listEnemies).CancelWith(gameObject)));
                 }
+                
                 yield return Timing.WaitForOneFrame;
             }
         }

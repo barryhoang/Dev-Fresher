@@ -5,12 +5,12 @@ using UnityEngine;
 namespace Obvious.Soap
 {
     [CreateAssetMenu(fileName = "scriptable_variable_GripMap.asset", menuName = "Soap/ScriptableVariables/GripMap")]
-    public class GridMapVariable : ScriptableVariable<int[,]>
+    public class GridMapVariable : ScriptableVariable<bool[,]>
     {
         public Vector2Int size;
         public override void Init()
         {
-            _value = new int[size.x,size.y];
+            _value = new bool[size.x,size.y];
             base.Init();
         }
 
@@ -23,13 +23,9 @@ namespace Obvious.Soap
             return true;
         }
         
-        internal bool CheckWalkable(int xPos, int yPos,Vector3 posStart)
+        internal bool CheckWalkable(int xPos, int yPos)
         {
-            if (_value[(int) posStart.x, (int) posStart.y] != 0)
-            {
-                return true;
-            }
-            return _value[xPos, yPos] == 0;
+            return _value[xPos, yPos] == false;
         }
     }
 }

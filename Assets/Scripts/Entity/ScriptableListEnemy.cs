@@ -14,5 +14,17 @@ namespace Entity
             var closest = _list.OrderBy(enemy => (position - enemy.transform.position).sqrMagnitude).First();
             return closest;
         }
+        public Enemy GetSecondClosest(Vector3 position)
+        {
+            if (IsEmpty)
+                return null;
+
+            var secondClosest = _list
+                .OrderBy(enemy => (position - enemy.transform.position).sqrMagnitude)
+                .Skip(1) // Skip the first element
+                .FirstOrDefault();
+
+            return secondClosest;
+        }
     }
 }
