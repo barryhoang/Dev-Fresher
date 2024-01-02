@@ -243,7 +243,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &12724351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -265,9 +265,12 @@ MonoBehaviour:
   healthBar: {fileID: 1085418060}
   _aniController: {fileID: 399781660}
   posStart: {x: 0, y: 0, z: 0}
+  isMove: 0
+  isMoving: 0
   isReadyAttack: 0
   isAttack: 0
   isAttacking: 0
+  posAttack: {x: 0, y: 0, z: 0}
   pathNodes: []
   _spritesFlowCharacter: {fileID: 650921927}
 --- !u!61 &12724352
@@ -2324,9 +2327,12 @@ MonoBehaviour:
   healthBar: {fileID: 208192584}
   _aniController: {fileID: 1121747128}
   posStart: {x: 0, y: 0, z: 0}
+  isMove: 0
+  isMoving: 0
   isReadyAttack: 0
   isAttack: 0
   isAttacking: 0
+  posAttack: {x: 0, y: 0, z: 0}
   pathNodes: []
   _spritesFlowCharacter: {fileID: 650921927}
 --- !u!61 &201659835
@@ -2737,7 +2743,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &275544932
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2759,9 +2765,12 @@ MonoBehaviour:
   healthBar: {fileID: 1322292274}
   _aniController: {fileID: 2118120286}
   posStart: {x: 0, y: 0, z: 0}
+  isMove: 0
+  isMoving: 0
   isReadyAttack: 0
   isAttack: 0
   isAttacking: 0
+  posAttack: {x: 0, y: 0, z: 0}
   pathNodes: []
   _spritesFlowCharacter: {fileID: 650921927}
 --- !u!61 &275544933
@@ -8378,9 +8387,12 @@ MonoBehaviour:
   healthBar: {fileID: 2016312221}
   _aniController: {fileID: 1950363182}
   posStart: {x: 0, y: 0, z: 0}
+  isMove: 0
+  isMoving: 0
   isReadyAttack: 0
   isAttack: 0
   isAttacking: 0
+  posAttack: {x: 0, y: 0, z: 0}
   pathNodes: []
   _spritesFlowCharacter: {fileID: 650921927}
 --- !u!61 &1001822665
@@ -9546,9 +9558,12 @@ MonoBehaviour:
   healthBar: {fileID: 40002064}
   _aniController: {fileID: 1265418576}
   posStart: {x: 0, y: 0, z: 0}
+  isMove: 0
+  isMoving: 0
   isReadyAttack: 0
   isAttack: 0
   isAttacking: 0
+  posAttack: {x: 0, y: 0, z: 0}
   pathNodes: []
   _spritesFlowCharacter: {fileID: 650921927}
 --- !u!61 &1159138955
@@ -11904,7 +11919,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 96.5235, y: -11.267914}
+  m_AnchoredPosition: {x: 96.5235, y: -11.267944}
   m_SizeDelta: {x: 212.6002, y: 135.2158}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &1461120972
@@ -12343,9 +12358,6 @@ MonoBehaviour:
   - {fileID: 1159138954}
   _enemies:
   - {fileID: 1882116088}
-  - {fileID: 12724351}
-  - {fileID: 275544932}
-  - {fileID: 1771394037}
 --- !u!1 &1549185970
 GameObject:
   m_ObjectHideFlags: 0
@@ -14013,7 +14025,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1771394037
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14035,9 +14047,12 @@ MonoBehaviour:
   healthBar: {fileID: 1669950853}
   _aniController: {fileID: 1358123213}
   posStart: {x: 0, y: 0, z: 0}
+  isMove: 0
+  isMoving: 0
   isReadyAttack: 0
   isAttack: 0
   isAttacking: 0
+  posAttack: {x: 0, y: 0, z: 0}
   pathNodes: []
   _spritesFlowCharacter: {fileID: 650921927}
 --- !u!61 &1771394038
@@ -15177,9 +15192,12 @@ MonoBehaviour:
   healthBar: {fileID: 151429265}
   _aniController: {fileID: 1935857386}
   posStart: {x: 0, y: 0, z: 0}
+  isMove: 0
+  isMoving: 0
   isReadyAttack: 0
   isAttack: 0
   isAttacking: 0
+  posAttack: {x: 0, y: 0, z: 0}
   pathNodes: []
   _spritesFlowCharacter: {fileID: 650921927}
 --- !u!61 &1882116089
@@ -19511,9 +19529,12 @@ MonoBehaviour:
   healthBar: {fileID: 1261470391}
   _aniController: {fileID: 1391869942}
   posStart: {x: 0, y: 0, z: 0}
+  isMove: 0
+  isMoving: 0
   isReadyAttack: 0
   isAttack: 0
   isAttacking: 0
+  posAttack: {x: 0, y: 0, z: 0}
   pathNodes: []
   _spritesFlowCharacter: {fileID: 650921927}
 --- !u!61 &2135187096

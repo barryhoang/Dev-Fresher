@@ -42,14 +42,23 @@ namespace StateManager
                 }
             }
 
-            // var closestte = character.GetClosest(enemy[0].transform.position);
-            // foreach (var entity in enemy)
-            // {
-            //     var position = entity.transform.position;
-            //     Vector3Int temp = new Vector3Int((int)closestte.transform.position.x,
-            //         (int) closestte.transform.position.y,0);
-            //     entity.Move(closestte);
-            // }
+            foreach (var entity in enemy)
+            {
+                var position = entity.transform.position;
+                var closest = character.GetClosest(position);
+                if (closest != null)
+                {
+                    // Vector3Int temp = new Vector3Int(Mathf.RoundToInt(closest.transform.position.x),
+                    //     Mathf.RoundToInt(closest.transform.position.y),0);
+                    // entity.posAttack = DirTarget(temp);
+                    if (!entity.isMoving)
+                    {
+                        entity.isMoving = true;
+                        entity.isMove = true;
+                        Timing.RunCoroutine(entity.Move(closest).CancelWith(gameObject));
+                    }
+                }
+            }
         }
 
         private Vector3Int DirTarget(Vector3Int temp)

@@ -58,104 +58,161 @@ namespace Entity
         {
             _panelStats.gameObject.SetActive(false);
         }
-
+        
         public IEnumerator<float> Move(Entity entity)
         {
-            if (isAttacking || entity == null)
+    if (isAttacking || entity == null)
+    {
+        isMove = false;
+        yield break;
+    }
+
+    int currentPathIndex = 0;
+    Vector3Int targetPosition =  DirTarget(new Vector3Int(Mathf.RoundToInt(entity.transform.position.x),Mathf.RoundToInt(entity.transform.position.y)));
+    pathNodes = GridManager.instance._pathfinding.FindPath((int)transform.position.x, (int)transform.position.y,
+        targetPosition.x, targetPosition.y);
+    while (currentPathIndex < pathNodes.Count)
+    {
+        // Check if the target has moved, and recalculate the path if needed
+        Vector3Int newTargetPosition = DirTarget(new Vector3Int(Mathf.RoundToInt(entity.transform.position.x),Mathf.RoundToInt(entity.transform.position.y)));
+
+        if (newTargetPosition != targetPosition)
+        {
+            targetPosition = newTargetPosition;
+            // Recalculate path when the target moves
+            currentPathIndex = 0;
+            pathNodes = GridManager.instance._pathfinding.FindPath((int)transform.position.x, (int)transform.position.y,
+                                                                   targetPosition.x, targetPosition.y);
+        }
+
+        var currentNode = pathNodes[currentPathIndex];
+        var nextPosition = new Vector3(currentNode.xPos, currentNode.yPos, 0);
+
+        if (!_gridMap.Value[currentNode.xPos, currentNode.yPos])
+        {
+            transform.position = Vector3.MoveTowards(transform.position, nextPosition, _speed * Time.deltaTime);
+
+            if (Vector3.Distance(transform.position, nextPosition) < 0.1f)
             {
-                isMove = false;
-            }
-            int currentPathIndex = 0;
-            var position = transform.position;
-            var currentX = (int) position.x;
-            var currentY = (int) position.y;
-            Vector3Int temp = new Vector3Int(Mathf.RoundToInt(entity.transform.position.x),
-                Mathf.RoundToInt(entity.transform.position.y),0);
-            var targetX = DirTarget(temp).x;
-            var targetY = DirTarget(temp).y;
-            pathNodes = GridManager.instance._pathfinding.FindPath(currentX, currentY, targetX, targetY);
-            while (currentPathIndex < pathNodes.Count)
-            {
-                PathNode currentNode = pathNodes[currentPathIndex];
-                Vector3 targetPosition = new Vector3(currentNode.xPos,currentNode.yPos,0);
-                if (!_gridMap.Value[currentNode.xPos,currentNode.yPos])
+                if (currentPathIndex > 0)
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, targetPosition, _speed * Time.deltaTime);
-                    if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
-                    {
-                        if (currentPathIndex > 0)
-                        {
-                            _gridMap.Value[pathNodes[currentPathIndex - 1].xPos, pathNodes[currentPathIndex - 1].yPos] =
-                                false;
-                        }
-                        _gridMap.Value[currentNode.xPos, currentNode.yPos] = true;
-                        currentPathIndex++;
-                        if (currentPathIndex <= pathNodes.Count - 1)
-                        {
-                            if (_gridMap.Value[pathNodes[currentPathIndex].xPos,
-                                pathNodes[currentPathIndex].yPos])
-                            {
-                                pathNodes.Clear();
-                                currentX = (int) transform.position.x;
-                                currentY = (int) transform.position.y;
-                                targetX = DirTarget(temp).x;
-                                targetY = DirTarget(temp).y;
-                                pathNodes = GridManager.instance._pathfinding.FindPath(currentX, currentY, targetX, targetY);
-                                currentPathIndex = 0;
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    Debug.Log("Current node is occupied. Cannot move." + " " + gameObject.name);
-                   isMove = false;
+                    _gridMap.Value[pathNodes[currentPathIndex - 1].xPos, pathNodes[currentPathIndex - 1].yPos] = false;
                 }
 
-                yield return Timing.WaitForOneFrame;
+                _gridMap.Value[currentNode.xPos, currentNode.yPos] = true;
+                currentPathIndex++;
+
+                if (currentPathIndex < pathNodes.Count && _gridMap.Value[pathNodes[currentPathIndex].xPos, pathNodes[currentPathIndex].yPos])
+                {
+                    currentPathIndex = 0;
+                    targetPosition =  DirTarget(new Vector3Int(Mathf.RoundToInt(entity.transform.position.x),Mathf.RoundToInt(entity.transform.position.y)));
+                    pathNodes = GridManager.instance._pathfinding.FindPath((int)transform.position.x, (int)transform.position.y,
+                        targetPosition.x, targetPosition.y);
+                }
             }
         }
+
+        yield return Timing.WaitForOneFrame; 
+    }
+    // If you reach this point, it means the entity reached the end of the current path.
+    // Consider recalculating the path or performing other actions if needed.
+    isMove = false;
+    // Recalculate path or perform other actions if needed.
+    // pathNodes = ...;
+    // currentPathIndex = 0;
+}
+        // public IEnumerator<float> Move(Entity entity)
+        // {
+        //     if (isAttacking || entity == null)
+        //     {
+        //         isMove = false;
+        //     }
+        //     int currentPathIndex = 0;
+        //     var position = transform.position;
+        //     var currentX = (int) position.x;
+        //     var currentY = (int) position.y;
+        //     Vector3Int temp = new Vector3Int(Mathf.RoundToInt(entity.transform.position.x),
+        //         Mathf.RoundToInt(entity.transform.position.y),0);
+        //     var targetX = DirTarget(temp).x;
+        //     var targetY = DirTarget(temp).y;
+        //     pathNodes = GridManager.instance._pathfinding.FindPath(currentX, currentY, targetX, targetY);
+        //     while (currentPathIndex < pathNodes.Count)
+        //     {
+        //         currentPathIndex = 1;
+        //         currentX = (int) transform.position.x;
+        //         currentY = (int) transform.position.y;
+        //         temp = new Vector3Int(Mathf.RoundToInt(entity.transform.position.x),
+        //             Mathf.RoundToInt(entity.transform.position.y),0);
+        //         targetX = DirTarget(temp).x;
+        //         targetY = DirTarget(temp).y;
+        //         pathNodes = GridManager.instance._pathfinding.FindPath(currentX, currentY, targetX, targetY);
+        //         PathNode currentNode = pathNodes[currentPathIndex];
+        //         Vector3 targetPosition = new Vector3(currentNode.xPos,currentNode.yPos,0);
+        //         if (!_gridMap.Value[currentNode.xPos,currentNode.yPos])
+        //         {
+        //             transform.position = Vector3.MoveTowards(transform.position, targetPosition, _speed * Time.deltaTime);
+        //             if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
+        //             {
+        //                 if (currentPathIndex > 0)
+        //                 {
+        //                     _gridMap.Value[pathNodes[currentPathIndex - 1].xPos, pathNodes[currentPathIndex - 1].yPos] =
+        //                         false;
+        //                 }
+        //                 _gridMap.Value[currentNode.xPos, currentNode.yPos] = true;
+        //                 currentPathIndex++;
+        //                 if (currentPathIndex <= pathNodes.Count - 1)
+        //                 {
+        //                     if (_gridMap.Value[pathNodes[currentPathIndex].xPos,
+        //                         pathNodes[currentPathIndex].yPos])
+        //                     {
+        //                         pathNodes.Clear();
+        //                         currentX = (int) transform.position.x;
+        //                         currentY = (int) transform.position.y;
+        //                         targetX = DirTarget(temp).x;
+        //                         targetY = DirTarget(temp).y;
+        //                         pathNodes = GridManager.instance._pathfinding.FindPath(currentX, currentY, targetX, targetY);
+        //                         currentPathIndex = 0;
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //         else
+        //         {
+        //             Debug.Log("Current node is occupied. Cannot move." + " " + gameObject.name);
+        //            isMove = false;
+        //         }
+        //
+        //         yield return Timing.WaitForOneFrame;
+        //     }
+        // }
+        
         private Vector3Int DirTarget(Vector3Int temp)
         {
-            float distanceMin = 1000f;
+            float distanceMin = float.MaxValue;
             int x = 0;
             int y = 0;
-            if (!_gridMap.Value[temp.x - 1, temp.y])
+
+            CheckDirection(temp.x - 1, temp.y, -1, 0, ref x, ref y, ref distanceMin); // Left
+            CheckDirection(temp.x + 1, temp.y, 1, 0, ref x, ref y, ref distanceMin);  // Right
+            CheckDirection(temp.x, temp.y + 1, 0, 1, ref x, ref y, ref distanceMin);  // Up
+            CheckDirection(temp.x, temp.y - 1, 0, -1, ref x, ref y, ref distanceMin); // Down
+
+            Debug.Log(gameObject.name + " " + x + " " + y);
+            return new Vector3Int(temp.x + x, temp.y + y, 0);
+        }
+
+        private void CheckDirection(int targetX, int targetY, int dirX, int dirY, ref int x, ref int y, ref float distanceMin)
+        {
+            if (!_gridMap.Value[targetX, targetY] && targetX >= 0 && targetX < _gridMap.size.x && targetY >= 0 && targetY < _gridMap.size.y)
             {
-                x = -1;
-                distanceMin = Vector2.Distance(transform.position, new Vector2(temp.x - 1, temp.y));
-            }
-            if (!_gridMap.Value[temp.x + 1, temp.y])
-            {
-                float distanceRight = Vector2.Distance(transform.position, new Vector2(temp.x + 1, temp.y));
-                if (distanceRight < distanceMin)
+                float distance = Vector2.Distance(transform.position, new Vector2(targetX, targetY));
+                if (distance <= distanceMin)
                 {
-                    x = 1;
-                    y = 0;
-                    distanceMin = distanceRight;
+                    x = dirX;
+                    y = dirY;
+                    distanceMin = distance;
                 }
             }
-            if (!_gridMap.Value[temp.x, temp.y + 1] && temp.y + 1 < _gridMap.size.y)
-            {
-                float distanceUp = Vector2.Distance(transform.position, new Vector2(temp.x, temp.y + 1));
-                if (distanceUp < distanceMin)
-                {
-                    x = 0;
-                    y = 1;
-                    distanceMin = distanceUp;
-                }
-            }
-            if (!_gridMap.Value[temp.x, temp.y - 1] && temp.y - 1 > 0)
-            {
-                float distanceDown = Vector2.Distance(transform.position, new Vector2(temp.x, temp.y - 1));
-                if (distanceDown < distanceMin)
-                {
-                    x = 0;
-                    y = -1;
-                    distanceMin = distanceDown;
-                }
-            }
-            return new Vector3Int(temp.x + x,temp.y + y);
         }
         public void ResetPosAndState()
         {
