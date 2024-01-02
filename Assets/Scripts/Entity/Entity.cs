@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using Animation;
 using Apathfinding;
 using MEC;
@@ -26,9 +28,12 @@ namespace Entity
         private float _currentHealth;
         
         public Vector3 posStart;
+        public bool isMove;
+        public bool isMoving;
         public bool isReadyAttack;
         public bool isAttack;
         public bool isAttacking;
+        public Vector3Int posAttack;
         public List<PathNode> pathNodes;
 
         protected virtual void OnEnable()
@@ -37,6 +42,7 @@ namespace Entity
             posStart = _tilemap.WorldToCell(transform.position);
             _panelStats.SetText(_entityData);
             _currentHealth = _entityData.InitHealth.Value;
+            _gridMap.Value[(int) transform.position.x, (int) transform.position.y] = true;
         }
         protected virtual void OnDisable()
         {
@@ -53,35 +59,104 @@ namespace Entity
             _panelStats.gameObject.SetActive(false);
         }
 
-        public void Move(Entity entity, Vector3Int targetPos)
+        public IEnumerator<float> Move(Entity entity)
         {
             if (isAttacking || entity == null)
             {
-                return;
+                isMove = false;
             }
-            _gridMap.Value[(int) transform.position.x, (int) transform.position.y] = false;
+            int currentPathIndex = 0;
             var position = transform.position;
             var currentX = (int) position.x;
             var currentY = (int) position.y;
-            var targetX = targetPos.x;
-            var targetY = targetPos.y;
+            Vector3Int temp = new Vector3Int(Mathf.RoundToInt(entity.transform.position.x),
+                Mathf.RoundToInt(entity.transform.position.y),0);
+            var targetX = DirTarget(temp).x;
+            var targetY = DirTarget(temp).y;
             pathNodes = GridManager.instance._pathfinding.FindPath(currentX, currentY, targetX, targetY);
-            if (pathNodes.Count > 0 && pathNodes != null)
+            while (currentPathIndex < pathNodes.Count)
             {
-                var target = new Vector3(pathNodes[0].xPos,pathNodes[0].yPos);
-                var dir = (target - transform.position).normalized;
-                transform.position += _speed * Time.deltaTime *dir;
-                if (Vector3.Distance(targetPos, transform.position) <= 0.1f)
+                PathNode currentNode = pathNodes[currentPathIndex];
+                Vector3 targetPosition = new Vector3(currentNode.xPos,currentNode.yPos,0);
+                if (!_gridMap.Value[currentNode.xPos,currentNode.yPos])
                 {
-                    transform.position = _tilemap.WorldToCell(transform.position);
-                    _objectAttack = entity;
-                    isReadyAttack = true;
-                    _gridMap.Value[(int) transform.position.x, (int) transform.position.y] = true;
-                    _aniController.SetAnimation(AnimationName.Move, false);
+                    transform.position = Vector3.MoveTowards(transform.position, targetPosition, _speed * Time.deltaTime);
+                    if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
+                    {
+                        if (currentPathIndex > 0)
+                        {
+                            _gridMap.Value[pathNodes[currentPathIndex - 1].xPos, pathNodes[currentPathIndex - 1].yPos] =
+                                false;
+                        }
+                        _gridMap.Value[currentNode.xPos, currentNode.yPos] = true;
+                        currentPathIndex++;
+                        if (currentPathIndex <= pathNodes.Count - 1)
+                        {
+                            if (_gridMap.Value[pathNodes[currentPathIndex].xPos,
+                                pathNodes[currentPathIndex].yPos])
+                            {
+                                pathNodes.Clear();
+                                currentX = (int) transform.position.x;
+                                currentY = (int) transform.position.y;
+                                targetX = DirTarget(temp).x;
+                                targetY = DirTarget(temp).y;
+                                pathNodes = GridManager.instance._pathfinding.FindPath(currentX, currentY, targetX, targetY);
+                                currentPathIndex = 0;
+                            }
+                        }
+                    }
                 }
+                else
+                {
+                    Debug.Log("Current node is occupied. Cannot move." + " " + gameObject.name);
+                   isMove = false;
+                }
+
+                yield return Timing.WaitForOneFrame;
             }
         }
-        
+        private Vector3Int DirTarget(Vector3Int temp)
+        {
+            float distanceMin = 1000f;
+            int x = 0;
+            int y = 0;
+            if (!_gridMap.Value[temp.x - 1, temp.y])
+            {
+                x = -1;
+                distanceMin = Vector2.Distance(transform.position, new Vector2(temp.x - 1, temp.y));
+            }
+            if (!_gridMap.Value[temp.x + 1, temp.y])
+            {
+                float distanceRight = Vector2.Distance(transform.position, new Vector2(temp.x + 1, temp.y));
+                if (distanceRight < distanceMin)
+                {
+                    x = 1;
+                    y = 0;
+                    distanceMin = distanceRight;
+                }
+            }
+            if (!_gridMap.Value[temp.x, temp.y + 1] && temp.y + 1 < _gridMap.size.y)
+            {
+                float distanceUp = Vector2.Distance(transform.position, new Vector2(temp.x, temp.y + 1));
+                if (distanceUp < distanceMin)
+                {
+                    x = 0;
+                    y = 1;
+                    distanceMin = distanceUp;
+                }
+            }
+            if (!_gridMap.Value[temp.x, temp.y - 1] && temp.y - 1 > 0)
+            {
+                float distanceDown = Vector2.Distance(transform.position, new Vector2(temp.x, temp.y - 1));
+                if (distanceDown < distanceMin)
+                {
+                    x = 0;
+                    y = -1;
+                    distanceMin = distanceDown;
+                }
+            }
+            return new Vector3Int(temp.x + x,temp.y + y);
+        }
         public void ResetPosAndState()
         {
             _panelStats.SetText(_entityData);
@@ -105,6 +180,7 @@ namespace Entity
                 _objectAttack.TakeDamage(this,1);
                 if (!_objectAttack.gameObject.activeInHierarchy)
                 {
+                    transform.GetChild(0).localPosition = Vector3.zero;
                     isReadyAttack = false;
                     isAttacking = false;
                     isAttack = false;
@@ -136,6 +212,48 @@ namespace Entity
         }
     }
 }
+
+
+// public void Move(Entity entity, Vector3Int targetPos)
+// {
+//     if (isAttacking || entity == null)
+//     {
+//         return;
+//     }
+//     _gridMap.Value[(int) transform.position.x, (int) transform.position.y] = false;
+//     var position = transform.position;
+//     var currentX = (int) position.x;
+//     var currentY = (int) position.y;
+//     var targetX = targetPos.x;
+//     var targetY = targetPos.y;
+//     pathNodes = GridManager.instance._pathfinding.FindPath(currentX, currentY, targetX, targetY);
+//     if (pathNodes.Count > 0 && pathNodes != null)
+//     {
+//         // if (_gridMap.Value[pathNodes[1].xPos, pathNodes[1].yPos] == true)
+//         // {
+//         //     pathNodes = GridManager.instance._pathfinding.FindPath(currentX, currentY, targetX, targetY);
+//         // }
+//         var target = new Vector3(pathNodes[0].xPos,pathNodes[0].yPos);
+//         var dir = (target - transform.position).normalized;
+//         transform.position += _speed * Time.deltaTime *dir;
+//         if (Vector3.Distance(targetPos, transform.position) <= 0.1f)
+//         {
+//             transform.position = _tilemap.WorldToCell(transform.position);
+//             _objectAttack = entity;
+//             isReadyAttack = true;
+//             _gridMap.Value[(int) transform.position.x, (int) transform.position.y] = true;
+//             
+//             _aniController.SetAnimation(AnimationName.Move, false);
+//         }
+//     }
+//     else
+//     {
+//         transform.position = _tilemap.WorldToCell(transform.position);
+//     }
+// }
+
+
+
 
 // public void Move(Entity entity)
 // {

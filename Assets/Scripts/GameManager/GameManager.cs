@@ -61,7 +61,6 @@ namespace GameManager
                 }
                 else
                 {
-                    GridManager.instance.UpdateGrid();
                     SpawnManager.instance.CheckEntityDie();
                     MoveManager.instance.Move(_listCharacters,_listEnemies);
                     GridManager.instance.ResetValue();

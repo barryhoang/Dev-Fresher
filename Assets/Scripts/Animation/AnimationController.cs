@@ -17,7 +17,6 @@ namespace Animation
     
     public class AnimationController : MonoBehaviour
     {
-        [SerializeField] private TweenSettings<float> _tweenSettings;
         [SerializeField] private Animator _animator;
 
         public Vector3 dir;

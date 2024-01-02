@@ -21,7 +21,7 @@ namespace Entity
 
             var secondClosest = _list
                 .OrderBy(enemy => (position - enemy.transform.position).sqrMagnitude)
-                .Skip(1) // Skip the first element
+                .Skip(1)
                 .FirstOrDefault();
 
             return secondClosest;

@@ -33,7 +33,7 @@ namespace Apathfinding
 
         private void OnDrawGizmos()
         {
-            Gizmos.color =Color.red;
+            Gizmos.color = Color.red;
             Gizmos.DrawWireCube(transform.position,size);
         }
 

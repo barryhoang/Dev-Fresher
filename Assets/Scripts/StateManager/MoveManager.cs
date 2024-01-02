@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Drawing;
 using Apathfinding;
 using Entity;
 using MEC;
@@ -22,30 +23,33 @@ namespace StateManager
         
         public void Move(ScriptableListCharacter character ,ScriptableListEnemy enemy)
         {
+            // var closest = enemy.GetClosest(character[0].transform.position);
             foreach (var entity in character)
             {
                 var position = entity.transform.position;
                 var closest = enemy.GetClosest(position);
-                Vector3Int temp = new Vector3Int(Mathf.RoundToInt(closest.transform.position.x),
-                    Mathf.RoundToInt(closest.transform.position.y),0);
-                if(temp == DirTarget(temp))
+                if (closest != null)
                 {
-                    closest = enemy.GetSecondClosest(transform.position);
-                    temp = new Vector3Int(Mathf.RoundToInt(closest.transform.position.x),
-                        Mathf.RoundToInt(closest.transform.position.y),0);
-                    Debug.Log("A");
+                    // Vector3Int temp = new Vector3Int(Mathf.RoundToInt(closest.transform.position.x),
+                    //     Mathf.RoundToInt(closest.transform.position.y),0);
+                    // entity.posAttack = DirTarget(temp);
+                    if (!entity.isMoving)
+                    {
+                        entity.isMoving = true;
+                        entity.isMove = true;
+                        Timing.RunCoroutine(entity.Move(closest).CancelWith(gameObject));
+                    }
                 }
-                entity.Move(closest, DirTarget(temp));
             }
 
-            foreach (var entity in enemy)
-            {
-                var position = entity.transform.position;
-                var closest = character.GetClosest(position);
-                Vector3Int temp = new Vector3Int((int)closest.transform.position.x,
-                    (int) closest.transform.position.y,0);
-                entity.Move(closest, DirTarget(temp));
-            }
+            // var closestte = character.GetClosest(enemy[0].transform.position);
+            // foreach (var entity in enemy)
+            // {
+            //     var position = entity.transform.position;
+            //     Vector3Int temp = new Vector3Int((int)closestte.transform.position.x,
+            //         (int) closestte.transform.position.y,0);
+            //     entity.Move(closestte);
+            // }
         }
 
         private Vector3Int DirTarget(Vector3Int temp)
@@ -68,7 +72,7 @@ namespace StateManager
                     distanceMin = distanceRight;
                 }
             }
-            if (!_gridMap.Value[temp.x, temp.y + 1])
+            if (!_gridMap.Value[temp.x, temp.y + 1] && temp.y + 1 < _gridMap.size.y)
             {
                 float distanceUp = Vector2.Distance(transform.position, new Vector2(temp.x, temp.y + 1));
                 if (distanceUp < distanceMin)
@@ -78,7 +82,7 @@ namespace StateManager
                     distanceMin = distanceUp;
                 }
             }
-            if (!_gridMap.Value[temp.x, temp.y - 1])
+            if (!_gridMap.Value[temp.x, temp.y - 1] && temp.y - 1 > 0)
             {
                 float distanceDown = Vector2.Distance(transform.position, new Vector2(temp.x, temp.y - 1));
                 if (distanceDown < distanceMin)
