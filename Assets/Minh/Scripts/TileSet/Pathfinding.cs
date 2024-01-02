@@ -60,11 +60,8 @@ namespace Minh
 
         public List<PathNode> FindPath(int startX, int startY, int endX, int endY)
         {
-            Debug.Log("PATH NODE" + _gridMap.Value.Length);
-            Debug.Log(startX);
-            Debug.Log(startY);
-            Debug.Log(endX);
-            Debug.Log(endY);
+           
+          
             PathNode startNode = pathNodes[startX, startY];
             PathNode endNode = pathNodes[endX, endY];
 
@@ -126,10 +123,12 @@ namespace Minh
                         continue;
                     }
 
-
-                    if (_gridMap.CheckWalkable(neighbourNodes[i].xPos, neighbourNodes[i].yPos) == false)
+                    if (new Vector2(neighbourNodes[i].xPos, neighbourNodes[i].yPos) != new Vector2(endX, endY))
                     {
-                        continue;
+                        if (_gridMap.CheckWalkable(neighbourNodes[i].xPos, neighbourNodes[i].yPos) == false)
+                        {
+                            continue;
+                        }
                     }
 
 
@@ -166,7 +165,7 @@ namespace Minh
                 currentNode = currentNode.parentNode;
             }
 
-            path.Reverse();
+             path.Reverse();
 
             return path;
         }

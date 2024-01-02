@@ -43,7 +43,7 @@ namespace Minh
 
         private void SpawnPlayer()
         {
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < 3; i++)
             {
                 
                 GameObject player;
@@ -52,8 +52,8 @@ namespace Minh
                 Player _playerScript;
                 _playerScript = player.GetComponent<Player>();
                 playerPlacement = player.GetComponent<PlayerPlacement>();
-                playerPlacement.Init(new Vector3(0,i+2,0));
-                offset = offset + 2;
+                playerPlacement.Init(new Vector3(0+i,0+offset,0));
+                offset = offset + 3;
                 _playerScript.AddToList();
 
 

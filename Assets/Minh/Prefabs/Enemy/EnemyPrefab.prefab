@@ -130,6 +130,7 @@ MonoBehaviour:
   _pathfinding: {fileID: 0}
   _currentX: 0
   _currentY: 0
+  child: {fileID: 484610605282896176}
 --- !u!114 &-2635526388856692558
 MonoBehaviour:
   m_ObjectHideFlags: 0

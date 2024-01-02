@@ -37,7 +37,12 @@ namespace Minh
         [SerializeField] private Pathfinding _pathfinding;
         [SerializeField] private int _currentX = 0;
         [SerializeField] private int _currentY = 0;
+        [SerializeField] private Transform hit;
+        private bool _isAttacking;
+
         private Vector3 _prevPosition;
+
+
         private void Awake()
         {
             GameObject _healthbar1 = Instantiate(_healthBar, gameObject.transform, true);
@@ -58,11 +63,11 @@ namespace Minh
 
         private void Start()
         {
-            
             _characterState = CharacterState.Idle;
-           // Timing.RunCoroutine(CheckHealth().CancelWith(gameObject));
-           // Timing.RunCoroutine(EnemyMove().CancelWith(gameObject), "enemyMove" + _gameObjectID);
-           Timing.RunCoroutine(EnemyMove());
+            // Timing.RunCoroutine(CheckHealth().CancelWith(gameObject));
+            // Timing.RunCoroutine(EnemyMove().CancelWith(gameObject), "enemyMove" + _gameObjectID);
+            Timing.RunCoroutine(EnemyMove());
+            hit = transform.Find("Hit");
         }
 
         private void OnDestroy()
@@ -72,7 +77,6 @@ namespace Minh
 
         private void Update()
         {
-            Debug.Log(_gameManager._gameState);
         }
 
         public void AddToList()
@@ -85,19 +89,19 @@ namespace Minh
             if (_characterState == CharacterState.Idle)
             {
                 var player = other.GetComponent<Player>();
-               // Timing.PauseCoroutines("enemyMove" + _gameObjectID);
-            //    Timing.RunCoroutine(EnemyAttack(player).CancelWith(gameObject), "enemyAttack" + _gameObjectID);
+                // Timing.PauseCoroutines("enemyMove" + _gameObjectID);
+                //    Timing.RunCoroutine(EnemyAttack(player).CancelWith(gameObject), "enemyAttack" + _gameObjectID);
                 _distance = transform.position;
                 Debug.Log("Attackkkk");
                 _characterState = CharacterState.Attack;
             }
         }
-        
+
         private void OnTriggerExit2D(Collider2D other)
         {
             Timing.PauseCoroutines(_gameObjectID);
         }
-        
+
         // private IEnumerator<float> CheckHealth()
         // {
         //     while (true)
@@ -116,110 +120,58 @@ namespace Minh
 
         private IEnumerator<float> EnemyMove()
         {
+            var closet = _soapListPlayer.GetClosest(transform.position);
             while (true)
             {
+                _targetTilemap.ClearAllTiles();
+                
+                
+                    closet = _soapListPlayer.GetClosest(transform.position);
+                
 
-                while (true)
+                _currentX = (int) this.transform.position.x;
+                _currentY = (int) this.transform.position.y;
+                List<PathNode> path = _pathfinding.FindPath(_currentX, _currentY, (int) closet.transform.position.x,
+                    (int) closet.transform.position.y);
+
+                if (Vector2.Distance(closet.transform.position, transform.position) > 1.8f)
                 {
-
-                    _targetTilemap.ClearAllTiles();
-                    var closet = _soapListPlayer.GetClosest(transform.position);
-                    _currentX = (int) this.transform.position.x;
-                    _currentY = (int) this.transform.position.y;
-
-                    List<PathNode> path = _pathfinding.FindPath(_currentX, _currentY, (int) closet.transform.position.x,
-                        (int) closet.transform.position.y);
-
-                    Debug.Log(transform.position);
-
-                    // if (path != null)
-                    // {
-                    //     for (int i = 0; i < path.Count - 1; i++)
-                    //     {
-                    //Tween.Position(transform, new Vector3(path[i].xPos, path[i].yPos, 0), _tweenSettings);
-                    //transform.position = new Vector3(path[i].xPos, path[i].yPos, 0);
-                    // yield return Timing.WaitUntilDone(
-                    //     Timing.RunCoroutine(playerMovement(new Vector3(path[i].xPos, path[i].yPos, 0))));
-
-                    //if (Vector2.Distance(closet.transform.position, transform.position) > 1.45f)
-                    //{
-                    _prevPosition = transform.position;
-                    _gridManager.Set((int) _prevPosition.x, (int) _prevPosition.y, 0);
+                    _gridMap.Value[(int)_prevPosition.x, (int)_prevPosition.y] = false;
+                    _prevPosition = new Vector3(path[0].xPos, path[0].yPos, 0);
                     _gridMap.Value[path[0].xPos, path[0].yPos] = true;
                     Tween.Position(transform, new Vector3(path[0].xPos, path[0].yPos, 0), _tweenSettings);
-                    //  Debug.Log(_gridMap.Value[path[0].xPos,path[0].yPos]);
-                    //  _gridMap.Value[(int) transform.position.x, (int) transform.position.y] = true;
-
-                    //  }
-
-
-//                Debug.Log(Vector2.Distance(closet.transform.position,transform.position));
-                    yield return Timing.WaitForSeconds(_tweenSettings.duration);
-
-
-
-
-                    yield return Timing.WaitForSeconds(0.3f);
-                    // _gridManager.Set(path[0].xPos, path[0].yPos, 0);
+                    _prevPosition = transform.position;
                 }
+                else
+                {
+                    Timing.RunCoroutine(EnemyAttack(closet).CancelWith(gameObject), "enemyAttack" + _gameObjectID);
+                    _isAttacking = true;
+                    yield return Timing.WaitForSeconds(1 / (float)characterStats._attackRate*2);
+                }
+             
+                yield return Timing.WaitForSeconds(_tweenSettings.duration);
             }
         }
-        // private IEnumerator<float> PlayerMove()
-        // {
-        //     while (true)
-        //     {
-        //         
-        //         _targetTilemap.ClearAllTiles();
-        //         var closet = _soapListEnemy.GetClosest(transform.position);
-        //         _currentX = (int) transform.position.x;
-        //         _currentY = (int) transform.position.y;
-        //         List<PathNode> path = _pathfinding.FindPath(_currentX, _currentY, (int) closet.transform.position.x,
-        //             (int) closet.transform.position.y);
-        //         
-        //         // if (path != null)
-        //         // {
-        //         //     for (int i = 0; i < path.Count - 1; i++)
-        //         //     {
-        //         //Tween.Position(transform, new Vector3(path[i].xPos, path[i].yPos, 0), _tweenSettings);
-        //         //transform.position = new Vector3(path[i].xPos, path[i].yPos, 0);
-        //         // yield return Timing.WaitUntilDone(
-        //         //     Timing.RunCoroutine(playerMovement(new Vector3(path[i].xPos, path[i].yPos, 0))));
-        //         
-        //         if (Vector2.Distance(closet.transform.position, transform.position) > 1.45f)
-        //         {
-        //             _prevPosition = transform.position;
-        //             _gridManager.Set((int) _prevPosition.x, (int) _prevPosition.y, 0);
-        //             _gridManager.Set(path[0].xPos, path[0].yPos, 3);
-        //             Tween.Position(transform, new Vector3(path[0].xPos, path[0].yPos, 0), _tweenSettings);
-        //             
-        //         }
-        //     
-        //        
-        //         Debug.Log(Vector2.Distance(closet.transform.position,transform.position));
-        //         yield return Timing.WaitForSeconds(_tweenSettings.duration);
-        //       
-        //
-        //         yield return Timing.WaitForSeconds(0.3f);
-        //     }
-        // }
-        
-        // private IEnumerator<float> EnemyAttack(Player player)
-        // {
-        //     _enemyPlacement.SetEnemyCenter();
-        //     _attackPosition = player.gameObject.transform.position;
-        //     _characterState = CharacterState.Attack;
-        //     while (true)
-        //     {
-        //         Debug.Log("Attacking");
-        //         if (_characterState == CharacterState.Attack)
-        //         {
-        //             Tween.Position(transform, _attackPosition, _tweenSettings);
-        //             Attack(player);
-        //         }
-        //         yield return Timing.WaitForSeconds(1f / characterStats._attackRate);
-        //     }
-        // }
-        //
+
+        private IEnumerator<float> EnemyAttack(Player player)
+        {
+            _enemyPlacement.SetEnemyCenter();
+            _attackPosition = player.gameObject.transform.position;
+            _characterState = CharacterState.Attack;
+
+
+            if (_characterState == CharacterState.Attack)
+            {
+                Debug.Log("ENEMY Attacking");
+                Vector2 dir = (player.transform.position - transform.position).normalized;
+                Vector2 attackPosition = new Vector2(hit.transform.position.x + dir.x * 0.3f,
+                    dir.y * 0.3f + hit.transform.position.y);
+                Tween.Position(hit, attackPosition, 1 / (float)characterStats._attackRate, Ease.Default, 2, CycleMode.Yoyo);
+                Attack(player);
+            }
+            yield return Timing.WaitForOneFrame;
+        }
+
         // private IEnumerator<float> EnemyMove()
         // {
         //     while (true)
@@ -252,19 +204,19 @@ namespace Minh
         //     }
         // }
         //
-        // private void Attack(Player player)
-        // {
-        //     if (_characterState == CharacterState.Attack)
-        //     {
-        //         player.TakeDamage(characterStats._damage);
-        //         if (player._health <= 0)
-        //         {
-        //             _characterState = CharacterState.Idle;
-        //             Timing.KillCoroutines("playerAttack");
-        //             Timing.ResumeCoroutines("playerMove" + _gameObjectID);
-        //         }
-        //     }
-        // }
+        private void Attack(Player player)
+        {
+            if (_characterState == CharacterState.Attack)
+            {
+                player.TakeDamage(characterStats._damage);
+                if (player._health <= 0)
+                {
+                    _characterState = CharacterState.Idle;
+                    Timing.KillCoroutines("playerAttack");
+                    Timing.ResumeCoroutines("playerMove" + _gameObjectID);
+                }
+            }
+        }
 
         public void TakeDamage(int damage)
         {

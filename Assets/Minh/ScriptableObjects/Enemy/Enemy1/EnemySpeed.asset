@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56cdb8ad39a5bdd4f8ed3d18fae14a63, type: 3}
   m_Name: EnemySpeed
   m_EditorClassIdentifier: 
-  _guid: 0b0a3385c0d5f8041ac77f0a32abd979
-  _value: 2
+  _guid: 0238d920c1674c045b295e7993f5800e
+  _value: 10
   _debugLogEnabled: 0
   _saved: 0
   _defaultValue: 0

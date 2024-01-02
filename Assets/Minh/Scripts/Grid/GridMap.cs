@@ -18,7 +18,7 @@ namespace Minh
             _grid = new int [length, height];
             this._length = length;
             this._height = height;
-            Debug.Log("Grid NODE"+_grid.Length);
+          
         }
 
         public void Set(int x, int y, int to)

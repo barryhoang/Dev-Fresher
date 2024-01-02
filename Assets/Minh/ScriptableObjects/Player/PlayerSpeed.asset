@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PlayerSpeed
   m_EditorClassIdentifier: 
   _guid: 0b0a3385c0d5f8041ac77f0a32abd979
-  _value: 2
+  _value: 5
   _debugLogEnabled: 0
   _saved: 0
   _defaultValue: 0
