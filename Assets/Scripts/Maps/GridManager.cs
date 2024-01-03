@@ -14,19 +14,22 @@ public class GridManager : MonoBehaviour
     MapData mapData;
 
     [SerializeField] private TileSet tileSet;
-    
 
-    void Start()
+    private void Awake()
     {
         tileMap = GetComponent<Tilemap>();
         gridMap = GetComponent<GridMap>();
+    }
+
+    private void Start()
+    {
         tileMap.ClearAllTiles();
         saveLoadMap = GetComponent<SaveLoadMap>();
-        saveLoadMap.mapLoad(gridMap);
+        saveLoadMap.loadMap(gridMap);
         UpdateTileMap();
     }
 
-    void UpdateTileMap()
+    private void UpdateTileMap()
     {
         for (int x = 0; x < gridMap.width; x++)
         {
@@ -39,7 +42,7 @@ public class GridManager : MonoBehaviour
 
     private void UpdateTile(int x, int y)
     {
-        int tileId = gridMap.Get(x, y);
+        int tileId = gridMap.GetTile(x, y);
         if (tileId == -1)
         {
             return;
@@ -89,9 +92,20 @@ public class GridManager : MonoBehaviour
         tileMap.ClearAllTiles();
         tileMap = null;
     }
+
+    public void Set(int x, int y, int to)
+     {
+         gridMap.SetTile(x,y,to);
+         UpdateTile(x,y);
+     }
+
+    public Hero GetHero(int x, int y)
+    {
+        return gridMap.GetHero(x, y);
+    }
+
+    public Enemy GetEnemy(int x, int y)
+    {
+        return gridMap.GetEnemy(x, y);
+    }
 }
-/*public void Set(int x, int y, int to)
- {
-     gridMap.Set(x,y,to);
-     UpdateTile(x,y);
- }*/

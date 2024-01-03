@@ -3,38 +3,51 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public class Node
+{
+    public int tileId;
+    public Hero hero;
+    public Enemy enemy;
+}
 public class GridMap : MonoBehaviour
 {
     [HideInInspector] public int height;
     [HideInInspector] public int width;
     
-    int[,] grid;
+    Node[,] gridMap;
 
     public void Init(int width, int height)
     {
-        grid = new int[width,height];
+        gridMap = new Node[width,height];
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                gridMap[x,y] = new Node();
+            }
+        }
         this.height = height;
         this.width = width;
     }
 
-    public void Set(int x, int y, int to)
+    public void SetTile(int x, int y, int to)
     {
         if (CheckPos(x, y) == false)
         {
             Debug.LogWarning("Out of bound");
             return;
         }
-        grid[x, y] = to;
+        gridMap[x, y].tileId = to;
     }
 
-    public int Get(int x, int y)
+    public int GetTile(int x, int y)
     {
         if (CheckPos(x, y) == false)
         {
             Debug.LogWarning("Out of bound");
             return -1;
         }
-        return grid[x, y];
+        return gridMap[x, y].tileId;
     }
 
     public bool CheckPos(int x, int y)
@@ -52,13 +65,28 @@ public class GridMap : MonoBehaviour
         return true;
     }
 
-    public bool CheckHeroPos(float heroPosX)
+    public bool CheckWalkable(int xPos, int yPos)
     {
-        return heroPosX >= 0 && heroPosX < width/2;
+        return gridMap[xPos, yPos].tileId == 0;
     }
 
-    public bool CheckWalkable(in int xPos, in int yPos)
+    public Hero GetHero(int x, int y)
     {
-        return grid[xPos, yPos] == 0;
+        return gridMap[x, y].hero;
+    }
+
+    public void SetHero(MapElement mapElement,int xPos, int yPos)
+    {
+        gridMap[xPos, yPos].hero = mapElement.GetComponent<Hero>();
+    }
+
+    public Enemy GetEnemy(int x, int y)
+    {
+        return gridMap[x, y].enemy;
+    }
+
+    public void SetEnemy(MapElement mapElement,int xPos, int yPos)
+    {
+        gridMap[xPos,yPos].enemy = mapElement.GetComponent<Enemy>();
     }
 }

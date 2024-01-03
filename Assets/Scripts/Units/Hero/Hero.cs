@@ -2,6 +2,7 @@ using Obvious.Soap;
 using UnityEngine;
 using PrimeTween;
 using Unity.VisualScripting;
+using UnityEngine.AI;
 
 public class Hero : MonoBehaviour
 {
@@ -12,25 +13,23 @@ public class Hero : MonoBehaviour
     [SerializeField] private FloatVariable heroMaxHealth;
     [SerializeField] private FloatVariable heroSpeed;
     [SerializeField] private ScriptableListHero scriptableListHero;
+    [SerializeField] private ScriptableListGameObject listHero;
     [SerializeField] private ScriptableListEnemy scriptableListEnemy;
     [SerializeField] private ScriptableEventInt onHeroDamaged;
 
     [SerializeField] private HeroStateMachines HSM;
     [SerializeField] private Animator animator;
-    [SerializeField] private Grid grid;
-    [SerializeField] private GridMap gridMap;
-    
+
     private static readonly int Hp = Animator.StringToHash("HP");
     private static readonly int IsMoving = Animator.StringToHash("isMoving");
-    private Rigidbody2D selectedObject;
-    private Vector3 mousePos;
-    private Vector3 offset;
 
+    public string Name;
 
 
     private void Awake()
     {
         scriptableListHero.Add(this);
+        listHero.Add(gameObject);
         heroHealth.Value = heroMaxHealth;
         animator.SetFloat(Hp, Mathf.Abs(heroHealth.Value));
     }
@@ -42,19 +41,8 @@ public class Hero : MonoBehaviour
             animator.SetFloat(Hp, 0);
             Die();
         }
-        
-        SetHero();
-        //SnapHero();
     }
 
-    private void FixedUpdate()
-    {
-        if (selectedObject)
-        {
-            selectedObject.MovePosition(mousePos + offset);
-        }
-    }
-    
     private void OnTriggerStay2D(Collider2D other)
     {
         if (curTime <= 0 && other.CompareTag("Enemy"))
@@ -69,40 +57,6 @@ public class Hero : MonoBehaviour
         }
     }
     
-
-    private void SetHero()
-    {
-        var heroPosX = transform.position.x;
-        mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        if (Input.GetMouseButtonDown(0))
-        {
-            Collider2D targetObject = Physics2D.OverlapPoint(mousePos);
-            if (targetObject)
-            {
-                selectedObject = targetObject.transform.gameObject.GetComponent<Rigidbody2D>();
-                offset = selectedObject.transform.position - mousePos;
-            }
-        }
-
-        if (Input.GetMouseButtonUp(0) && selectedObject)
-        {
-            selectedObject = null;
-        }
-        //Debug.Log(heroPosX);
-        //Debug.Log(gridMap.CheckHeroPos(heroPosX));
-        /*if (gridMap.CheckHeroPos(heroPosX))
-        {
-            
-        }*/
-        
-    }
-
-    private void SnapHero()
-    {
-        Vector3Int cellPos;
-        cellPos = grid.WorldToCell(transform.position);
-        transform.position = grid.GetCellCenterWorld(cellPos);
-    }
     
     public void TakeDamage(int damage)
     {

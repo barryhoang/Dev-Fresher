@@ -5,7 +5,6 @@ using UnityEngine;
 public class SaveLoadMap : MonoBehaviour
 {
     [SerializeField] private MapData mapData;
-    [SerializeField] private GridMap gridMap;
     [SerializeField] private GridManager gridManager;
 
     public void Save()
@@ -30,7 +29,7 @@ public class SaveLoadMap : MonoBehaviour
         }
     }
 
-    internal void mapLoad(GridMap gridMap)
+    internal void loadMap(GridMap gridMap)
     {
         mapData.Load(gridMap);
     }

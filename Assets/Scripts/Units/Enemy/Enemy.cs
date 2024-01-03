@@ -11,6 +11,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private FloatVariable enemyMaxHealth;
     [SerializeField] private FloatVariable enemySpeed;
     [SerializeField] private ScriptableListEnemy scriptableListEnemy;
+    [SerializeField] private ScriptableListGameObject listEnemy;
     [SerializeField] private ScriptableListHero scriptableListHero;
     [SerializeField] private ScriptableEventInt onEnemyDamaged;
     
@@ -20,10 +21,13 @@ public class Enemy : MonoBehaviour
     private int Hp = Animator.StringToHash("HP");
     private int IsMoving = Animator.StringToHash("isMoving");
     
-    
+    public string Name;
+
+
     private void Awake()
     {
         scriptableListEnemy.Add(this);
+        listEnemy.Add(gameObject);
         enemyHealth.Value = enemyMaxHealth;
         animator.SetFloat(Hp,Mathf.Abs(enemyHealth.Value));
     }
