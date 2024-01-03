@@ -2,6 +2,7 @@
 using UnityEngine;
 using MEC;
 using Obvious.Soap;
+using Unity.VisualScripting;
 
 namespace Minh
 {
@@ -36,6 +37,7 @@ namespace Minh
                 EnemyPlacement enemyPlacement = enemy.GetComponent<EnemyPlacement>();
                 enemyPlacement.Init();
                 _enemy.AddToList();
+                _enemy.Init();
             }
             
             yield break;
@@ -55,6 +57,7 @@ namespace Minh
                 playerPlacement.Init(new Vector3(0+i,0+offset,0));
                 offset = offset + 3;
                 _playerScript.AddToList();
+                _playerScript.Init();
 
 
             }

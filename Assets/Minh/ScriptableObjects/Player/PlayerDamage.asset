@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PlayerDamage
   m_EditorClassIdentifier: 
   _guid: b2565ec71cb35384aaf7b7ad445aa25e
-  _value: 1
+  _value: 5
   _debugLogEnabled: 0
   _saved: 0
   _defaultValue: 0

@@ -69,6 +69,7 @@ namespace Minh
                 p.gameObject.SetActive(true);
                 p._health = p.characterStats._maxHealth;
                 p.transform.position = p.Playerplacement._prevTransform;
+                p.Init();
                 _soapListPlayer.Add(p);
             }
             _soapListDiedPlayer.Reset();

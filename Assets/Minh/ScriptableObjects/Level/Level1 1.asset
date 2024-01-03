@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyDetailList:
   - enemyPrefab: {fileID: 1739486698688313977, guid: a7ae7c98682f58c4cb91be5209ff6b04, type: 3}
-    spawnPosition: {x: 6, y: 1.5, z: 0}
+    spawnPosition: {x: 7, y: 0, z: 0}
   - enemyPrefab: {fileID: 1739486698688313977, guid: a7ae7c98682f58c4cb91be5209ff6b04, type: 3}
-    spawnPosition: {x: 6.8, y: -1.5, z: 0}
+    spawnPosition: {x: 7, y: 8, z: 0}

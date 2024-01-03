@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56cdb8ad39a5bdd4f8ed3d18fae14a63, type: 3}
   m_Name: EnemyDamage
   m_EditorClassIdentifier: 
-  _guid: b2565ec71cb35384aaf7b7ad445aa25e
-  _value: 3
+  _guid: 4b67ac7d139604d47a9a4e0aae8c830c
+  _value: 5
   _debugLogEnabled: 0
   _saved: 0
   _defaultValue: 0

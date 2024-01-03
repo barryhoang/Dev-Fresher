@@ -64,10 +64,15 @@ namespace Minh
         private void Start()
         {
             _characterState = CharacterState.Idle;
-            // Timing.RunCoroutine(CheckHealth().CancelWith(gameObject));
-            // Timing.RunCoroutine(EnemyMove().CancelWith(gameObject), "enemyMove" + _gameObjectID);
-            Timing.RunCoroutine(EnemyMove());
+          
             hit = transform.Find("Hit");
+        }
+
+        public void Init()
+        {
+            Timing.RunCoroutine(CheckHealth().CancelWith(gameObject));
+            // Timing.RunCoroutine(EnemyMove().CancelWith(gameObject), "enemyMove" + _gameObjectID);
+            Timing.RunCoroutine(EnemyMove().CancelWith(gameObject));
         }
 
         private void OnDestroy()
@@ -102,17 +107,17 @@ namespace Minh
             Timing.PauseCoroutines(_gameObjectID);
         }
 
-        // private IEnumerator<float> CheckHealth()
-        // {
-        //     while (true)
-        //     {
-        //         if (_health <= 0)
-        //         {
-        //             Die();
-        //         }
-        //         yield return Timing.WaitForOneFrame;
-        //     }
-        // }
+        private IEnumerator<float> CheckHealth()
+        {
+            while (true)
+            {
+                if (_health <= 0)
+                {
+                    Die();
+                }
+                yield return Timing.WaitForOneFrame;
+            }
+        }
 
         public void OnFight()
         {
@@ -121,35 +126,53 @@ namespace Minh
         private IEnumerator<float> EnemyMove()
         {
             var closet = _soapListPlayer.GetClosest(transform.position);
+            List<PathNode> path = _pathfinding.FindPath(_currentX, _currentY, (int) closet.transform.position.x,
+                (int) closet.transform.position.y);
             while (true)
             {
-                _targetTilemap.ClearAllTiles();
-                
+                if (_gameManager._gameState == GameState.Fighting)
+                {
+                    _targetTilemap.ClearAllTiles();
+                    Debug.Log(_characterState + "ENEMY STATE");
                 
                     closet = _soapListPlayer.GetClosest(transform.position);
                 
+                    _currentX = (int) this.transform.position.x;
+                    _currentY = (int) this.transform.position.y;
+                    if (closet != null)
+                    {
+                        if (closet.transform.position.x - this.transform.position.x < 0)
+                        {
+                           this.transform.localScale = new Vector3(-1,1,1);
+                        }
+                        else
+                        {
+                            this.transform.localScale = new Vector3(1,1,1);
+                        }
+                        path = _pathfinding.FindPath(_currentX, _currentY, (int) closet.transform.position.x,
+                            (int) closet.transform.position.y);
 
-                _currentX = (int) this.transform.position.x;
-                _currentY = (int) this.transform.position.y;
-                List<PathNode> path = _pathfinding.FindPath(_currentX, _currentY, (int) closet.transform.position.x,
-                    (int) closet.transform.position.y);
+                        if (Vector2.Distance(closet.transform.position, transform.position) > 1.8f)
+                        {
+                            _gridMap.Value[(int) _prevPosition.x, (int) _prevPosition.y] = false;
+                            _prevPosition = new Vector3(path[0].xPos, path[0].yPos, 0);
+                            _gridMap.Value[path[0].xPos, path[0].yPos] = true;
+                            Tween.Position(transform, new Vector3(path[0].xPos, path[0].yPos, 0), _tweenSettings);
+                            _prevPosition = transform.position;
+                            yield return Timing.WaitForSeconds(_tweenSettings.duration);
+                        }
+                        else
+                        {
+                            Timing.RunCoroutine(EnemyAttack(closet).CancelWith(closet.gameObject),
+                                "enemyAttack" + _gameObjectID);
+                            _characterState = CharacterState.Attack;
+                            yield return Timing.WaitForSeconds(1 / (float) characterStats._attackRate * 2);
+                        }
+                    }
+                  
+                }
 
-                if (Vector2.Distance(closet.transform.position, transform.position) > 1.8f)
-                {
-                    _gridMap.Value[(int)_prevPosition.x, (int)_prevPosition.y] = false;
-                    _prevPosition = new Vector3(path[0].xPos, path[0].yPos, 0);
-                    _gridMap.Value[path[0].xPos, path[0].yPos] = true;
-                    Tween.Position(transform, new Vector3(path[0].xPos, path[0].yPos, 0), _tweenSettings);
-                    _prevPosition = transform.position;
-                }
-                else
-                {
-                    Timing.RunCoroutine(EnemyAttack(closet).CancelWith(gameObject), "enemyAttack" + _gameObjectID);
-                    _isAttacking = true;
-                    yield return Timing.WaitForSeconds(1 / (float)characterStats._attackRate*2);
-                }
-             
-                yield return Timing.WaitForSeconds(_tweenSettings.duration);
+                yield return Timing.WaitForOneFrame;
             }
         }
 
@@ -171,39 +194,6 @@ namespace Minh
             }
             yield return Timing.WaitForOneFrame;
         }
-
-        // private IEnumerator<float> EnemyMove()
-        // {
-        //     while (true)
-        //     {
-        //         if (_gameManager._gameState == GameState.Fighting)
-        //         {
-        //             if (_characterState == CharacterState.Idle)
-        //             {
-        //                 if (_soapListPlayer != null)
-        //                 {
-        //                     var closet = _soapListPlayer.GetClosest(transform.position);
-        //                     if (closet != null)
-        //                     {
-        //                         var distance = (closet.transform.position.x-transform.position.x);
-        //                         if (distance <= 0)
-        //                         {
-        //                             transform.localScale=new Vector3(-1,1,1);
-        //                         }
-        //                         else
-        //                         {
-        //                             transform.localScale=new Vector3(1,1,1);
-        //                         }
-        //                         Move(closet.transform.position);
-        //                         _attackPosition = closet.transform.position;
-        //                     }
-        //                 }
-        //             }
-        //         }
-        //         yield return Timing.WaitForOneFrame;
-        //     }
-        // }
-        //
         private void Attack(Player player)
         {
             if (_characterState == CharacterState.Attack)
@@ -212,8 +202,7 @@ namespace Minh
                 if (player._health <= 0)
                 {
                     _characterState = CharacterState.Idle;
-                    Timing.KillCoroutines("playerAttack");
-                    Timing.ResumeCoroutines("playerMove" + _gameObjectID);
+                    
                 }
             }
         }
@@ -226,6 +215,7 @@ namespace Minh
 
         public void Die()
         {
+            _gridMap.Value[(int)transform.position.x, (int)transform.position.y] = false;
             Destroy(gameObject);
         }
 

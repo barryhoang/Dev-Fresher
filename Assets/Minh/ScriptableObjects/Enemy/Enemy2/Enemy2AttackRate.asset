@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Enemy2AttackRate
   m_EditorClassIdentifier: 
   _guid: 5d56e276db3236f41a105bb7a41b7622
-  _value: 3
+  _value: 1
   _debugLogEnabled: 0
   _saved: 0
   _defaultValue: 0
