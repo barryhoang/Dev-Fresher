@@ -11,8 +11,8 @@ public class Node
 }
 public class GridMap : MonoBehaviour
 {
-    [HideInInspector] public int height;
-    [HideInInspector] public int width;
+    public int height;
+    public int width;
     
     Node[,] gridMap;
 

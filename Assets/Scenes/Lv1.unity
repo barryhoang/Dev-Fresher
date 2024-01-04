@@ -558,10 +558,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7371157680054598495}
     m_Modifications:
-    - target: {fileID: 2337164595989318392, guid: 8f1223376a1526d4d90a32b87d9d1377, type: 3}
-      propertyPath: m_SortingOrder
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5264424873999897222, guid: 8f1223376a1526d4d90a32b87d9d1377, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -572,7 +568,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5264424873999897222, guid: 8f1223376a1526d4d90a32b87d9d1377, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5264424873999897222, guid: 8f1223376a1526d4d90a32b87d9d1377, type: 3}
       propertyPath: m_LocalRotation.w
@@ -606,8 +602,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: HightlightTilemap
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 7764373155287771701, guid: 8f1223376a1526d4d90a32b87d9d1377, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

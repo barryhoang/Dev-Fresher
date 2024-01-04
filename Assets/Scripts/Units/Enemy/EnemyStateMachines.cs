@@ -23,7 +23,7 @@ public class EnemyStateMachines : MonoBehaviour
             case (TurnState.IDLE):
                 break;
             case (TurnState.PLAYING):
-                enemy.Move();
+                //enemy.Move();
                 break;
             case (TurnState.DEAD):
                 break;

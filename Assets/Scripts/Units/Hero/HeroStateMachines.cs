@@ -23,7 +23,7 @@ public class HeroStateMachines : MonoBehaviour
             case (TurnState.IDLE):
                 break;
             case (TurnState.PLAYING):
-                hero.Move();
+                //hero.Move();
                 Destroy(startButton);
                 break;
             case (TurnState.DEAD):

@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 5592988154815213759}
   - component: {fileID: 5961049259343864274}
   - component: {fileID: 6386846143514812057}
-  - component: {fileID: 7764373155287771701}
   m_Layer: 0
   m_Name: HightlightTilemap
   m_TagString: Untagged
@@ -30,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8867981695505369432}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -115,9 +114,9 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_ChunkSize: {x: 32, y: 32, z: 32}
-  m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
+  m_ChunkCullingBounds: {x: 0.0625, y: 0.0625, z: 0}
   m_MaxChunkCount: 16
   m_MaxFrameAge: 16
   m_SortOrder: 0
@@ -148,8 +147,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a87a0ebb9cb0dc04b8027ae1ec792c18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  height: 0
-  width: 0
+  height: 10
+  width: 18
 --- !u!114 &6386846143514812057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,24 +161,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03ec213d31c9c4d41a82a2a6a41d70a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7764373155287771701
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8867981695505369432}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d450b43c3e7a0e43b9374b692bb111b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetTilemap: {fileID: 1273739557928139077}
-  highlightTile: {fileID: 11400000, guid: d7e76aa378a273b409144d9c476677e0, type: 2}
-  clickArea:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 0
-    height: 0
-  listHero: {fileID: 11400000, guid: bf3a259b12af2df46977b0f743edc0d6, type: 2}

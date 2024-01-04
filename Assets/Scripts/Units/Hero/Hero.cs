@@ -30,7 +30,7 @@ public class Hero : MonoBehaviour
 
     public string Name;
 
-    Pathfinding pathfinding;
+    public Pathfinding pathfinding;
     int currentX = 0; 
     int currentY = 0;
     int targetPosX = 0;
@@ -39,11 +39,12 @@ public class Hero : MonoBehaviour
 
     private void Awake()
     {
-        pathfinding = gameObject.GetComponent<Pathfinding>();
         scriptableListHero.Add(this);
         listHero.Add(gameObject);
         heroHealth.Value = heroMaxHealth;
         animator.SetFloat(Hp, Mathf.Abs(heroHealth.Value));
+            
+        targetTilemap.ClearAllTiles();
     }
     
     private void Update()
@@ -52,6 +53,24 @@ public class Hero : MonoBehaviour
         {
             animator.SetFloat(Hp, 0);
             Die();
+        }
+
+        if (HSM.currentState == HeroStateMachines.TurnState.PLAYING)
+        {
+            Move();
+            /*var closest = scriptableListEnemy.GetClosest(transform.position);
+            currentX = (int)transform.position.x;
+            currentY = (int) transform.position.y;
+            targetPosX = (int)closest.gameObject.transform.position.x;
+            targetPosY = (int)closest.gameObject.transform.position.y;
+            List<PathNode> path = pathfinding.FindPath(currentX,currentY,targetPosX,targetPosY);
+            if (path!=null)
+            {
+                for (int i = 0; i < path.Count; i++)
+                {
+                    targetTilemap.SetTile(new Vector3Int(path[i].xPos,path[i].yPos,0),highlightTile );
+                }
+            }*/
         }
     }
 
@@ -84,6 +103,7 @@ public class Hero : MonoBehaviour
     
     public void Move()
     {
+        targetTilemap.ClearAllTiles();
         if(gameObject != null)
         {
             var closest = scriptableListEnemy.GetClosest(transform.position);
@@ -92,7 +112,7 @@ public class Hero : MonoBehaviour
             targetPosX = (int)closest.gameObject.transform.position.x;
             targetPosY = (int)closest.gameObject.transform.position.y;
             
-            Debug.Log(currentX+", "+currentY+", "+targetPosX+", "+targetPosY);
+            //Debug.Log(currentX+", "+currentY+", "+targetPosX+", "+targetPosY);
             
             List<PathNode> path = pathfinding.FindPath(currentX,currentY,targetPosX,targetPosY);
             if (closest != null)
@@ -106,10 +126,15 @@ public class Hero : MonoBehaviour
                     {
                         targetTilemap.SetTile(new Vector3Int(path[i].xPos,path[i].yPos,0),highlightTile );
                     }
+
+                    //Tween.Position(transform, new Vector3(path[0].xPos,path[0].yPos,0),0.5f);
                     
-                    /*var newPos = transform.position;
+                    currentX = (int)transform.position.x;
+                    currentY = (int)transform.position.y;
+                    
+                    var newPos = transform.position;
                     newPos =  closest.transform.position - transform.position;
-                    transform.position += newPos.normalized *heroSpeed * Time.deltaTime;*/
+                    transform.position += newPos.normalized *heroSpeed * Time.deltaTime;
                 }
 
                 if (distance <= 1f)

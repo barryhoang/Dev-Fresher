@@ -39,6 +39,11 @@ public class Enemy : MonoBehaviour
             animator.SetFloat(Hp, 0);
             Die();
         }
+
+        if (ESM.currentState == EnemyStateMachines.TurnState.PLAYING)
+        {
+            Move();
+        }
     }
     
     private void OnTriggerStay2D(Collider2D other)
