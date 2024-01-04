@@ -39,7 +39,7 @@ namespace Minh
         [SerializeField] private int _currentY = 0;
         [SerializeField] private Transform hit;
         private bool _isAttacking;
-
+        [SerializeField] private VfxSpawner _vfxSpawner;
         private Vector3 _prevPosition;
 
 
@@ -198,7 +198,10 @@ namespace Minh
         {
             if (_characterState == CharacterState.Attack)
             {
+                Vector2 dir = (player.transform.position - transform.position).normalized;
+                Vector3 myRotationAngles = Quaternion.FromToRotation(Vector2.right, dir).eulerAngles;
                 player.TakeDamage(characterStats._damage);
+                _vfxSpawner.EnemySpawnAttackVFX(hit,myRotationAngles.z);
                 if (player._health <= 0)
                 {
                     _characterState = CharacterState.Idle;

@@ -44,6 +44,7 @@ namespace Minh
         [SerializeField] private Transform child;
         [SerializeField] private VfxSpawner _vfxSpawner;
         private Vector3 _prevPosition;
+        [SerializeField] private Animator _animator;
 
         private void Awake()
         {
@@ -73,8 +74,8 @@ namespace Minh
 
         public void Init()
         {
-            Timing.RunCoroutine(CheckHealth().CancelWith(gameObject));
             Timing.RunCoroutine(PlayerMove().CancelWith(gameObject));
+            Timing.RunCoroutine(CheckHealth().CancelWith(gameObject));
         }
 
         // private void OnTriggerStay2D(Collider2D other)
@@ -123,12 +124,15 @@ namespace Minh
 
             while (true)
             {
+                
                 if (_gameManager._gameState == GameState.Fighting)
                 {
+                    _animator.SetBool("PlayerMove",true);
                     _targetTilemap.ClearAllTiles();
                     if (closet == null)
                     {
                         closet = _soapListEnemy.GetClosest(transform.position);
+                        
                     }
 
                     _currentX = (int) this.transform.position.x;
@@ -152,6 +156,7 @@ namespace Minh
                         if (Vector2.Distance(new Vector2(path[path.Count - 1].xPos, path[path.Count - 1].yPos),
                             transform.position) > 1.8f)
                         {
+                            
                             _gridMap.Value[(int) _prevPosition.x, (int) _prevPosition.y] = false;
                             _gridMap.Value[path[0].xPos, path[0].yPos] = true;
                             Tween.Position(transform, new Vector3(path[0].xPos, path[0].yPos, 0), 0.5f, Ease.Default);
@@ -160,9 +165,11 @@ namespace Minh
                         }
                         else
                         {
+                            _animator.SetBool("PlayerMove",false);
                             Timing.RunCoroutine(PlayerAttack(closet).CancelWith(closet.gameObject),
                                 "playerAttack" + _gameObjectID);
                             _characterState = CharacterState.Attack;
+                            
                             yield return Timing.WaitForSeconds(1 / (float) characterStats._attackRate * 2);
                         }
                     }
@@ -237,8 +244,13 @@ namespace Minh
             if (_characterState == CharacterState.Attack)
             {
                 CheckEnemyHealth(enemy);
+                Vector2 dir = (enemy.transform.position - transform.position).normalized;
+                Vector3 myRotationAngles = Quaternion.FromToRotation(Vector3.right, dir).eulerAngles;
+               Debug.Log("PLAYER Degree"+myRotationAngles);
+               Debug.Log("PLAYER DIRECTION"+dir);
+              
                 enemy.TakeDamage(characterStats._damage);
-                _vfxSpawner.SpawnAttackVFX(child);
+                _vfxSpawner.SpawnAttackVFX(child,myRotationAngles.z);
             }
         }
 

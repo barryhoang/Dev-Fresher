@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PlayerAttackRate
   m_EditorClassIdentifier: 
   _guid: b38b5914d7556ba4fa42d4618f87c9f6
-  _value: 10
+  _value: 1
   _debugLogEnabled: 0
   _saved: 0
   _defaultValue: 0

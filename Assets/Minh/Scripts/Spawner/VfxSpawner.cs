@@ -12,10 +12,15 @@ namespace Minh
         [SerializeField] private ScriptableListEnemy _scriptableListEnemy;
 
         [SerializeField] private GameObject _attackVfxPrefab;
+        [SerializeField] private GameObject _EnemyVfxPrefab;
         // Start is called before the first frame update
-        public void SpawnAttackVFX(Transform transform)
+        public void SpawnAttackVFX(Transform position, float degree)
         {
-            Instantiate(_attackVfxPrefab, transform.position, Quaternion.identity);
+            Instantiate(_attackVfxPrefab, position.position, Quaternion.Euler(0,0,degree-90));
+        }
+        public void EnemySpawnAttackVFX(Transform position, float degree)
+        {
+            Instantiate(_EnemyVfxPrefab, position.position, Quaternion.Euler(0,-0,degree-90));
         }
     } 
 }
