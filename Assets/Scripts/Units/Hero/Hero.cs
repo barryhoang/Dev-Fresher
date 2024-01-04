@@ -1,8 +1,10 @@
+using System.Collections.Generic;
 using Obvious.Soap;
 using UnityEngine;
 using PrimeTween;
 using Unity.VisualScripting;
 using UnityEngine.AI;
+using UnityEngine.Tilemaps;
 
 public class Hero : MonoBehaviour
 {
@@ -19,15 +21,25 @@ public class Hero : MonoBehaviour
 
     [SerializeField] private HeroStateMachines HSM;
     [SerializeField] private Animator animator;
+    [SerializeField] private Tilemap targetTilemap;
+    [SerializeField] private TileBase highlightTile;
+    [SerializeField] private GridManager gridManager;
 
     private static readonly int Hp = Animator.StringToHash("HP");
     private static readonly int IsMoving = Animator.StringToHash("isMoving");
 
     public string Name;
 
+    Pathfinding pathfinding;
+    int currentX = 0; 
+    int currentY = 0;
+    int targetPosX = 0;
+    int targetPosY = 0;
+    
 
     private void Awake()
     {
+        pathfinding = gameObject.GetComponent<Pathfinding>();
         scriptableListHero.Add(this);
         listHero.Add(gameObject);
         heroHealth.Value = heroMaxHealth;
@@ -75,15 +87,29 @@ public class Hero : MonoBehaviour
         if(gameObject != null)
         {
             var closest = scriptableListEnemy.GetClosest(transform.position);
+            currentX = (int)transform.position.x;
+            currentY = (int) transform.position.y;
+            targetPosX = (int)closest.gameObject.transform.position.x;
+            targetPosY = (int)closest.gameObject.transform.position.y;
+            
+            Debug.Log(currentX+", "+currentY+", "+targetPosX+", "+targetPosY);
+            
+            List<PathNode> path = pathfinding.FindPath(currentX,currentY,targetPosX,targetPosY);
             if (closest != null)
             {
                 var distance = (transform.position - closest.transform.position).sqrMagnitude;
-                if (distance > 1f)
+                if (distance > 1f && path != null)
                 {
                     animator.SetBool(IsMoving,true);
-                    var newPos = transform.position;
+                    
+                    for (int i = 0; i < path.Count; i++)
+                    {
+                        targetTilemap.SetTile(new Vector3Int(path[i].xPos,path[i].yPos,0),highlightTile );
+                    }
+                    
+                    /*var newPos = transform.position;
                     newPos =  closest.transform.position - transform.position;
-                    transform.position += newPos.normalized *heroSpeed * Time.deltaTime;
+                    transform.position += newPos.normalized *heroSpeed * Time.deltaTime;*/
                 }
 
                 if (distance <= 1f)

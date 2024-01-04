@@ -68,6 +68,7 @@ public class GridManager : MonoBehaviour
                 TileBase tileBase = tileMap.GetTile(new Vector3Int(x, y, 0));
                 int indexTile = tileSet.tiles.FindIndex(x=> x == tileBase);
                 tileMapData[x, y] = indexTile;
+                Debug.Log(tileMapData[x, y]);
             }
         }
         return tileMapData;

@@ -252,6 +252,8 @@ GameObject:
   - component: {fileID: 1893417773393270969}
   - component: {fileID: 4963414720032333258}
   - component: {fileID: 7072630201721947575}
+  - component: {fileID: 4112687135808450601}
+  - component: {fileID: 4693832648139652123}
   m_Layer: 0
   m_Name: Hero
   m_TagString: Player
@@ -474,6 +476,9 @@ MonoBehaviour:
   onHeroDamaged: {fileID: 11400000, guid: 245d85acfb83cf744a3b7b9164e1f659, type: 2}
   HSM: {fileID: 8951411417428003026}
   animator: {fileID: 9103245653046930603}
+  targetTilemap: {fileID: 1273739557928139077, guid: 8f1223376a1526d4d90a32b87d9d1377, type: 3}
+  highlightTile: {fileID: 11400000, guid: d7e76aa378a273b409144d9c476677e0, type: 2}
+  gridManager: {fileID: 107715000869717751, guid: 921ee9e0cfec3a04cb8e5d53489963d8, type: 3}
   Name: Farmer
 --- !u!114 &4963414720032333258
 MonoBehaviour:
@@ -516,6 +521,32 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cb81e5af79fd3b44af981d9235e8aef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4112687135808450601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2921141414062210943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a87a0ebb9cb0dc04b8027ae1ec792c18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  height: 0
+  width: 0
+--- !u!114 &4693832648139652123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2921141414062210943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03ec213d31c9c4d41a82a2a6a41d70a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &3190161504230865615
