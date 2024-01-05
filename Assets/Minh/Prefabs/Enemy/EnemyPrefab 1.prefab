@@ -117,6 +117,7 @@ MonoBehaviour:
   _characterState: 0
   enemyGameObject: {fileID: 1739486698688313977}
   _gameManagerGameObject: {fileID: 0}
+  _floatingTextPrefab: {fileID: 2372668931645633207, guid: 3e48204c4fb3a0e45b236b5ce6deb3ad, type: 3}
   _health: 0
   _gameManager: {fileID: 0}
   _enemyPlacement: {fileID: 6688992649258739350}
@@ -131,6 +132,7 @@ MonoBehaviour:
   _currentX: 0
   _currentY: 0
   hit: {fileID: 0}
+  _animator: {fileID: 0}
   _vfxSpawner: {fileID: 8084583974529592028, guid: 879fd568c4e82e047b1b603fe53e20d9, type: 3}
 --- !u!114 &-2635526388856692558
 MonoBehaviour:

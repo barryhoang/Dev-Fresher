@@ -28,6 +28,7 @@ namespace Minh
         private Vector3 _attackPosition;
         private string _gameObjectID;
         [SerializeField] public GameObject _gameManagerGameObject;
+        [SerializeField] private GameObject _floatingTextPrefab;
         public int _health;
         public GameManager _gameManager;
         [SerializeField] private Vector3[] _movePosition;
@@ -124,15 +125,15 @@ namespace Minh
 
             while (true)
             {
-                
+
                 if (_gameManager._gameState == GameState.Fighting)
                 {
-                    _animator.SetBool("PlayerMove",true);
+
                     _targetTilemap.ClearAllTiles();
                     if (closet == null)
                     {
                         closet = _soapListEnemy.GetClosest(transform.position);
-                        
+
                     }
 
                     _currentX = (int) this.transform.position.x;
@@ -156,7 +157,7 @@ namespace Minh
                         if (Vector2.Distance(new Vector2(path[path.Count - 1].xPos, path[path.Count - 1].yPos),
                             transform.position) > 1.8f)
                         {
-                            
+                            _animator.SetBool("PlayerMove", true);
                             _gridMap.Value[(int) _prevPosition.x, (int) _prevPosition.y] = false;
                             _gridMap.Value[path[0].xPos, path[0].yPos] = true;
                             Tween.Position(transform, new Vector3(path[0].xPos, path[0].yPos, 0), 0.5f, Ease.Default);
@@ -165,15 +166,16 @@ namespace Minh
                         }
                         else
                         {
-                            _animator.SetBool("PlayerMove",false);
+                            _animator.SetBool("PlayerMove", false);
                             Timing.RunCoroutine(PlayerAttack(closet).CancelWith(closet.gameObject),
                                 "playerAttack" + _gameObjectID);
                             _characterState = CharacterState.Attack;
-                            
+
                             yield return Timing.WaitForSeconds(1 / (float) characterStats._attackRate * 2);
                         }
                     }
                 }
+
                 yield return Timing.WaitForOneFrame;
             }
         }
@@ -246,11 +248,11 @@ namespace Minh
                 CheckEnemyHealth(enemy);
                 Vector2 dir = (enemy.transform.position - transform.position).normalized;
                 Vector3 myRotationAngles = Quaternion.FromToRotation(Vector3.right, dir).eulerAngles;
-               Debug.Log("PLAYER Degree"+myRotationAngles);
-               Debug.Log("PLAYER DIRECTION"+dir);
-              
+                Debug.Log("PLAYER Degree" + myRotationAngles);
+                Debug.Log("PLAYER DIRECTION" + dir);
+
                 enemy.TakeDamage(characterStats._damage);
-                _vfxSpawner.SpawnAttackVFX(child,myRotationAngles.z);
+                _vfxSpawner.SpawnAttackVFX(child, myRotationAngles.z);
             }
         }
 
@@ -290,14 +292,24 @@ namespace Minh
         //     }
         // }
         public void TakeDamage(int damage)
-
         {
             _health -= damage;
             _healthBarScript.HealthBarSize(characterStats._maxHealth.Value, _health);
+            if (_floatingTextPrefab)
+            {
+                ShowFloatingText(damage);
+            }
+        }
+
+        private void ShowFloatingText(int damage)
+        {
+           var text= Instantiate(_floatingTextPrefab, child.position, Quaternion.identity);
+            text.GetComponent<TextMesh>().text = damage.ToString();
+            text.GetComponent<TextMesh>().color = Color.green;
         }
 
 
-        protected override void Move(Vector3 target)
+    protected override void Move(Vector3 target)
         {
             base.Move(target);
         }

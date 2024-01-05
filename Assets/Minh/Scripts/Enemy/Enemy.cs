@@ -24,6 +24,7 @@ namespace Minh
         private string _gameObjectID;
         private Vector3 _attackPosition;
         [SerializeField] public GameObject _gameManagerGameObject;
+        [SerializeField] private GameObject _floatingTextPrefab;
         [SerializeField] public int _health;
         public GameManager _gameManager;
         [SerializeField] private EnemyPlacement _enemyPlacement;
@@ -38,9 +39,11 @@ namespace Minh
         [SerializeField] private int _currentX = 0;
         [SerializeField] private int _currentY = 0;
         [SerializeField] private Transform hit;
+        [SerializeField] private Animator _animator;
         private bool _isAttacking;
         [SerializeField] private VfxSpawner _vfxSpawner;
         private Vector3 _prevPosition;
+        
 
 
         private void Awake()
@@ -132,6 +135,7 @@ namespace Minh
             {
                 if (_gameManager._gameState == GameState.Fighting)
                 {
+                    
                     _targetTilemap.ClearAllTiles();
                     Debug.Log(_characterState + "ENEMY STATE");
                 
@@ -154,6 +158,7 @@ namespace Minh
 
                         if (Vector2.Distance(closet.transform.position, transform.position) > 1.8f)
                         {
+                            _animator.SetBool("EnemyRun",true);
                             _gridMap.Value[(int) _prevPosition.x, (int) _prevPosition.y] = false;
                             _prevPosition = new Vector3(path[0].xPos, path[0].yPos, 0);
                             _gridMap.Value[path[0].xPos, path[0].yPos] = true;
@@ -163,6 +168,7 @@ namespace Minh
                         }
                         else
                         {
+                            _animator.SetBool("EnemyRun",false);
                             Timing.RunCoroutine(EnemyAttack(closet).CancelWith(closet.gameObject),
                                 "enemyAttack" + _gameObjectID);
                             _characterState = CharacterState.Attack;
@@ -214,6 +220,10 @@ namespace Minh
         {
             _health -= damage;
             _healthBarScript.HealthBarSize(characterStats._maxHealth.Value, _health);
+            if (_floatingTextPrefab)
+            {
+                ShowFloatingText(damage);
+            }
         }
 
         public void Die()
@@ -222,6 +232,12 @@ namespace Minh
             Destroy(gameObject);
         }
 
+        private void ShowFloatingText(int damage)
+        {
+           var text= Instantiate(_floatingTextPrefab, hit.position, Quaternion.identity);
+           text.GetComponent<TextMesh>().text = damage.ToString();
+           text.GetComponent<TextMesh>().color = Color.red;
+        }
         protected override void Move(Vector3 target)
         {
             base.Move(target);

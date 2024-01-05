@@ -117,6 +117,7 @@ MonoBehaviour:
   _characterState: 0
   enemyGameObject: {fileID: 1739486698688313977}
   _gameManagerGameObject: {fileID: 0}
+  _floatingTextPrefab: {fileID: 2372668931645633207, guid: 3e48204c4fb3a0e45b236b5ce6deb3ad, type: 3}
   _health: 0
   _gameManager: {fileID: 0}
   _enemyPlacement: {fileID: 6688992649258739350}
@@ -131,6 +132,7 @@ MonoBehaviour:
   _currentX: 0
   _currentY: 0
   hit: {fileID: 0}
+  _animator: {fileID: 4318863204814654216}
   _vfxSpawner: {fileID: 8084583974529592028, guid: 879fd568c4e82e047b1b603fe53e20d9, type: 3}
 --- !u!114 &-2635526388856692558
 MonoBehaviour:
@@ -187,6 +189,7 @@ GameObject:
   m_Component:
   - component: {fileID: 484610605282896176}
   - component: {fileID: 3468633338098861881}
+  - component: {fileID: 4318863204814654216}
   m_Layer: 8
   m_Name: Hit
   m_TagString: Untagged
@@ -250,7 +253,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -392852972, guid: 1bc6097228993f045852159e71f81d5b, type: 3}
+  m_Sprite: {fileID: -140220566, guid: 1bc6097228993f045852159e71f81d5b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -261,3 +264,24 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &4318863204814654216
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5745248479723076996}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f837a89a15a172a429de3659f02b0d68, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
