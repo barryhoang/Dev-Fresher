@@ -1,41 +1,32 @@
 using System.Collections.Generic;
+using MEC;
 using Obvious.Soap;
 using UnityEngine;
 using PrimeTween;
-using Unity.VisualScripting;
-using UnityEngine.AI;
-using UnityEngine.Tilemaps;
 
 public class Hero : MonoBehaviour
 {
-    [SerializeField] private float curTime = 0;
+    [SerializeField] private float curTime;
     [SerializeField] private float receivedDmgDelay = 1;
-    
     [SerializeField] private FloatVariable heroHealth;
     [SerializeField] private FloatVariable heroMaxHealth;
-    [SerializeField] private FloatVariable heroSpeed;
     [SerializeField] private ScriptableListHero scriptableListHero;
     [SerializeField] private ScriptableListGameObject listHero;
     [SerializeField] private ScriptableListEnemy scriptableListEnemy;
     [SerializeField] private ScriptableEventInt onHeroDamaged;
-
     [SerializeField] private HeroStateMachines HSM;
     [SerializeField] private Animator animator;
-    [SerializeField] private Tilemap targetTilemap;
-    [SerializeField] private TileBase highlightTile;
-    [SerializeField] private GridManager gridManager;
-
+    [SerializeField] private Pathfinding pathfinding;
+    
+    public List<PathNode> temp;
+    private int currentX;
+    private int currentY;
+    private int targetPosX;
+    private int targetPosY;
+    
     private static readonly int Hp = Animator.StringToHash("HP");
     private static readonly int IsMoving = Animator.StringToHash("isMoving");
 
-    public string Name;
-
-    public Pathfinding pathfinding;
-    int currentX = 0; 
-    int currentY = 0;
-    int targetPosX = 0;
-    int targetPosY = 0;
-    
 
     private void Awake()
     {
@@ -43,34 +34,19 @@ public class Hero : MonoBehaviour
         listHero.Add(gameObject);
         heroHealth.Value = heroMaxHealth;
         animator.SetFloat(Hp, Mathf.Abs(heroHealth.Value));
-            
-        targetTilemap.ClearAllTiles();
     }
-    
+
+    private void Start()
+    {
+        Timing.RunCoroutine(TweenMove().CancelWith(gameObject));
+    }
+
     private void Update()
     {
         if (heroHealth <= 0)
         {
             animator.SetFloat(Hp, 0);
             Die();
-        }
-
-        if (HSM.currentState == HeroStateMachines.TurnState.PLAYING)
-        {
-            Move();
-            /*var closest = scriptableListEnemy.GetClosest(transform.position);
-            currentX = (int)transform.position.x;
-            currentY = (int) transform.position.y;
-            targetPosX = (int)closest.gameObject.transform.position.x;
-            targetPosY = (int)closest.gameObject.transform.position.y;
-            List<PathNode> path = pathfinding.FindPath(currentX,currentY,targetPosX,targetPosY);
-            if (path!=null)
-            {
-                for (int i = 0; i < path.Count; i++)
-                {
-                    targetTilemap.SetTile(new Vector3Int(path[i].xPos,path[i].yPos,0),highlightTile );
-                }
-            }*/
         }
     }
 
@@ -80,74 +56,58 @@ public class Hero : MonoBehaviour
         {
             onHeroDamaged.Raise(0);
             curTime = receivedDmgDelay;
-            TweenAttack();
+            Timing.RunCoroutine(TweenAttack().CancelWith(gameObject));
         }
-        else 
+        else
         {
             curTime -= Time.deltaTime;
         }
     }
-    
-    
+
     public void TakeDamage(int damage)
     {
         heroHealth.Add(-damage);
     }
-    
+
     public void Die()
     {
         Destroy(gameObject.GetComponent<BoxCollider2D>());
         scriptableListHero.Remove(this);
         HSM.currentState = HeroStateMachines.TurnState.DEAD;
     }
-    
-    public void Move()
+
+    IEnumerator<float> TweenMove()
     {
-        targetTilemap.ClearAllTiles();
-        if(gameObject != null)
+        while (true)
         {
-            var closest = scriptableListEnemy.GetClosest(transform.position);
-            currentX = (int)transform.position.x;
-            currentY = (int) transform.position.y;
-            targetPosX = (int)closest.gameObject.transform.position.x;
-            targetPosY = (int)closest.gameObject.transform.position.y;
-            
-            //Debug.Log(currentX+", "+currentY+", "+targetPosX+", "+targetPosY);
-            
-            List<PathNode> path = pathfinding.FindPath(currentX,currentY,targetPosX,targetPosY);
-            if (closest != null)
+            if (gameObject != null && HSM.currentState == HeroStateMachines.TurnState.PLAYING)
             {
-                var distance = (transform.position - closest.transform.position).sqrMagnitude;
-                if (distance > 1f && path != null)
+                var closest = scriptableListEnemy.GetClosest(transform.position);
+                if (closest != null)
                 {
-                    animator.SetBool(IsMoving,true);
-                    
-                    for (int i = 0; i < path.Count; i++)
+                    currentX = (int) transform.position.x;
+                    currentY = (int) transform.position.y;
+                    targetPosX = (int) closest.gameObject.transform.position.x;
+                    targetPosY = (int) closest.gameObject.transform.position.y;
+                    List<PathNode> path = pathfinding.FindPath(currentX, currentY, targetPosX, targetPosY);
+                    temp = path;
+                    var distance = (transform.position - closest.transform.position).sqrMagnitude;
+                    if (distance > 1f && path != null)
                     {
-                        targetTilemap.SetTile(new Vector3Int(path[i].xPos,path[i].yPos,0),highlightTile );
+                        animator.SetBool(IsMoving, true);
+                        Tween.Position(transform, new Vector3(path[0].xPos, path[0].yPos, 0), 0.5f);
+                        yield return Timing.WaitForSeconds(1);
                     }
-
-                    //Tween.Position(transform, new Vector3(path[0].xPos,path[0].yPos,0),0.5f);
-                    
-                    currentX = (int)transform.position.x;
-                    currentY = (int)transform.position.y;
-                    
-                    var newPos = transform.position;
-                    newPos =  closest.transform.position - transform.position;
-                    transform.position += newPos.normalized *heroSpeed * Time.deltaTime;
-                }
-
-                if (distance <= 1f)
-                {
-                    animator.SetBool(IsMoving,false);
+                    if (distance <= 1f) { animator.SetBool(IsMoving, false); }
                 }
             }
+            yield return Timing.WaitForOneFrame;
         }
     }
 
-    public void TweenAttack()
+    IEnumerator<float> TweenAttack()
     {
-        Tween.PositionX(transform, transform.position.x+0.3f, 0.5f, Ease.Default, 2, CycleMode.Yoyo);
+        Tween.PositionX(transform, transform.position.x + 0.3f, 0.5f, Ease.Default, 2, CycleMode.Yoyo);
+        yield return Timing.WaitForOneFrame;
     }
 }
-

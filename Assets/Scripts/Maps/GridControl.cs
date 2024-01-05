@@ -1,8 +1,5 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using Obvious.Soap;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using MEC;
@@ -13,24 +10,15 @@ public class GridControl : MonoBehaviour
     [SerializeField] private TileBase highlightTile;
     [SerializeField] private Tilemap targetTilemap;
     [SerializeField] private Tilemap map;
-    [SerializeField] private GridManager gridManager;
-    
     [SerializeField] private Rect clickArea;
     [SerializeField] private ScriptableListGameObject listHero;
-    [SerializeField] private ScriptableListGameObject listEnemy;
     [SerializeField] private Dictionary<GameObject, Vector3Int> lastCellPos 
         = new Dictionary<GameObject, Vector3Int>();
     
     private GameObject selectedHero;
-    private Vector3Int selectedHeroInitCellPos;
-    Pathfinding pathfinding;
     private Vector3 temp;
-
-
-    private void Awake()
-    {
-        pathfinding = gridManager.GetComponent<Pathfinding>();
-    }
+    public HeroStateMachines HSM;
+    
 
     private void Start()
     {
@@ -53,31 +41,14 @@ public class GridControl : MonoBehaviour
     {
         while (true)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && HSM.currentState == HeroStateMachines.TurnState.IDLE)
             {
                 RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-                Vector3 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                Vector3Int clickPosition = targetTilemap.WorldToCell(worldPoint);
                 if (hit.collider != null && listHero.Contains(hit.collider.gameObject))
                 {
                     selectedHero = hit.collider.gameObject;
-                    Hero h = gridManager.GetHero(clickPosition.x, clickPosition.y);
-                    if (h != null)
-                    {
-                        Debug.Log("Hero in cell: "+h.Name);
-                    }
-                }
-
-                if (hit.collider != null && listEnemy.Contains(hit.collider.gameObject))
-                {
-                    Enemy e = gridManager.GetEnemy(clickPosition.x, clickPosition.y);
-                    if (e != null)
-                    {
-                        Debug.Log("Enemy in cell: "+e.Name);
-                    }
                 }
             }
-
             if (selectedHero != null)
             {
                 MoveSelectedPlayer();
@@ -112,7 +83,6 @@ public class GridControl : MonoBehaviour
             selectedHero.transform.position = targetTilemap.GetCellCenterWorld(lastCellPos[selectedHero]);
             selectedHero = null;
         }
-        
     }
 
     private void OnDrawGizmos()
@@ -121,31 +91,3 @@ public class GridControl : MonoBehaviour
         Gizmos.DrawWireCube(clickArea.center, clickArea.size);
     }
 }
-
-/*private void MouseInput()
-{
-    Vector3 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-    Vector3Int clickPosition = targetTilemap.WorldToCell(worldPoint);
-    if (Input.GetMouseButtonDown(0))
-    {
-        targetTilemap.ClearAllTiles();
-        //gridManager.Set(clickPosition.x,clickPosition.y, 3);
-        
-        targetPosX = clickPosition.x;
-        targetPosY = clickPosition.y;
-        Debug.Log("Mouse Position: "+targetPosX+", "+targetPosY);
-
-        
-        
-        /*List<PathNode> path = pathfinding.FindPath(currentX,currentY,targetPosX,targetPosY);
-        if (path != null)
-        {
-            for (int i = 0; i < path.Count; i++)
-            {
-                targetTilemap.SetTile(new Vector3Int(path[i].xPos, path[i].yPos, 0), highlightTile);
-            }
-            currentX = targetPosX;
-            currentY = targetPosY;
-        }#1#
-    }
-}*/

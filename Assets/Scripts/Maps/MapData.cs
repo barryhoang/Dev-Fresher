@@ -8,6 +8,7 @@ public class MapData : ScriptableObject
     public int width, height;
     public List<int> map;
 
+    
     public void Load(GridMap gridMap)
     {
         gridMap.Init(width,height);
@@ -34,6 +35,7 @@ public class MapData : ScriptableObject
         }
         UnityEditor.EditorUtility.SetDirty(this);
     }
+    
     private int Get(int x, int y)
     {
         int index = x * height + y;
@@ -44,18 +46,3 @@ public class MapData : ScriptableObject
         return map[index];
     }
 }
-    
-/*public void Save(GridMap gridMap)
-{
-    width = gridMap.width;
-    height = gridMap.height;
-    
-    map = new List<int>();
-    for (int x = 0; x < width; x++)
-    {
-        for (int y = 0; y < height; y++)
-        {
-            map.Add(gridMap.GetTile(x,y));
-        }
-    }
-}*/

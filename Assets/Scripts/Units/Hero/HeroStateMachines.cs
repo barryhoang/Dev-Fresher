@@ -3,10 +3,8 @@ using UnityEngine.UI;
 
 public class HeroStateMachines : MonoBehaviour
 {
-    public Hero hero;
     public TurnState currentState;
     [SerializeField] private Button startButton;
-    
 
     private void Start()
     {
@@ -23,14 +21,12 @@ public class HeroStateMachines : MonoBehaviour
             case (TurnState.IDLE):
                 break;
             case (TurnState.PLAYING):
-                //hero.Move();
                 Destroy(startButton);
                 break;
             case (TurnState.DEAD):
                 break;
         }
     }
-    
     
     private void StartOnClick()
     {

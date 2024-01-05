@@ -3,7 +3,6 @@ using UnityEngine.UI;
 
 public class EnemyStateMachines : MonoBehaviour
 {
-    public Enemy enemy;
     public TurnState currentState;
     [SerializeField] private Button startButton;
     
@@ -23,13 +22,11 @@ public class EnemyStateMachines : MonoBehaviour
             case (TurnState.IDLE):
                 break;
             case (TurnState.PLAYING):
-                //enemy.Move();
                 break;
             case (TurnState.DEAD):
                 break;
         }
     }
-    
     
     private void StartOnClick()
     {

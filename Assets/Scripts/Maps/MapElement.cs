@@ -6,11 +6,11 @@ using UnityEngine.Tilemaps;
 
 public class MapElement : MonoBehaviour
 {
-    GridMap gridMap;
+     public  GridMap gridMap;
     
     private void Awake()
     {
-        gridMap = transform.parent.GetComponent<GridMap>();
+        //gridMap = transform.parent.GetComponent<GridMap>();
     }
     
     private void Update()
@@ -24,8 +24,8 @@ public class MapElement : MonoBehaviour
         Vector3 pos = t.position;
         int xPos = (int) pos.x;
         int yPos = (int) pos.y;
-        gridMap.SetHero(this, xPos, yPos);
-        gridMap.SetEnemy(this, xPos, yPos);
+        /*gridMap.SetHero(this, xPos, yPos); 
+        gridMap.SetEnemy(this, xPos, yPos);*/
         
     }
 }

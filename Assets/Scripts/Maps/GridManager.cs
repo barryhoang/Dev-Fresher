@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -8,12 +5,12 @@ using UnityEngine.Tilemaps;
 [RequireComponent(typeof(Grid))]
 public class GridManager : MonoBehaviour
 {
-    Tilemap tileMap;
-    GridMap gridMap;
-    SaveLoadMap saveLoadMap;
-    MapData mapData;
-
     [SerializeField] private TileSet tileSet;
+    
+    private Tilemap tileMap;
+    private GridMap gridMap;
+    private SaveLoadMap saveLoadMap;
+    private MapData mapData;
 
     private void Awake()
     {
@@ -92,21 +89,5 @@ public class GridManager : MonoBehaviour
         }
         tileMap.ClearAllTiles();
         tileMap = null;
-    }
-
-    public void Set(int x, int y, int to)
-     {
-         gridMap.SetTile(x,y,to);
-         UpdateTile(x,y);
-     }
-
-    public Hero GetHero(int x, int y)
-    {
-        return gridMap.GetHero(x, y);
-    }
-
-    public Enemy GetEnemy(int x, int y)
-    {
-        return gridMap.GetEnemy(x, y);
     }
 }

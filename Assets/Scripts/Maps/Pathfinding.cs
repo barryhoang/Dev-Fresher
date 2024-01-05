@@ -1,9 +1,7 @@
-
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class PathNode 
 {
     public int xPos;
@@ -12,6 +10,7 @@ public class PathNode
     public int hValue;
     public PathNode parentNode;
 
+    
     public int fValue 
     {
         get {
@@ -32,6 +31,7 @@ public class Pathfinding : MonoBehaviour
     GridMap gridMap;
     PathNode[,] pathNodes;
 
+    
     private void Awake()
     {
         Init();
@@ -42,7 +42,6 @@ public class Pathfinding : MonoBehaviour
         if (gridMap == null) { gridMap = GetComponent<GridMap>(); }
         
         pathNodes = new PathNode[gridMap.width, gridMap.height];
-        //Debug.Log(gridMap.height + " " + gridMap.width);
         for (int x = 0; x < gridMap.width; x++) 
         {
             for (int y = 0; y < gridMap.height; y++) 
@@ -108,10 +107,7 @@ public class Pathfinding : MonoBehaviour
             for (int i = 0; i < neighbourNodes.Count; i++) 
             {
                 if (closedList.Contains(neighbourNodes[i])) { continue; }
-                if (gridMap.CheckWalkable(neighbourNodes[i].xPos, neighbourNodes[i].yPos) == false) { continue; }
-
                 int movementCost = currentNode.gValue + CalculateDistance(currentNode, neighbourNodes[i]);
-
                 if (openList.Contains(neighbourNodes[i]) == false
                     || movementCost < neighbourNodes[i].gValue
                     ) 
@@ -124,7 +120,6 @@ public class Pathfinding : MonoBehaviour
                     {
                         openList.Add(neighbourNodes[i]);
                     }
-
                 }
 
             }
@@ -137,16 +132,13 @@ public class Pathfinding : MonoBehaviour
     private List<PathNode> RetracePath(PathNode startNode, PathNode endNode)
     {
         List<PathNode> path = new List<PathNode>();
-
         PathNode currentNode = endNode;
-
         while (currentNode != startNode) 
         {
             path.Add(currentNode);
             currentNode = currentNode.parentNode;
         }
         path.Reverse();
-
         return path;
     }
 
@@ -154,7 +146,6 @@ public class Pathfinding : MonoBehaviour
     {
         int distX = Mathf.Abs(current.xPos - target.xPos);
         int distY = Mathf.Abs(current.yPos - target.yPos);
-
         if (distX > distY) { return 14 * distY + 10 * (distX - distY);  }
         return 14 * distX + 10 * (distY - distX);
 

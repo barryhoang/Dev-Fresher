@@ -251,9 +251,6 @@ GameObject:
   - component: {fileID: 8951411417428003026}
   - component: {fileID: 1893417773393270969}
   - component: {fileID: 4963414720032333258}
-  - component: {fileID: 7072630201721947575}
-  - component: {fileID: 4112687135808450601}
-  - component: {fileID: 4693832648139652123}
   m_Layer: 0
   m_Name: Hero
   m_TagString: Player
@@ -450,9 +447,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3528794d42bd50c41b6d7575db92f73b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hero: {fileID: 1893417773393270969}
   currentState: 0
-  startButton: {fileID: 5550878475959435351, guid: f3a50030e8e5132479a1c9cb3df9f686, type: 3}
+  startButton: {fileID: 0}
 --- !u!114 &1893417773393270969
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -469,17 +465,14 @@ MonoBehaviour:
   receivedDmgDelay: 1
   heroHealth: {fileID: 11400000, guid: ee5b2c77248fb5845b65933c3f8e5625, type: 2}
   heroMaxHealth: {fileID: 11400000, guid: c5e923cb61982a147a63d8534d528183, type: 2}
-  heroSpeed: {fileID: 11400000, guid: 3b3bfdfc5f598ae4089ff55e75e5d15f, type: 2}
   scriptableListHero: {fileID: 11400000, guid: af4ed7abec162544db132a1b76e9cfca, type: 2}
   listHero: {fileID: 11400000, guid: bf3a259b12af2df46977b0f743edc0d6, type: 2}
   scriptableListEnemy: {fileID: 11400000, guid: e7b54fe464ebae34883282879631ce06, type: 2}
   onHeroDamaged: {fileID: 11400000, guid: 245d85acfb83cf744a3b7b9164e1f659, type: 2}
   HSM: {fileID: 8951411417428003026}
   animator: {fileID: 9103245653046930603}
-  targetTilemap: {fileID: 1273739557928139077, guid: 8f1223376a1526d4d90a32b87d9d1377, type: 3}
-  highlightTile: {fileID: 11400000, guid: d7e76aa378a273b409144d9c476677e0, type: 2}
-  gridManager: {fileID: 107715000869717751, guid: 921ee9e0cfec3a04cb8e5d53489963d8, type: 3}
-  Name: Farmer
+  pathfinding: {fileID: 0}
+  temp: []
 --- !u!114 &4963414720032333258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -511,44 +504,6 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
---- !u!114 &7072630201721947575
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2921141414062210943}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cb81e5af79fd3b44af981d9235e8aef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &4112687135808450601
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2921141414062210943}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a87a0ebb9cb0dc04b8027ae1ec792c18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  height: 0
-  width: 0
---- !u!114 &4693832648139652123
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2921141414062210943}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03ec213d31c9c4d41a82a2a6a41d70a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &3190161504230865615
 GameObject:
   m_ObjectHideFlags: 0

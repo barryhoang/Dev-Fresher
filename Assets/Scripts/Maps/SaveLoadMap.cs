@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SaveLoadMap : MonoBehaviour
@@ -7,6 +5,7 @@ public class SaveLoadMap : MonoBehaviour
     [SerializeField] private MapData mapData;
     [SerializeField] private GridManager gridManager;
 
+    
     public void Save()
     {
         int[,] map = gridManager.ReadTileMap();
