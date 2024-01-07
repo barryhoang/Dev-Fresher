@@ -1,93 +1,93 @@
 using System.Collections.Generic;
+using System.Linq;
+using MEC;
 using Obvious.Soap;
+using Units.Hero;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using MEC;
-using System.Linq;
 
-public class GridControl : MonoBehaviour
+namespace Maps
 {
-    [SerializeField] private TileBase highlightTile;
-    [SerializeField] private Tilemap targetTilemap;
-    [SerializeField] private Tilemap map;
-    [SerializeField] private Rect clickArea;
-    [SerializeField] private ScriptableListGameObject listHero;
-    [SerializeField] private Dictionary<GameObject, Vector3Int> lastCellPos 
-        = new Dictionary<GameObject, Vector3Int>();
-    
-    private GameObject selectedHero;
-    private Vector3 temp;
-    public HeroStateMachines HSM;
+    public class GridControl : MonoBehaviour
+    {
+        [SerializeField] private TileBase highlightTile;
+        [SerializeField] private Tilemap targetTileMap;
+        [SerializeField] private Tilemap map;
+        [SerializeField] private Rect clickArea;
+        
+        private readonly Dictionary<GameObject, Vector3Int> _lastCellPos 
+            = new Dictionary<GameObject, Vector3Int>();
+        private GameObject _selectedHero;
+        private Vector3 _temp;
+        
+        public ScriptableListGameObject selectableHeroes;
     
 
-    private void Start()
-    {
-        clickArea.width = 9;
-        clickArea.height = 10;
-        foreach (var hero in listHero)
+        private void Start()
         {
-            if (hero != null && targetTilemap != null)
+            clickArea.width = 9;
+            clickArea.height = 10;
+            foreach (var hero in selectableHeroes)
             {
-                Vector3 playerWorldPos = hero.transform.position;
-                Vector3Int cellPosition = targetTilemap.WorldToCell(playerWorldPos);
-                lastCellPos[hero] = cellPosition;
+                if (hero == null || targetTileMap == null) continue;
+                var playerWorldPos = hero.transform.position;
+                var cellPosition = targetTileMap.WorldToCell(playerWorldPos);
+                _lastCellPos[hero] = cellPosition;
             }
+
+            Timing.RunCoroutine(_MovePlayer());
         }
 
-        Timing.RunCoroutine(_MovePlayer());
-    }
-
-    private IEnumerator<float> _MovePlayer()
-    {
-        while (true)
+        private IEnumerator<float> _MovePlayer()
         {
-            if (Input.GetMouseButtonDown(0) && HSM.currentState == HeroStateMachines.TurnState.IDLE)
+            while (true)
             {
-                RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-                if (hit.collider != null && listHero.Contains(hit.collider.gameObject))
-                {
-                    selectedHero = hit.collider.gameObject;
+                if (Input.GetMouseButtonDown(0) && Camera.main != null)
+                { 
+                    var hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero); 
+                    if (hit.collider != null && selectableHeroes.Contains(hit.collider.gameObject))
+                    { 
+                        _selectedHero = hit.collider.gameObject;
+                    }
                 }
-            }
-            if (selectedHero != null)
-            {
-                MoveSelectedPlayer();
-            }
-            yield return Timing.WaitForOneFrame;
-        }
-    }
-    
-    private void MoveSelectedPlayer()
-    {
-        if (Input.GetMouseButton(0))
-        {
-            if (Camera.main == null) return;
-            Vector3 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            if (clickArea.Contains(new Vector2(worldPoint.x, worldPoint.y)))
-            {
-                Vector3Int clickPosition = map.WorldToCell(worldPoint);
-                if (clickPosition != lastCellPos[selectedHero])
+                if (_selectedHero != null)
                 {
-                    targetTilemap.ClearAllTiles();
-                    targetTilemap.SetTile(clickPosition, highlightTile);
+                    MoveSelectedPlayer();
+                }
+                yield return Timing.WaitForOneFrame;
+            }
+        }
+    
+        private void MoveSelectedPlayer()
+        {
+            if (Input.GetMouseButton(0))
+            {
+                if (Camera.main == null) return;
+                var worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                if (!clickArea.Contains(new Vector2(worldPoint.x, worldPoint.y))) return;
+                var clickPosition = map.WorldToCell(worldPoint);
+                if (clickPosition != _lastCellPos[_selectedHero])
+                {
+                    targetTileMap.ClearAllTiles();
+                    targetTileMap.SetTile(clickPosition, highlightTile);
                     clickPosition.z = 0;
-                    lastCellPos[selectedHero] = clickPosition;
+                    _lastCellPos[_selectedHero] = clickPosition;
                 }
-                selectedHero.transform.position = new Vector3(worldPoint.x, worldPoint.y, 0);
-                temp = selectedHero.transform.position;
+                _selectedHero.transform.position = new Vector3(worldPoint.x, worldPoint.y, 0);
+                _temp = _selectedHero.transform.position;
+            }
+            else
+            {
+                targetTileMap.ClearAllTiles();
+                _selectedHero.transform.position = targetTileMap.GetCellCenterWorld(_lastCellPos[_selectedHero]);
+                _selectedHero = null;
             }
         }
-        else
-        {
-            targetTilemap.ClearAllTiles();
-            selectedHero.transform.position = targetTilemap.GetCellCenterWorld(lastCellPos[selectedHero]);
-            selectedHero = null;
-        }
-    }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(clickArea.center, clickArea.size);
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireCube(clickArea.center, clickArea.size);
+        }
     }
 }

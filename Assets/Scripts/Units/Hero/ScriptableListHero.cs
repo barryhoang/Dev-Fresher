@@ -1,12 +1,13 @@
 using System.Linq;
+using Obvious.Soap;
 using UnityEngine;
 
-namespace Obvious.Soap
+namespace Units.Hero
 {
     [CreateAssetMenu(fileName = "scriptable_list_Hero.asset", menuName = "Soap/Lists/Hero")]
-    public class ScriptableListHero : ScriptableList<Hero>
+    public class ScriptableListHero : ScriptableList<global::Hero>
     { 
-        public Hero GetClosest(Vector3 position)
+        public global::Hero GetClosest(Vector3 position)
         {
             if (IsEmpty)
                 return null;

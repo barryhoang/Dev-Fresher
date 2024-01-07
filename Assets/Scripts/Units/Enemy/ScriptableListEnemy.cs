@@ -1,12 +1,13 @@
 using System.Linq;
+using Obvious.Soap;
 using UnityEngine;
 
-namespace Obvious.Soap
+namespace Units.Enemy
 {
     [CreateAssetMenu(fileName = "scriptable_list_Enemy.asset", menuName = "Soap/Lists/Enemy")]
-    public class ScriptableListEnemy : ScriptableList<Enemy>
+    public class ScriptableListEnemy : ScriptableList<global::Enemy>
     {
-        public Enemy GetClosest(Vector3 position)
+        public global::Enemy GetClosest(Vector3 position)
         {
             if (IsEmpty)
                 return null;
