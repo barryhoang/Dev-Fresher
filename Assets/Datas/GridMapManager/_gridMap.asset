@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 32
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfe63f01e3b4b044c9206037f3e0f96c, type: 3}
+  m_Name: _gridMap
+  m_EditorClassIdentifier: 
+  _guid: fd69e8691037f334d80f86e666292b2b
+  _debugLogEnabled: 0
+  _saved: 1
+  _resetOn: 0
+  size: {x: 18, y: 9}
