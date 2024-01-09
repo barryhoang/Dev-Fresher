@@ -35,8 +35,7 @@ public class PlayerMovement : MonoBehaviour
         agent.updateRotation = false;
         agent.updateUpAxis = false;
 
-        // Add a listener to the button click event
-        /*_button.onClick.AddListener(MoveToTarget());*/
+       
     }
 
     private void Start()
@@ -44,6 +43,8 @@ public class PlayerMovement : MonoBehaviour
         path = new NavMeshPath();
         target = _enemy.transform.position + new Vector3(agentDrift, 0, 0);
 
+        // Add a listener to the button click event
+        /*_button.onClick.AddListener(MoveToTarget());*/
         Timing.RunCoroutine(_MoveUpdate());
     }
 

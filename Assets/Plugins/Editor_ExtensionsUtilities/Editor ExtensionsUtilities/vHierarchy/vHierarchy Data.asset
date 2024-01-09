@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a9752b0c8e144801967e6897679604b, type: 3}
+  m_Name: vHierarchy Data
+  m_EditorClassIdentifier: 
+  sceneDatasByGuid:
+    keys:
+    - 0c1b66f9ffcd0094d9b7625b3a9248ce
+    - 
+    values:
+    - goDatasByGlobalId:
+        keys:
+        - GlobalObjectId_V1-2-0c1b66f9ffcd0094d9b7625b3a9248ce-2038914667-0
+        - GlobalObjectId_V1-2-0c1b66f9ffcd0094d9b7625b3a9248ce-1815131916-0
+        - GlobalObjectId_V1-2-0c1b66f9ffcd0094d9b7625b3a9248ce-677487324-0
+        values:
+        - iColor: 0
+          icon: 
+        - iColor: 0
+          icon: 
+        - iColor: 7
+          icon: 
+      goDatasByInstanceId:
+        keys: 9c9000009290000024900000
+        values:
+        - iColor: 0
+          icon: 
+        - iColor: 0
+          icon: 
+        - iColor: 7
+          icon: 
+    - goDatasByGlobalId:
+        keys: []
+        values: []
+      goDatasByInstanceId:
+        keys: 
+        values: []
