@@ -25,7 +25,6 @@ namespace Tung
             _exit.onClick.AddListener(OnClickExit);
             Timing.RunCoroutine(StartGame().CancelWith(gameObject));
             _start.onClick.AddListener(() => Timing.RunCoroutine(OnClickStart().CancelWith(gameObject)));
-            Debug.Log("ABC");
         }
 
         private IEnumerator<float> StartGame()

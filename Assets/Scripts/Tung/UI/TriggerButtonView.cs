@@ -5,8 +5,6 @@ namespace Tung
 {
     public class TriggerButtonView : MonoBehaviour
     {
-        public Color[] colors;
-
         public void ChangeColorWhite(TextMeshProUGUI text)
         {
             text.color = Color.white;
