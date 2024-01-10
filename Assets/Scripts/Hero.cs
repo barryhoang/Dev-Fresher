@@ -6,8 +6,9 @@ using UnityEngine;
 using PrimeTween;
 using Units.Enemy;
 using Units.Hero;
+using UnityEngine.EventSystems;
 
-public class Hero : MonoBehaviour
+public class Hero : MonoBehaviour, IDragHandler,IEndDragHandler
 {
     [SerializeField] private FloatVariable health;
     [SerializeField] private FloatVariable maxHealth;
@@ -18,6 +19,9 @@ public class Hero : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private Pathfinding pathFinding;
     [SerializeField] private GridControl gridControl;
+    [SerializeField] private RectTransform heroPlacementGrid;
+    
+    private RectTransform _rectTransform;
     
     public List<PathNode> temp;
     private int _currentX;
@@ -38,11 +42,12 @@ public class Hero : MonoBehaviour
         health.Value = maxHealth;
         animator.SetBool(Dead, false);
         animator.SetBool(Moving, false);
+        _rectTransform = GetComponent<RectTransform>();
     }
 
     private void Start()
     {
-        Timing.RunCoroutine(TweenMove().CancelWith(gameObject));
+        //Timing.RunCoroutine(TweenMove().CancelWith(gameObject));
     }
 
     private void OnTriggerStay2D(Collider2D other)
@@ -94,17 +99,14 @@ public class Hero : MonoBehaviour
                     var path = pathFinding.FindPath(_currentX, _currentY, _targetPosX, _targetPosY);
                     temp = path;
                     var distance = (heroPos - closest.transform.position).sqrMagnitude;
-                    /*switch (distance)
+                    if (distance > 1f && path != null)
                     {
-                        case > 1f when path != null:
-                            animator.SetBool(Moving, true);
-                            Tween.Position(transform, new Vector3(path[0].xPos, path[0].yPos, 0), 0.5f);
-                            yield return Timing.WaitForSeconds(1);
-                            break;
-                        case <= 1f:
-                            animator.SetBool(Moving, false);
-                            break;
-                    }*/
+                         animator.SetBool(Moving, true);
+                         Tween.Position(transform, new Vector3(path[0].xPos, path[0].yPos, 0), 0.5f);
+                         yield return Timing.WaitForSeconds(1);
+                    }
+
+                    if (distance <= 1f) animator.SetBool(Moving, false);
                 }
             }
             yield return Timing.WaitForOneFrame;
@@ -116,5 +118,27 @@ public class Hero : MonoBehaviour
         var heroPos = transform;
         Tween.PositionX(heroPos, heroPos.position.x + 0.3f, 0.5f, Ease.Default, 2, CycleMode.Yoyo);
         yield return Timing.WaitForOneFrame;
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        _rectTransform.anchoredPosition += eventData.delta / heroPlacementGrid.localScale.x;
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        if (!RectTransformUtility.RectangleContainsScreenPoint(heroPlacementGrid, Input.mousePosition))
+        {
+            SetToLastCellPosition();
+        }
+    }
+
+    private void SetToLastCellPosition()
+    {
+        var sizeDelta = heroPlacementGrid.sizeDelta;
+        var delta = _rectTransform.sizeDelta;
+        var lastX = (sizeDelta.x / 2) - (delta.x / 2);
+        var lastY = (sizeDelta.y / 2) - (delta.y / 2);
+        _rectTransform.anchoredPosition = new Vector2(lastX, lastY);
     }
 }

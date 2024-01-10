@@ -45,7 +45,7 @@ namespace Maps
             {
                 if (hero == null || targetTileMap == null) continue;
                 var playerWorldPos = hero.transform.position;
-                var cellPosition = targetTileMap.WorldToCell(playerWorldPos);
+                var cellPosition = map.WorldToCell(playerWorldPos);
                 _lastCellPos[hero] = cellPosition;
             }
 
@@ -85,17 +85,24 @@ namespace Maps
             {
                 if (Camera.main == null) return;
                 var worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                if (!clickArea.Contains(new Vector2(worldPoint.x, worldPoint.y))) return;
-                var clickPosition = map.WorldToCell(worldPoint);
-                if (clickPosition != _lastCellPos[_selectedHero])
+                if (clickArea.Contains(new Vector2(worldPoint.x, worldPoint.y)))
                 {
-                    targetTileMap.ClearAllTiles();
-                    targetTileMap.SetTile(clickPosition, highlightTile);
-                    clickPosition.z = 0;
-                    _lastCellPos[_selectedHero] = clickPosition;
+                    var clickPosition = map.WorldToCell(worldPoint);
+                    if (clickPosition != _lastCellPos[_selectedHero])
+                    {
+                        targetTileMap.ClearAllTiles();
+                        targetTileMap.SetTile(clickPosition, highlightTile);
+                        clickPosition.z = 0;
+                        _lastCellPos[_selectedHero] = clickPosition;
+                    }
+
+                    _selectedHero.transform.position = new Vector3(worldPoint.x, worldPoint.y, 1);
+                    _temp = _selectedHero.transform.position;
                 }
-                _selectedHero.transform.position = new Vector3(worldPoint.x, worldPoint.y, 0);
-                _temp = _selectedHero.transform.position;
+                else
+                {
+                    _selectedHero.transform.position = _lastCellPos[_selectedHero];
+                }
             }
             else
             {
@@ -111,7 +118,7 @@ namespace Maps
             {
                 var randomX = (int) Random.Range(1, clickArea.width-1);
                 var randomY = (int) Random.Range(1, clickArea.height-1);
-                var spawnPosition = new Vector3(randomX * tileSize, randomY * tileSize, 0);
+                var spawnPosition = new Vector3(randomX * tileSize, randomY * tileSize, 1);
                 var spawnedHero = Instantiate(hero, spawnPosition, Quaternion.identity, map.transform);
             }
             
@@ -119,7 +126,7 @@ namespace Maps
             {
                 var randomX = Random.Range(clickArea.width,clickArea.width*2-1);
                 var randomY = Random.Range(1, clickArea.height-1);
-                var spawnPosition = new Vector3(randomX * tileSize, randomY * tileSize, 0);
+                var spawnPosition = new Vector3(randomX * tileSize, randomY * tileSize, 1);
                 var spawnedEnemy = Instantiate(enemy, spawnPosition, Quaternion.identity, map.transform);
                 spawnedEnemy.transform.Rotate(0,180,0);
             }

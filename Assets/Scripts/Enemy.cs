@@ -39,7 +39,7 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
-        Timing.RunCoroutine(TweenMove().CancelWith(gameObject));
+        //Timing.RunCoroutine(TweenMove().CancelWith(gameObject));
     }
     
     private void OnTriggerStay2D(Collider2D other)
@@ -91,17 +91,14 @@ public class Enemy : MonoBehaviour
                     var path = pathFinding.FindPath(_currentX, _currentY, _targetPosX, _targetPosY);
                     temp = path;
                     var distance = (enemyPos - closest.transform.position).sqrMagnitude;
-                    /*switch (distance)
+                    if (distance > 1f && path != null)
                     {
-                        case > 1f when path != null:
-                            animator.SetBool(Moving, true);
-                            Tween.Position(transform, new Vector3(path[0].xPos, path[0].yPos, 0), 0.5f);
-                            yield return Timing.WaitForSeconds(1);
-                            break;
-                        case <= 1f:
-                            animator.SetBool(Moving, false);
-                            break;
-                    }*/
+                        animator.SetBool(Moving, true);
+                        Tween.Position(transform, new Vector3(path[0].xPos, path[0].yPos, 0), 0.5f);
+                        yield return Timing.WaitForSeconds(1);
+                    }
+
+                    if (distance <= 1f) animator.SetBool(Moving, false);
                 }
             }
             yield return Timing.WaitForOneFrame;
