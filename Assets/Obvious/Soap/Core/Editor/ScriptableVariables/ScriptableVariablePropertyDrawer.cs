@@ -39,9 +39,11 @@
                 SoapEditorUtils.DrawSerializationError(genericType,position);
                 return;
             }
-
             var value = _serializedObject.FindProperty("_value");
-            EditorGUI.PropertyField(position, value, GUIContent.none);
+            if (value != null)
+            {
+                EditorGUI.PropertyField(position, value, GUIContent.none);
+            }
         }
     }
 }

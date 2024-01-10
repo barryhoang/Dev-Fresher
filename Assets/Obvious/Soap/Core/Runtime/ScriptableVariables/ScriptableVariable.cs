@@ -191,6 +191,7 @@ namespace Obvious.Soap
         
         public virtual void Init()
         {
+            
             _initialValue = _value;
             PreviousValue = _value;
             if (_saved)

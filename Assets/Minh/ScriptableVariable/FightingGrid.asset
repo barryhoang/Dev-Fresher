@@ -15,5 +15,5 @@ MonoBehaviour:
   _guid: 3be068fa5fdeb6e488011d456d2f8fbc
   _debugLogEnabled: 0
   _saved: 0
-  _resetOn: 0
+  _resetOn: 1
   size: {x: 14, y: 6}
