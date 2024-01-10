@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 32
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39374f24b35c3f0459b8249725bf135e, type: 3}
+  m_Name: FightingGrid
+  m_EditorClassIdentifier: 
+  _guid: 3be068fa5fdeb6e488011d456d2f8fbc
+  _debugLogEnabled: 0
+  _saved: 0
+  _resetOn: 0
+  size: {x: 14, y: 6}
