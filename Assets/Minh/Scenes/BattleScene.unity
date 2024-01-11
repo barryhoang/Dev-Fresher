@@ -1153,6 +1153,53 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &843196549
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 843196551}
+  - component: {fileID: 843196550}
+  m_Layer: 0
+  m_Name: GameObject (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &843196550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 843196549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e59f2d6866ce9d49acdd8c37cc72d12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hero: {fileID: 0}
+  _mousePos: {x: 0, y: 0}
+  _mousePosInt: {x: 0, y: 0}
+--- !u!4 &843196551
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 843196549}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.1405206, y: 2.874338, z: -0.026962252}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &843316422
 GameObject:
   m_ObjectHideFlags: 0
@@ -1276,12 +1323,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45df0679e96041959ff7b3e28ab0f6f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _grid: {fileID: 170065636}
-  _playerLayerMask:
-    serializedVersion: 2
-    m_Bits: 64
-  buttonDown: {fileID: 11400000, guid: fc16e2f308c2dfe428b5c82a7fa06976, type: 2}
-  _fightingMap: {fileID: 11400000, guid: 3be068fa5fdeb6e488011d456d2f8fbc, type: 2}
+  _buttonDown: {fileID: 11400000, guid: fc16e2f308c2dfe428b5c82a7fa06976, type: 2}
+  _buttonDrag: {fileID: 11400000, guid: fc16e2f308c2dfe428b5c82a7fa06976, type: 2}
+  _buttonUp: {fileID: 11400000, guid: 22d66261919a6684486cec42d4738413, type: 2}
+  _mouseDrag: {fileID: 0}
 --- !u!4 &1073304695
 Transform:
   m_ObjectHideFlags: 0
@@ -1311,10 +1356,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _fightingMap: {fileID: 11400000, guid: 3be068fa5fdeb6e488011d456d2f8fbc, type: 2}
   _hero:
-  - {fileID: 1288583268661087964, guid: 330604cd6c3625a4097f8a037708b877, type: 3}
-  - {fileID: 3504511694210779930, guid: c9936baaf0de4c346b54e6fc496323d0, type: 3}
-  - {fileID: 1268939887819370761, guid: c184dc0f6d9a5eb4aa05604c26a9de71, type: 3}
-  - {fileID: 18032753111666862, guid: 1ec17e5ead4bdd84288bdd0e39d36944, type: 3}
+  - {fileID: 5422247177257816973, guid: 330604cd6c3625a4097f8a037708b877, type: 3}
+  - {fileID: 3808196127036357931, guid: c9936baaf0de4c346b54e6fc496323d0, type: 3}
+  - {fileID: 1581497993197585168, guid: c184dc0f6d9a5eb4aa05604c26a9de71, type: 3}
+  - {fileID: 8597649543341732068, guid: 1ec17e5ead4bdd84288bdd0e39d36944, type: 3}
 --- !u!114 &1073304697
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1330,7 +1375,9 @@ MonoBehaviour:
   _playerPlacementGrid: {fileID: 1110627232}
   _soapListHero: {fileID: 11400000, guid: 89f04d99a15279a4e87837c40d23e782, type: 2}
   _onButtonDown: {fileID: 11400000, guid: fc16e2f308c2dfe428b5c82a7fa06976, type: 2}
+  _onbuttonUp: {fileID: 11400000, guid: 22d66261919a6684486cec42d4738413, type: 2}
   _fightingMap: {fileID: 11400000, guid: 3be068fa5fdeb6e488011d456d2f8fbc, type: 2}
+  _mouseDrag: {fileID: 0}
 --- !u!1 &1110627229
 GameObject:
   m_ObjectHideFlags: 0
@@ -2823,3 +2870,4 @@ SceneRoots:
   - {fileID: 4016671301697363416}
   - {fileID: 7613243309966998830}
   - {fileID: 1073304695}
+  - {fileID: 843196551}

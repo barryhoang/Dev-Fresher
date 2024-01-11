@@ -8,7 +8,7 @@ namespace Obvious.Soap
     {
         public Vector2Int size;
         public override void Init()
-        {
+        { 
             _value=new Hero[size.x,size.y];
             base.Init();
         }

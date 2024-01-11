@@ -7,7 +7,8 @@ namespace Minh
     {
         [SerializeField] private ScriptableEventVector2 _buttonDown;
         [SerializeField] private ScriptableEventVector2 _buttonDrag;
-        [SerializeField] private ScriptableEventNoParam _buttonUp;
+        [SerializeField] private ScriptableEventVector2 _buttonUp;
+        [SerializeField] private MouseDrag _mouseDrag;
 
         private Camera _camera;
 
@@ -22,13 +23,10 @@ namespace Minh
             {
                 _buttonDown.Raise(GetMousePoint());
             }
-            else if (Input.GetMouseButton(0))
-            {
-                _buttonDrag.Raise(GetMousePoint());
-            }
+            
             else if (Input.GetMouseButtonUp(0))
             {
-                _buttonUp.Raise();
+                _buttonUp.Raise(GetMousePoint());
             }
         }
 
@@ -36,5 +34,6 @@ namespace Minh
         {
             return _camera.ScreenToWorldPoint(Input.mousePosition);
         }
+        
     }
 }
