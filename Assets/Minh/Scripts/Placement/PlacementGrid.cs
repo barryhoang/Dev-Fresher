@@ -15,6 +15,7 @@ namespace Minh
         [SerializeField] private ScriptableEventVector2 _onbuttonUp;
         [SerializeField] private FightingMapVariable _fightingMap;
         [SerializeField] private MouseDrag _mouseDrag;
+        [SerializeField] private GameObject _placementGrid;
         private Camera _camera;
         private bool isDragging;
         private Hero savedHero;
@@ -33,7 +34,6 @@ namespace Minh
         private void CheckHeroPosition(Vector2 mousePos)
         {
             Vector2Int MousePosInt = new Vector2Int((int) Mathf.Round(mousePos.x), (int) Mathf.Round(mousePos.y));
-            
             if (MousePosInt.x >= 0 && MousePosInt.x < 6 && MousePosInt.y < 6 && MousePosInt.y >= 0)
             {
                 Debug.Log(MousePosInt + "MOUSE POSITION ");
@@ -42,12 +42,10 @@ namespace Minh
                     isDragging = true;
                     heroPosition = _fightingMap.Value[MousePosInt.x, MousePosInt.y].transform.position;
                     StartCoroutine(MoveHeroPosition(_fightingMap.Value[MousePosInt.x, MousePosInt.y]));
+                    _placementGrid.SetActive(true);
+                    _placementGrid.transform.position = new Vector3(MousePosInt.x, MousePosInt.y, 0);
                     _fightingMap.Value[MousePosInt.x, MousePosInt.y] = null;
                 }
-            }
-            else
-            {
-                return;
             }
         }
 
@@ -57,8 +55,15 @@ namespace Minh
             while (isDragging)
             {
                 Vector2 mouseInput = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                Vector2Int MousePosInt =
+                    new Vector2Int((int) Mathf.Round(mouseInput.x), (int) Mathf.Round(mouseInput.y));
                 _hero.gameObject.transform.position = mouseInput;
                 savedHero = _hero;
+                if (MousePosInt.x >= 0 && MousePosInt.x < 6 && MousePosInt.y < 6 && MousePosInt.y >= 0)
+                {
+                    _placementGrid.transform.position = new Vector3(MousePosInt.x, MousePosInt.y, 0);
+                }
+
                 yield return Timing.WaitForOneFrame;
             }
         }
@@ -77,21 +82,32 @@ namespace Minh
                     if (_fightingMap.Value[MousePosInt.x, MousePosInt.y] != null)
                     {
                         _fightingMap.Value[MousePosInt.x, MousePosInt.y].transform.position = heroPosition;
-                        savedHero.transform.position = new Vector3(MousePosInt.x, MousePosInt.y, 0);
                         _fightingMap.Value[Mathf.RoundToInt(heroPosition.x), Mathf.RoundToInt(heroPosition.y)] =
                             _fightingMap.Value[MousePosInt.x, MousePosInt.y];
-                        _fightingMap.Value[MousePosInt.x, MousePosInt.y] = savedHero;
+                        MovePlayer(MousePosInt);
                         savedHero = null;
                     }
                     else
                     {
-                        Debug.Log("MouseX"+MousePosInt.x+"MouseY"+MousePosInt.y);
-                        savedHero.transform.position = new Vector3(MousePosInt.x, MousePosInt.y, 0);
-                        _fightingMap.Value[MousePosInt.x, MousePosInt.y] = savedHero;
+                        Debug.Log("MouseX" + MousePosInt.x + "MouseY" + MousePosInt.y);
+                        MovePlayer(MousePosInt);
                         savedHero = null;
                     }
                 }
+                else
+                {
+                    savedHero.transform.position = heroPosition;
+                    _fightingMap.Value[Mathf.RoundToInt(heroPosition.x), Mathf.RoundToInt(heroPosition.y)] = savedHero;
+                }
             }
+
+            _placementGrid.SetActive(false);
+        }
+
+        private void MovePlayer(Vector2Int MousePosInt)
+        {
+            savedHero.transform.position = new Vector3(MousePosInt.x, MousePosInt.y, 0);
+            _fightingMap.Value[MousePosInt.x, MousePosInt.y] = savedHero;
         }
 
         // Update is called once per frame
