@@ -42,14 +42,13 @@ public class Pathfinding : MonoBehaviour
     {
         if (_gridMap == null) { _gridMap = GetComponent<GridMap>(); }
 
-        _gridMap._gridMap = new int[_gridMap.width,_gridMap.height];
+        //_gridMap._gridMap = new int[_gridMap.width,_gridMap.height];
         _pathNodes = new PathNode[_gridMap.width, _gridMap.height];
         for (var x = 0; x < _gridMap.width; x++) 
         {
             for (var y = 0; y < _gridMap.height; y++) 
             {
                 _pathNodes[x, y] = new PathNode(x,y);
-                _gridMap._gridMap[x, y] = 0;
             }
         }
     }

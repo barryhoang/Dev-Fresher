@@ -15,7 +15,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private ScriptableListHero scriptableListHero;
     [SerializeField] private GameManager gameManager;
     [SerializeField] private Animator animator;
-    [SerializeField] private Pathfinding pathFinding;
+    [SerializeField] private Pathfinding pathfinding;
 
     public List<PathNode> temp;
     private int _currentX;
@@ -88,7 +88,7 @@ public class Enemy : MonoBehaviour
                     var heroPos = closest.gameObject.transform.position;
                     _targetPosX = (int) heroPos.x;
                     _targetPosY = (int) heroPos.y;
-                    var path = pathFinding.FindPath(_currentX, _currentY, _targetPosX, _targetPosY);
+                    var path = pathfinding.FindPath(_currentX, _currentY, _targetPosX, _targetPosY);
                     temp = path;
                     var distance = (enemyPos - closest.transform.position).sqrMagnitude;
                     if (distance > 1f && path != null)

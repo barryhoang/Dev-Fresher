@@ -189,7 +189,7 @@ namespace Obvious.Soap
         }
 #endif
         
-        public void Init()
+        public virtual void Init()
         {
             _initialValue = _value;
             PreviousValue = _value;

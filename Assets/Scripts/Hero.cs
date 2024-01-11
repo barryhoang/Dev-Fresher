@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Maps;
 using MEC;
@@ -8,7 +9,7 @@ using Units.Enemy;
 using Units.Hero;
 using UnityEngine.EventSystems;
 
-public class Hero : MonoBehaviour, IDragHandler,IEndDragHandler
+public class Hero : MonoBehaviour
 {
     [SerializeField] private FloatVariable health;
     [SerializeField] private FloatVariable maxHealth;
@@ -19,9 +20,7 @@ public class Hero : MonoBehaviour, IDragHandler,IEndDragHandler
     [SerializeField] private Animator animator;
     [SerializeField] private Pathfinding pathFinding;
     [SerializeField] private GridControl gridControl;
-    [SerializeField] private RectTransform heroPlacementGrid;
-    
-    private RectTransform _rectTransform;
+    //[SerializeField] private RectTransform heroPlacementGrid;
     
     public List<PathNode> temp;
     private int _currentX;
@@ -42,12 +41,11 @@ public class Hero : MonoBehaviour, IDragHandler,IEndDragHandler
         health.Value = maxHealth;
         animator.SetBool(Dead, false);
         animator.SetBool(Moving, false);
-        _rectTransform = GetComponent<RectTransform>();
     }
 
     private void Start()
     {
-        //Timing.RunCoroutine(TweenMove().CancelWith(gameObject));
+        Timing.RunCoroutine(TweenMove().CancelWith(gameObject));
     }
 
     private void OnTriggerStay2D(Collider2D other)
@@ -120,7 +118,7 @@ public class Hero : MonoBehaviour, IDragHandler,IEndDragHandler
         yield return Timing.WaitForOneFrame;
     }
 
-    public void OnDrag(PointerEventData eventData)
+    /*public void OnDrag(PointerEventData eventData)
     {
         _rectTransform.anchoredPosition += eventData.delta / heroPlacementGrid.localScale.x;
     }
@@ -140,5 +138,5 @@ public class Hero : MonoBehaviour, IDragHandler,IEndDragHandler
         var lastX = (sizeDelta.x / 2) - (delta.x / 2);
         var lastY = (sizeDelta.y / 2) - (delta.y / 2);
         _rectTransform.anchoredPosition = new Vector2(lastX, lastY);
-    }
+    }*/
 }

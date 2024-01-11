@@ -7,6 +7,7 @@ using Units.Hero;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
+using UnityEngine.UI;
 
 namespace Maps
 {
@@ -14,8 +15,7 @@ namespace Maps
     {
         [SerializeField] private TileBase highlightTile;
         [SerializeField] private Tilemap targetTileMap;
-        [SerializeField] private Tilemap map;
-        [SerializeField] private Rect clickArea;
+        [SerializeField] public Tilemap map;
         [SerializeField] private List<GameObject> heroPrefabs;
         [SerializeField] private List<GameObject> enemyPrefabs;
         [SerializeField] private float tileSize = 1.0f;
@@ -24,6 +24,9 @@ namespace Maps
         [SerializeField] private ScriptableListEnemy scriptableListEnemy;
         [SerializeField] private ScriptableEventNoParam onLose;
         [SerializeField] private ScriptableEventNoParam onVictory;
+        [SerializeField] private Button fightButton;
+        [SerializeField] private ScriptableEventVector2 onBtnDown;
+        [SerializeField] private MapVariable mapVariable;
         
         private readonly Dictionary<GameObject, Vector3Int> _lastCellPos 
             = new Dictionary<GameObject, Vector3Int>();
@@ -31,10 +34,14 @@ namespace Maps
         private Vector3 _temp;
         
         public ScriptableListGameObject selectableHeroes;
+        public Rect clickArea;
 
         private void Awake()
         {
             SpawnUnits();
+            fightButton.gameObject.SetActive(true);
+            var button = fightButton.GetComponent<Button>();
+            button.onClick.AddListener(StartOnClick);
         }
 
         private void Start()
@@ -99,10 +106,6 @@ namespace Maps
                     _selectedHero.transform.position = new Vector3(worldPoint.x, worldPoint.y, 1);
                     _temp = _selectedHero.transform.position;
                 }
-                else
-                {
-                    _selectedHero.transform.position = _lastCellPos[_selectedHero];
-                }
             }
             else
             {
@@ -146,6 +149,27 @@ namespace Maps
             }
 
             yield return Timing.WaitForOneFrame;
+        }
+
+        private void StartOnClick()
+        {
+            gameManager.currentState = GameManager.State.Fight;
+        }
+        
+        private void CheckHeroPos(Vector2 mousePos)
+        {
+            Vector2Int mousePosInt = new Vector2Int((int)Mathf.RoundToInt(mousePos.x),(int)Mathf.RoundToInt(mousePos.y));
+            Debug.Log("MousePos: "+mousePosInt);
+            if (mapVariable.Value[mousePosInt.x,mousePosInt.y])
+            {
+                Hero h = mapVariable.Value[mousePosInt.x, mousePosInt.y];
+                Debug.Log(h.gameObject.name);
+            }
+        }
+
+        private void OnDestroy()
+        {
+            onBtnDown.OnRaised -= CheckHeroPos;
         }
     }
 }

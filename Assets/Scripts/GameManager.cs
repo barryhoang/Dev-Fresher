@@ -3,7 +3,6 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private Button fightButton;
     public enum State
     {
         Placement,
@@ -17,9 +16,6 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         currentState = State.Placement;
-        fightButton.gameObject.SetActive(true);
-        var button = fightButton.GetComponent<Button>();
-        button.onClick.AddListener(StartOnClick);
     }
 
     private void Update()
@@ -47,10 +43,5 @@ public class GameManager : MonoBehaviour
     public void SetGameState(State newState)
     {
         currentState = newState;
-    }
-
-    private void StartOnClick()
-    {
-        currentState = State.Fight;
     }
 }

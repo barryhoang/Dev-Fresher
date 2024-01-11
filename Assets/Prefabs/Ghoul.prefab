@@ -362,7 +362,7 @@ MonoBehaviour:
   gameManager: {fileID: -6216866831006848966, guid: db1269b9afc525b439f9dc71c58da879,
     type: 3}
   animator: {fileID: 5839980982123311318}
-  pathFinding: {fileID: 7867210030352182837, guid: 629118bc448761440bb205647c17a8a8,
+  pathfinding: {fileID: 7867210030352182837, guid: 629118bc448761440bb205647c17a8a8,
     type: 3}
   temp: []
 --- !u!1 &933784569693402449
