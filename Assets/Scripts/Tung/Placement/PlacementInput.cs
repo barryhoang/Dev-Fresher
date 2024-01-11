@@ -8,6 +8,7 @@ namespace Tung
 {
     public class PlacementInput : MonoBehaviour
     {
+        [SerializeField] private ScriptableEventVector2 _eventDrag;
         [SerializeField] private ScriptableEventVector2 _eventDown;
         [SerializeField] private ScriptableEventVector2 _eventUp;
 
@@ -24,26 +25,26 @@ namespace Tung
             {
                 if (Input.GetMouseButtonDown(0))
                 {
-                    isDraging = true;
-                    Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    _eventDown.Raise(mousePosition);
+                    _eventDown.Raise( MousePosition());
                 }
 
-                if (Input.GetMouseButtonDown(0) && isDraging)
+                if (Input.GetMouseButton(0))
                 {
-                    Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    _eventDown.Raise(mousePosition);
+                    _eventDrag.Raise( MousePosition());
                 }
                 
                 if (Input.GetMouseButtonUp(0))
                 {
-                    isDraging = false;
-                    
+                    _eventUp.Raise( MousePosition());
                 }
-                
-                
                 yield return Timing.WaitForOneFrame;
             }
-        } 
+        }
+
+        private Vector2 MousePosition()
+        {
+            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            return mousePosition;
+        }
     }
 }

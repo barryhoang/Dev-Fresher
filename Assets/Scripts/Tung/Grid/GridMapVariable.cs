@@ -4,12 +4,20 @@ using UnityEngine;
 namespace Tung
 {
     [CreateAssetMenu(fileName = "scriptable_variable_GripMap.asset", menuName = "Soap/ScriptableVariables/GripMap")]
-    public class GridMapVariable : ScriptableVariable<bool[,]>
+    public class GridMapVariable : ScriptableVariable<Unit[,]>
     {
         public Vector2Int size;
+        private Unit _hero;
+
+        public Unit Hero
+        {
+            get => _hero;
+            set => _hero = value;
+        }
+
         public override void Init()
         {
-            _value = new bool[size.x,size.y];
+            _value = new Unit[size.x,size.y];
             base.Init();
         }
 
@@ -21,16 +29,16 @@ namespace Tung
                 return false;
             return true;
         }
-        internal bool CheckWalkable(int xPos, int yPos)
+        public bool CheckWalkable(int xPos, int yPos)
         {
-            return _value[xPos, yPos] == false;
+            return _value[xPos, yPos] != null;
         }
     }
 }
-
-enum Unit
+public enum ObjectUnit
 {
-    none,
-    unit,
-    wall
+    NONE,
+    UNIT,
+    WALL
 }
+

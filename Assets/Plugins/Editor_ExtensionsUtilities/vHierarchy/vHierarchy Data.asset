@@ -45,143 +45,14 @@ MonoBehaviour:
         - iColor: 2
           icon: 
       goDatasByInstanceId:
-        keys: 5864000076640000966300000c640000426400008c63000086630000ec7400000a7500002a740000a0740000d6740000207400001a740000a6770000c4770000e47600005a77000090770000da760000d4760000ea78000008790000287800009e780000d47800001e78000018780000ec7c00000a7d0000287c0000a07c0000d67c00001e7c0000187c0000d08d0000ee8d00000c8d0000848d0000ba8d0000028d0000fc8c00005eaa00007caa00009aa9000012aa000048aa000090a900008aa900004aae000068ae000086ad0000fead000034ae00007cad000076ad000046ae000098b20000b6b20000c8b100004cb2000082b20000beb10000b8b1000094b20000
-        values:
-        - iColor: 0
-          icon: 
-        - iColor: 4
-          icon: Canvas Icon
-        - iColor: 0
-          icon: Camera Icon
-        - iColor: 7
-          icon: Canvas Icon
-        - iColor: 0
-          icon: AudioEchoFilter Icon
-        - iColor: 0
-          icon: StandaloneInputModule Icon
-        - iColor: 0
-          icon: MeshCollider Icon
-        - iColor: 0
-          icon: 
-        - iColor: 4
-          icon: Canvas Icon
-        - iColor: 0
-          icon: Camera Icon
-        - iColor: 7
-          icon: Canvas Icon
-        - iColor: 0
-          icon: AudioEchoFilter Icon
-        - iColor: 0
-          icon: StandaloneInputModule Icon
-        - iColor: 0
-          icon: MeshCollider Icon
-        - iColor: 0
-          icon: 
-        - iColor: 4
-          icon: Canvas Icon
-        - iColor: 0
-          icon: Camera Icon
-        - iColor: 7
-          icon: Canvas Icon
-        - iColor: 0
-          icon: AudioEchoFilter Icon
-        - iColor: 0
-          icon: StandaloneInputModule Icon
-        - iColor: 0
-          icon: MeshCollider Icon
-        - iColor: 0
-          icon: 
-        - iColor: 4
-          icon: Canvas Icon
-        - iColor: 0
-          icon: Camera Icon
-        - iColor: 7
-          icon: Canvas Icon
-        - iColor: 0
-          icon: AudioEchoFilter Icon
-        - iColor: 0
-          icon: StandaloneInputModule Icon
-        - iColor: 0
-          icon: MeshCollider Icon
-        - iColor: 0
-          icon: 
-        - iColor: 4
-          icon: Canvas Icon
-        - iColor: 0
-          icon: Camera Icon
-        - iColor: 7
-          icon: Canvas Icon
-        - iColor: 0
-          icon: AudioEchoFilter Icon
-        - iColor: 0
-          icon: StandaloneInputModule Icon
-        - iColor: 0
-          icon: MeshCollider Icon
-        - iColor: 0
-          icon: 
-        - iColor: 4
-          icon: Canvas Icon
-        - iColor: 0
-          icon: Camera Icon
-        - iColor: 7
-          icon: Canvas Icon
-        - iColor: 0
-          icon: AudioEchoFilter Icon
-        - iColor: 0
-          icon: StandaloneInputModule Icon
-        - iColor: 0
-          icon: MeshCollider Icon
-        - iColor: 0
-          icon: 
-        - iColor: 4
-          icon: Canvas Icon
-        - iColor: 0
-          icon: Camera Icon
-        - iColor: 7
-          icon: Canvas Icon
-        - iColor: 0
-          icon: AudioEchoFilter Icon
-        - iColor: 0
-          icon: StandaloneInputModule Icon
-        - iColor: 0
-          icon: MeshCollider Icon
-        - iColor: 0
-          icon: 
-        - iColor: 4
-          icon: Canvas Icon
-        - iColor: 0
-          icon: Camera Icon
-        - iColor: 7
-          icon: Canvas Icon
-        - iColor: 0
-          icon: AudioEchoFilter Icon
-        - iColor: 0
-          icon: StandaloneInputModule Icon
-        - iColor: 0
-          icon: MeshCollider Icon
-        - iColor: 2
-          icon: 
-        - iColor: 0
-          icon: 
-        - iColor: 4
-          icon: Canvas Icon
-        - iColor: 0
-          icon: Camera Icon
-        - iColor: 7
-          icon: Canvas Icon
-        - iColor: 0
-          icon: AudioEchoFilter Icon
-        - iColor: 0
-          icon: StandaloneInputModule Icon
-        - iColor: 0
-          icon: MeshCollider Icon
-        - iColor: 2
-          icon: 
+        keys: 
+        values: []
     - goDatasByGlobalId:
         keys:
         - GlobalObjectId_V1-2-1fa276ad84cee504aae3bdbb6a48f8c3-1597176109-0
         - GlobalObjectId_V1-2-1fa276ad84cee504aae3bdbb6a48f8c3-523408316-0
         - GlobalObjectId_V1-2-1fa276ad84cee504aae3bdbb6a48f8c3-1712019741-0
+        - GlobalObjectId_V1-2-1fa276ad84cee504aae3bdbb6a48f8c3-735938900-0
         values:
         - iColor: 1
           icon: 
@@ -189,16 +60,16 @@ MonoBehaviour:
           icon: MeshCollider Icon
         - iColor: 8
           icon: 
+        - iColor: 0
+          icon: Camera Icon
       goDatasByInstanceId:
-        keys: a4fbfeffe2aa000022b30000fcb200009c9ffeff
+        keys: 1e640000ec63000022640000fa630000
         values:
-        - iColor: 1
-          icon: 
-        - iColor: 1
-          icon: 
         - iColor: 1
           icon: 
         - iColor: 0
           icon: MeshCollider Icon
         - iColor: 8
           icon: 
+        - iColor: 0
+          icon: Camera Icon
