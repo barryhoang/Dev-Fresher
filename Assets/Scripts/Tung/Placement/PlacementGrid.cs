@@ -1,4 +1,5 @@
-﻿using Obvious.Soap;
+﻿using System;
+using Obvious.Soap;
 using UnityEngine;
 
 namespace Tung
@@ -9,7 +10,9 @@ namespace Tung
         [SerializeField] private ScriptableEventVector2 _eventDown;
         [SerializeField] private ScriptableEventVector2 _eventUp;
         [SerializeField] private GridMapVariable _gridMap;
-        [SerializeField] private Unit character;
+        [SerializeField] private GameObject _gridMouse;
+        [SerializeField] private SpriteRenderer _spriteMouse;
+        private Unit character;
         private bool isDragg;
         private Vector2Int posBefore;
         
@@ -26,22 +29,43 @@ namespace Tung
             if (mousePos.x < 0 || mousePos.y < 0 || mousePos.x >= 6 || mousePos.y >= 6) return;
             if (_gridMap.Value[mousePos.x, mousePos.y] == null) return;
             
-            isDragg = true;
             character = _gridMap.Value[mousePos.x, mousePos.y]; 
+            _spriteMouse.sprite = character.unitData.avatar;
             _gridMap.Value[mousePos.x, mousePos.y] = null; 
-            posBefore = mousePos; 
+            posBefore = mousePos;
+            isDragg = true;
         }
         
         private void DragCharacter(Vector2 value)
         {
             if(!isDragg) return;
-            
+            Vector2Int mousePos = value.ToV2Int();
+            if (mousePos.x < 0 || mousePos.y < 0 || mousePos.x >= 6 || mousePos.y >= 6)
+            {
+                SetMouseRender(false);
+            }
+            else
+            {
+                SetMouseRender(true);
+                if (_gridMap.Value[mousePos.x, mousePos.y] != null)
+                {
+                    _spriteMouse.gameObject.SetActive(false);
+                }
+                else
+                {
+                    _spriteMouse.gameObject.SetActive(true);
+                    _spriteMouse.transform.position = new Vector3(mousePos.x,mousePos.y);
+                }
+                _gridMouse.transform.position = new Vector3(mousePos.x,mousePos.y);
+            }
             character.transform.position = value;
         }
         
         private void SetGridUnit(Vector2 value)
         {
             if (!isDragg) return;
+            
+            SetMouseRender(false);
              isDragg = false;
              Vector2Int mousePos = value.ToV2Int();
             if (mousePos.x < 0 || mousePos.y < 0 || mousePos.x >= 6 || mousePos.y >= 6)
@@ -61,6 +85,11 @@ namespace Tung
             }
         }
 
+        private void SetMouseRender(bool active)
+        {
+            _spriteMouse.gameObject.SetActive(active);
+            _gridMouse.SetActive(active);
+        }
         private void SetGridFull(Vector2Int mousePos)
         {
             character.transform.position = new Vector3(mousePos.x,mousePos.y);

@@ -7,6 +7,6 @@ namespace Tung
 {
     public class Unit : MonoBehaviour
     {
-       
+        public UnitData unitData;
     }
 }
