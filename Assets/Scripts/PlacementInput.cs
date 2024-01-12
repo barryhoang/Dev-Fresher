@@ -22,10 +22,10 @@ public class PlacementInput : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             btnDown.Raise(GetMousePoint());
-        }else if (Input.GetMouseButtonDown(0))
+        }else if (Input.GetMouseButton(0))
         {
             btnDrag.Raise(GetMousePoint());
-        }else if (Input.GetMouseButtonDown(0))
+        }else if (Input.GetMouseButtonUp(0))
         {
             btnUp.Raise();
         }

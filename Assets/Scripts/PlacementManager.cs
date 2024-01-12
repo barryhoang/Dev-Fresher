@@ -1,32 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using Maps;
+using Units.Hero;
 using UnityEngine;
 
 public class PlacementManager : MonoBehaviour
 {
     [SerializeField] private MapVariable mapVariable;
     [SerializeField] private List<Hero> heroPrefabs;
+    private ScriptableListHero _scriptableListHero;
     
-    // Start is called before the first frame update
     void Start()
     {
-        mapVariable.Init();
-        SetHeroes();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    
-    private void SetHeroes()
-    {
-        for (int i = 0; i < heroPrefabs.Count; i++)
+        foreach (var hero in heroPrefabs)
         {
-            Hero heroScript = GetComponent<Hero>();
-            mapVariable.Value[i + 1, i + 1] = heroScript;
+            _scriptableListHero.Add(hero);
+            mapVariable.Value[(int) hero.transform.position.x, (int) hero.transform.position.y] = hero ;
         }
     }
+    
+    
 }
