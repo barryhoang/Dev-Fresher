@@ -10,7 +10,7 @@ namespace Minh
     public class PlacementGrid : MonoBehaviour
     {
         [SerializeField] private Tilemap _playerPlacementGrid;
-        [SerializeField] private ScriptableListHero _soapListHero;
+        [SerializeField] private ScriptableListPlayer _soapListHero;
         [SerializeField] private ScriptableEventVector2 _onButtonDown;
         [SerializeField] private ScriptableEventVector2 _onbuttonUp;
         [SerializeField] private FightingMapVariable _fightingMap;
@@ -33,7 +33,7 @@ namespace Minh
         // Neu check duoc thi se set bool Dragging = true va luu lai Hero
         private void CheckHeroPosition(Vector2 mousePos)
         {
-            Vector2Int MousePosInt = new Vector2Int((int) Mathf.Round(mousePos.x), (int) Mathf.Round(mousePos.y));
+            Vector2Int MousePosInt = mousePos.ToV2Int();
             if (MousePosInt.x >= 0 && MousePosInt.x < 6 && MousePosInt.y < 6 && MousePosInt.y >= 0)
             {
                 Debug.Log(MousePosInt + "MOUSE POSITION ");
@@ -55,8 +55,7 @@ namespace Minh
             while (isDragging)
             {
                 Vector2 mouseInput = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                Vector2Int MousePosInt =
-                    new Vector2Int((int) Mathf.Round(mouseInput.x), (int) Mathf.Round(mouseInput.y));
+                Vector2Int MousePosInt = mouseInput.ToV2Int();
                 _hero.gameObject.transform.position = mouseInput;
                 savedHero = _hero;
                 if (MousePosInt.x >= 0 && MousePosInt.x < 6 && MousePosInt.y < 6 && MousePosInt.y >= 0)
@@ -72,38 +71,34 @@ namespace Minh
         // Neu o duoc tha co con nhan vat khac thi 2 con nhan vat se doi vi tri cho nhau
         private void PlaceHero(Vector2 mousePos)
         {
+            if (savedHero == null) return;
             isDragging = false;
-            if (savedHero != null)
+            Vector2Int MousePosInt = mousePos.ToV2Int();
+              
+            if (MousePosInt.x < 0 || MousePosInt.x >= 6 || MousePosInt.y >= 6 || MousePosInt.y < 0)
             {
-                Vector2Int MousePosInt =
-                    new Vector2Int((int) Mathf.Round(mousePos.x), (int) Mathf.Round(mousePos.y));
-                if (MousePosInt.x >= 0 && MousePosInt.x < 6 && MousePosInt.y < 6 && MousePosInt.y >= 0)
-                {
-                    if (_fightingMap.Value[MousePosInt.x, MousePosInt.y] != null)
-                    {
-                        _fightingMap.Value[MousePosInt.x, MousePosInt.y].transform.position = heroPosition;
-                        _fightingMap.Value[Mathf.RoundToInt(heroPosition.x), Mathf.RoundToInt(heroPosition.y)] =
-                            _fightingMap.Value[MousePosInt.x, MousePosInt.y];
-                        MovePlayer(MousePosInt);
-                        savedHero = null;
-                    }
-                    else
-                    {
-                        Debug.Log("MouseX" + MousePosInt.x + "MouseY" + MousePosInt.y);
-                        MovePlayer(MousePosInt);
-                        savedHero = null;
-                    }
-                }
-                else
-                {
-                    savedHero.transform.position = heroPosition;
-                    _fightingMap.Value[Mathf.RoundToInt(heroPosition.x), Mathf.RoundToInt(heroPosition.y)] = savedHero;
-                }
+                savedHero.transform.position = heroPosition;
+                var heroPositionInt = heroPosition.ToV2Int();
+                _fightingMap.Value[heroPositionInt.x, heroPositionInt.y] = savedHero;
+            }
+            else if (_fightingMap.Value[MousePosInt.x, MousePosInt.y] != null)
+            {
+                _fightingMap.Value[MousePosInt.x, MousePosInt.y].transform.position = heroPosition;
+                var heroPositionInt = heroPosition.ToV2Int();
+                _fightingMap.Value[heroPositionInt.x, heroPositionInt.y] = _fightingMap.Value[MousePosInt.x, MousePosInt.y];
+                MovePlayer(MousePosInt);
+                savedHero = null;
+            }
+            else
+            {
+                Debug.Log("MouseX" + MousePosInt.x + "MouseY" + MousePosInt.y);
+                MovePlayer(MousePosInt);
+                savedHero = null;
             }
 
             _placementGrid.SetActive(false);
         }
-
+        
         private void MovePlayer(Vector2Int MousePosInt)
         {
             savedHero.transform.position = new Vector3(MousePosInt.x, MousePosInt.y, 0);

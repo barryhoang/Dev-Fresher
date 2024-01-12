@@ -599,14 +599,14 @@ GameObject:
   - component: {fileID: 7661606615358055823}
   - component: {fileID: 6750652632099718152}
   - component: {fileID: 3331345512472804071}
-  - component: {fileID: 1581497993197585168}
+  - component: {fileID: 8829977668023291024}
   m_Layer: 6
   m_Name: Unit003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7661606615358055823
 Transform:
   m_ObjectHideFlags: 0
@@ -690,7 +690,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &1581497993197585168
+--- !u!114 &8829977668023291024
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -699,10 +699,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1268939887819370761}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1430db1814f1b8a4f9380a9230ca039a, type: 3}
+  m_Script: {fileID: 11500000, guid: 1201333e1b5648c18d393660a40e93a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _soapListHero: {fileID: 11400000, guid: 89f04d99a15279a4e87837c40d23e782, type: 2}
+  _heroStats: {fileID: 0}
 --- !u!1 &1380351534996241593
 GameObject:
   m_ObjectHideFlags: 0

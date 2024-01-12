@@ -12,5 +12,24 @@ namespace Obvious.Soap
             _value=new Hero[size.x,size.y];
             base.Init();
         }
+        public bool CheckPosition(int x, int y)
+        {
+            if (x < 0||x>=size.x)
+            {
+                return false;
+            }
+
+            if (y < 0 || y >= size.y)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        internal bool CheckWalkable(int xPos, int yPos)
+        {
+
+            return _value[xPos, yPos]!=null;
+        }
     }
 }

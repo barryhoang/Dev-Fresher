@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 007e72fdfc7122643a63c8e5a57e18ca, type: 3}
-  m_Name: _soapListHero
+  m_Name: _soapListPlayer
   m_EditorClassIdentifier: 
   _resetOn: 0
   _list: []
