@@ -30,7 +30,7 @@ namespace Tung
             if (_gridMap.Value[mousePos.x, mousePos.y] == null) return;
             
             character = _gridMap.Value[mousePos.x, mousePos.y]; 
-            _spriteMouse.sprite = character.unitData.avatar;
+            _spriteMouse.sprite = character.unitRenderData.avatar;
             _gridMap.Value[mousePos.x, mousePos.y] = null; 
             posBefore = mousePos;
             isDragg = true;
@@ -99,6 +99,8 @@ namespace Tung
         private void OnDisable()
         {
             _eventDown.OnRaised -= CheckUnitInCell;
+            _eventDrag.OnRaised -= DragCharacter;
+            _eventUp.OnRaised -= SetGridUnit;
         }
     }
 }

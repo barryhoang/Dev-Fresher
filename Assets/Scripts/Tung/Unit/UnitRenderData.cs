@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Tung
 {
     [CreateAssetMenu]
-    public class UnitData : ScriptableObject
+    public class UnitRenderData : ScriptableObject
     {
         public Sprite avatar;
     }

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a44b981f67e4bdc479b73f2c77b1d05c, type: 3}
+  m_Name: Farmer 2 EventPathNode
+  m_EditorClassIdentifier: 
+  _debugLogEnabled: 0
+  _debugValue:
+    xPos: 0
+    yPos: 0
+    gValue: 0
+    hValue: 0
+    isFull: 0
