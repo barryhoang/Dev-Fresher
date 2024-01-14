@@ -124,6 +124,8 @@ MonoBehaviour:
   onVictory: {fileID: 11400000, guid: d76b82c78d48e5f4a8cb73cffc9375d0, type: 2}
   fightButton: {fileID: 5412710455633422011, guid: 5ecce9929d416724398af2a375208d67,
     type: 3}
+  onBtnDown: {fileID: 11400000, guid: 1a4775e366573d04884c7148b4121ae9, type: 2}
+  mapVariable: {fileID: 11400000, guid: c67ecb630cb1a3e47afda89c3f5c4279, type: 2}
   selectableHeroes: {fileID: 11400000, guid: bf3a259b12af2df46977b0f743edc0d6, type: 2}
   clickArea:
     serializedVersion: 2

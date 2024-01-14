@@ -123,6 +123,12 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &208297220 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1690453239824764823, guid: 5ecce9929d416724398af2a375208d67,
+    type: 3}
+  m_PrefabInstance: {fileID: 1897852439}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &707695058
 GameObject:
   m_ObjectHideFlags: 0
@@ -134,6 +140,7 @@ GameObject:
   - component: {fileID: 707695061}
   - component: {fileID: 707695060}
   - component: {fileID: 707695059}
+  - component: {fileID: 707695062}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -154,9 +161,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mapVariable: {fileID: 11400000, guid: c67ecb630cb1a3e47afda89c3f5c4279, type: 2}
-  heroPrefabs:
-  - {fileID: 887806542794369348, guid: 797fe26790ed1294ca193f66cb70e0e0, type: 3}
-  - {fileID: 7082998146142332823, guid: e99c8c8386691674ebe93f47d100f330, type: 3}
 --- !u!114 &707695060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -171,7 +175,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   btnDown: {fileID: 11400000, guid: 1a4775e366573d04884c7148b4121ae9, type: 2}
   btnDrag: {fileID: 11400000, guid: e983caf9f3b825343bfaea4c5849e9b5, type: 2}
-  btnUp: {fileID: 11400000, guid: 104292905ace67048ae281089425a299, type: 2}
+  btnUp: {fileID: 11400000, guid: 99852c0fa6ae4fc4cb98c534cab8b31f, type: 2}
 --- !u!4 &707695061
 Transform:
   m_ObjectHideFlags: 0
@@ -187,6 +191,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &707695062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 707695058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 014563775541874459bee6f76681712e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onBtnDown: {fileID: 11400000, guid: 1a4775e366573d04884c7148b4121ae9, type: 2}
+  onBtnUp: {fileID: 11400000, guid: 99852c0fa6ae4fc4cb98c534cab8b31f, type: 2}
+  mapVariable: {fileID: 11400000, guid: c67ecb630cb1a3e47afda89c3f5c4279, type: 2}
+  placementGrid: {fileID: 2036630595}
 --- !u!1 &1438582122
 GameObject:
   m_ObjectHideFlags: 0
@@ -621,7 +641,7 @@ PrefabInstance:
     - target: {fileID: 1690453239824764823, guid: 5ecce9929d416724398af2a375208d67,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5412710455633422011, guid: 5ecce9929d416724398af2a375208d67,
         type: 3}
@@ -631,23 +651,27 @@ PrefabInstance:
     - target: {fileID: 5412710455633422011, guid: 5ecce9929d416724398af2a375208d67,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5412710455633422011, guid: 5ecce9929d416724398af2a375208d67,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: -6216866831006848966, guid: db1269b9afc525b439f9dc71c58da879,
-        type: 3}
+      objectReference: {fileID: 208297220}
     - target: {fileID: 5412710455633422011, guid: 5ecce9929d416724398af2a375208d67,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: StartOnClick
+      value: SetActive
       objectReference: {fileID: 0}
     - target: {fileID: 5412710455633422011, guid: 5ecce9929d416724398af2a375208d67,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GameManager, Assembly-CSharp
+      value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5412710455633422011, guid: 5ecce9929d416724398af2a375208d67,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 9185156430460023415, guid: 5ecce9929d416724398af2a375208d67,
         type: 3}
@@ -895,6 +919,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1922498037}
   m_CullTransparentMesh: 1
+--- !u!1 &2036630595 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 843992178466234007, guid: 7493ed8b5fbaf1b43822a3299a7977a7,
+    type: 3}
+  m_PrefabInstance: {fileID: 7086595431284306354}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2087108291646546500
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3975,6 +4005,12 @@ PrefabInstance:
       propertyPath: map
       value: 
       objectReference: {fileID: 4634797399343697577}
+    - target: {fileID: 1853887798173836725, guid: db1269b9afc525b439f9dc71c58da879,
+        type: 3}
+      propertyPath: mapVariable
+      value: 
+      objectReference: {fileID: 11400000, guid: c67ecb630cb1a3e47afda89c3f5c4279,
+        type: 2}
     - target: {fileID: 1853887798173836725, guid: db1269b9afc525b439f9dc71c58da879,
         type: 3}
       propertyPath: targetTileMap

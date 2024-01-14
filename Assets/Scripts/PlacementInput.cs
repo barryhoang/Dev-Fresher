@@ -8,7 +8,7 @@ public class PlacementInput : MonoBehaviour
 {
     [SerializeField] private ScriptableEventVector2 btnDown;
     [SerializeField] private ScriptableEventVector2 btnDrag;
-    [SerializeField] private ScriptableEventNoParam btnUp;
+    [SerializeField] private ScriptableEventVector2 btnUp;
     
     private Camera _camera;
 
@@ -27,7 +27,7 @@ public class PlacementInput : MonoBehaviour
             btnDrag.Raise(GetMousePoint());
         }else if (Input.GetMouseButtonUp(0))
         {
-            btnUp.Raise();
+            btnUp.Raise(GetMousePoint());
         }
     }
     private Vector2 GetMousePoint()
