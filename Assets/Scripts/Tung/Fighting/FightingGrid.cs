@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using MEC;
 using Obvious.Soap;
+using Pathfinding;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Path = System.IO.Path;
 
 namespace Tung
 {
@@ -39,26 +41,13 @@ namespace Tung
         
         private IEnumerator<float> Move()
         {
-            while (true)
+            foreach (var unit in _listSoapCharacter)
             {
-                foreach (var unit in _listSoapCharacter)
-                {
-                    var posStart = new Vector2Int((int) unit.transform.position.x,(int)unit.transform.position.y);
-                    var target = _listSoapEnemies.GetClosest(unit.transform.position, _gridMap);
-                    unit.unitTarget = _listSoapEnemies[0];
-                    pathNodes = _pathfinding.FindPath(posStart.x, posStart.y, target.x, target.y);
-                    unit._eventPathNodes.Raise(pathNodes);
-                }
-                foreach (var unit in _listSoapEnemies)
-                {
-                    var posStart =new Vector2Int((int) unit.transform.position.x,(int)unit.transform.position.y);
-                    var target = _listSoapCharacter.GetClosest(unit.transform.position, _gridMap);
-                    unit.unitTarget = _listSoapCharacter[2];
-                    pathNodes = _pathfinding.FindPath(posStart.x, posStart.y, target.x, target.y);
-                    unit._eventPathNodes.Raise(pathNodes);
-                }
-                yield return Timing.WaitForOneFrame;
-            }   
+                var posTarget = _listSoapEnemies.GetClosest(unit.transform.position,_gridMap);
+                unit.Path  =  ABPath.Construct(transform.position, (Vector2)posTarget, null);
+                unit.ai.StartPath(unit.Path);
+            }
+            yield return Timing.WaitForOneFrame;
         }
         private IEnumerator<float> Test()
         {

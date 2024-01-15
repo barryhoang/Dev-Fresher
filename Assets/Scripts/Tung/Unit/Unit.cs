@@ -1,5 +1,8 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using MEC;
+using Pathfinding;
 using UnityEngine;
 
 namespace Tung
@@ -7,47 +10,52 @@ namespace Tung
     public class Unit : MonoBehaviour
     {
         public ScriptableEventPathNodes _eventPathNodes;
+        public Seeker ai;
         public UnitRenderData unitRenderData;
         public GridMapVariable _gripMap;
         public Unit unitTarget;
         public PathNode nodeBefore;
         public float _speed;
-        
+        public BlockManager blockManager;
+        public List<SingleNodeBlocker> obstacles;
+        public Path Path;
+        public Transform target;
         private List<PathNode> pathNodes;
+        BlockManager.TraversalProvider traversalProvider;
+
+        private int currentWaypoint = 0;
         private void OnEnable()
         {
+          
             _eventPathNodes.OnRaised += Move;
-            nodeBefore = new PathNode((int)transform.position.x, (int)transform.position.y);
+            // traversalProvider = new BlockManager.TraversalProvider(blockManager, BlockManager.BlockMode.OnlySelector, obstacles);
         }
 
+        public void Update()
+        {
+            // Path  =  ABPath.Construct(transform.position, target.position, OnPathComplete);
+            // ai.StartPath(Path);
+            // Path.traversalProvider = traversalProvider;
+            // Path.BlockUntilCalculated();
+        }
+
+        public void OnPathComplete(Path p)
+        {
+            p.Claim(this);
+            if (!p.error)
+            {
+                if (Path != null) Path.Release(this);
+                Path = p;
+                currentWaypoint = 0;
+            }
+            else
+            {
+                p.Release(this);
+            }
+        }
         private void Move(List<PathNode> eventPathNodes)
         {
-            var pos = transform.position.ToV2Int();
-
-            if (eventPathNodes == null || eventPathNodes.Count == 0)
-            {
-                _gripMap.Value[nodeBefore.xPos, nodeBefore.yPos] = null;
-                _gripMap.Value[pos.x, pos.y] = this;
-                return;
-            }
-            if (unitTarget == null) return;
-
-            Vector2Int unitTargetPos = unitTarget.transform.position.ToV2Int();
-            pathNodes = eventPathNodes;
-            Vector2Int pathTarget = new Vector2Int(pathNodes[0].xPos, pathNodes[0].yPos);
-            if (CheckDistanceCell(unitTargetPos))
-            {
-                _gripMap.Value[nodeBefore.xPos, nodeBefore.yPos] = null;
-                _gripMap.Value[pos.x, pos.y] = this;
-                return;
-            }
-            transform.position = Vector2.MoveTowards(transform.position, pathTarget, _speed * Time.deltaTime);
-            if ((Vector2)transform.position == pathTarget)
-            {
-                _gripMap.Value[nodeBefore.xPos, nodeBefore.yPos] = null;
-                _gripMap.Value[pathTarget.x, pathTarget.y] = this;
-                nodeBefore = pathNodes[0];
-            }
+        
         }
         private bool CheckDistanceCell(Vector2Int posTarget)
         {
