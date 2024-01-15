@@ -39,9 +39,6 @@ namespace Maps
         private void Awake()
         {
             SpawnUnits();
-            fightButton.gameObject.SetActive(true);
-            var button = fightButton.GetComponent<Button>();
-            button.onClick.AddListener(StartOnClick);
         }
 
         private void Start()
@@ -151,11 +148,6 @@ namespace Maps
             yield return Timing.WaitForOneFrame;
         }
 
-        private void StartOnClick()
-        {
-            gameManager.currentState = GameManager.State.Fight;
-        }
-        
         private void CheckHeroPos(Vector2 mousePos)
         {
             Vector2Int mousePosInt = new Vector2Int((int)Mathf.RoundToInt(mousePos.x),(int)Mathf.RoundToInt(mousePos.y));

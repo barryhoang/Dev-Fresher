@@ -3,18 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Obvious.Soap;
+using UnityEngine.UI;
 
 public class PlacementInput : MonoBehaviour
 {
     [SerializeField] private ScriptableEventVector2 btnDown;
     [SerializeField] private ScriptableEventVector2 btnDrag;
     [SerializeField] private ScriptableEventVector2 btnUp;
-    
-    private Camera _camera;
+    [SerializeField] private Button fightButton;
+    [SerializeField] private GameManager gameManager;
 
     private void Awake()
     {
-        _camera = Camera.main;
+        fightButton.gameObject.SetActive(true);
+        var button = fightButton.GetComponent<Button>();
+        button.onClick.AddListener(StartOnClick);
     }
 
     private void Update()
@@ -30,8 +33,14 @@ public class PlacementInput : MonoBehaviour
             btnUp.Raise(GetMousePoint());
         }
     }
-    private Vector2 GetMousePoint()
+    
+    private static Vector2 GetMousePoint()
     {
-        return _camera.ScreenToWorldPoint(Input.mousePosition);
+        return Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    }
+    
+    private void StartOnClick()
+    {
+        gameManager.currentState = GameManager.State.Fight;
     }
 }

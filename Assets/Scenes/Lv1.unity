@@ -142,7 +142,7 @@ GameObject:
   - component: {fileID: 707695059}
   - component: {fileID: 707695062}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Placement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -176,6 +176,8 @@ MonoBehaviour:
   btnDown: {fileID: 11400000, guid: 1a4775e366573d04884c7148b4121ae9, type: 2}
   btnDrag: {fileID: 11400000, guid: e983caf9f3b825343bfaea4c5849e9b5, type: 2}
   btnUp: {fileID: 11400000, guid: 99852c0fa6ae4fc4cb98c534cab8b31f, type: 2}
+  fightButton: {fileID: 1897852441}
+  gameManager: {fileID: 1620377071}
 --- !u!4 &707695061
 Transform:
   m_ObjectHideFlags: 0
@@ -341,6 +343,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1438582122}
   m_CullTransparentMesh: 1
+--- !u!114 &1620377071 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -6216866831006848966, guid: db1269b9afc525b439f9dc71c58da879,
+    type: 3}
+  m_PrefabInstance: {fileID: 7214391460595875075}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd9440173f1ea7b44806f7cde34662e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1707125895
 GameObject:
   m_ObjectHideFlags: 0
@@ -641,7 +655,7 @@ PrefabInstance:
     - target: {fileID: 1690453239824764823, guid: 5ecce9929d416724398af2a375208d67,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5412710455633422011, guid: 5ecce9929d416724398af2a375208d67,
         type: 3}
@@ -785,6 +799,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1897852439}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1897852441 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5412710455633422011, guid: 5ecce9929d416724398af2a375208d67,
+    type: 3}
+  m_PrefabInstance: {fileID: 1897852439}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 208297220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1922498037
 GameObject:
   m_ObjectHideFlags: 0
@@ -4082,7 +4108,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 1889464157}
   - {fileID: 2763761488024726813}
+  - {fileID: 707695061}
   - {fileID: 7214391460595875075}
   - {fileID: 7086595431284306354}
   - {fileID: 2087108291646546500}
-  - {fileID: 707695061}

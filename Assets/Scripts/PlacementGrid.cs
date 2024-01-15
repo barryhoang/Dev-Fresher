@@ -24,14 +24,17 @@ public class PlacementGrid : MonoBehaviour
     {
         var mousePosInt = new Vector2Int(Mathf.RoundToInt(mousePos.x),
             Mathf.RoundToInt(mousePos.y));
-        if (mousePosInt.x is < 0 or >= 6 || mousePosInt.y < 0) return;
-        _dragging = true;
-        var herPos = mapVariable.Value[mousePosInt.x, mousePosInt.y].transform.position;
-        StartCoroutine(MoveHero(mapVariable.Value[mousePosInt.x, mousePosInt.y]));
-        placementGrid.SetActive(true);
-        placementGrid.transform.position = new Vector3(mousePosInt.x, mousePosInt.y, 0);
-        mapVariable.Value[mousePosInt.x, mousePosInt.y] = null;
+        if (mousePosInt.x < 0 && mousePosInt.y >= 6 || mousePosInt.y < 0)
+        {
+            _dragging = true;
+            _heroPos = mapVariable.Value[mousePosInt.x, mousePosInt.y].transform.position;
+            StartCoroutine(MoveHero(mapVariable.Value[mousePosInt.x, mousePosInt.y]));
+            placementGrid.SetActive(true);
+            placementGrid.transform.position = new Vector3(mousePosInt.x, mousePosInt.y, 0);
+            mapVariable.Value[mousePosInt.x, mousePosInt.y] = null;
+        }
     }
+    
     private IEnumerator<float> MoveHero(Hero hero)
     {
         while (_dragging)
@@ -41,7 +44,7 @@ public class PlacementGrid : MonoBehaviour
                 Mathf.RoundToInt(mouseInput.y));
             hero.gameObject.transform.position = mouseInput;
             _tempHero = hero;
-            if (mousePosInt.x is >= 0 and < 6 && mousePosInt.y is < 6 and >= 0)
+            if (mousePosInt.x >= 0 && mousePosInt.x  < 6 && mousePosInt.y < 6 && mousePosInt.y >= 0)
             {
                 placementGrid.transform.position = new Vector3(mousePosInt.x, mousePosInt.y, 0);
             }
