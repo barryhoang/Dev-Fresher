@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using MEC;
 using Obvious.Soap;
@@ -39,28 +37,26 @@ namespace Tung
             Timing.RunCoroutine(Move().CancelWith(gameObject));
         }
         
-        // xu ly di chuyen nhiem vu la chuyen bat vao cho cac character va enemy den diem den
-        // tim con gan nhat se di chuyen den va 4 huong gan nhat 
-        // tim xong chuyen path vao cho chung no di chuyen 
         private IEnumerator<float> Move()
         {
             while (true)
             {
                 foreach (var unit in _listSoapCharacter)
                 {
-                    var posStart = unit.transform.position.ToV2Int();
-                    var target = _listSoapEnemies.GetClosest(unit.transform.position,_gridMap);
-                    pathNodes = _pathfinding.FindPath(posStart.x,posStart.y,target.x, target.y);
-                    if (pathNodes.Count == 1)
-                    {
-                        unit._eventPathNodes.Raise(pathNodes[0]);
-                    }
-                    else
-                    {
-                        unit._eventPathNodes.Raise(pathNodes[0]);
-                    }
+                    var posStart = new Vector2Int((int) unit.transform.position.x,(int)unit.transform.position.y);
+                    var target = _listSoapEnemies.GetClosest(unit.transform.position, _gridMap);
+                    unit.unitTarget = _listSoapEnemies[0];
+                    pathNodes = _pathfinding.FindPath(posStart.x, posStart.y, target.x, target.y);
+                    unit._eventPathNodes.Raise(pathNodes);
                 }
-                
+                foreach (var unit in _listSoapEnemies)
+                {
+                    var posStart =new Vector2Int((int) unit.transform.position.x,(int)unit.transform.position.y);
+                    var target = _listSoapCharacter.GetClosest(unit.transform.position, _gridMap);
+                    unit.unitTarget = _listSoapCharacter[2];
+                    pathNodes = _pathfinding.FindPath(posStart.x, posStart.y, target.x, target.y);
+                    unit._eventPathNodes.Raise(pathNodes);
+                }
                 yield return Timing.WaitForOneFrame;
             }   
         }
@@ -79,24 +75,6 @@ namespace Tung
             {
                 _listSoapEnemies.Add(unit);
                 _gridMap.Value[(int) unit.transform.position.x, (int) unit.transform.position.y] = unit;
-            }
-        }
-
-        private void UpdateGrid()
-        {
-            for (int i = 0; i < _gridMap.size.x; i++)
-            {
-                for (int j = 0; j < _gridMap.size.y; j++)
-                {
-                    if (_gridMap.Value[i, j] == null)
-                    {
-                        _tileTest.SetTile(new Vector3Int(i, j, 0), null);
-                    }
-                    else
-                    {
-                      
-                    }
-                }
             }
         }
 

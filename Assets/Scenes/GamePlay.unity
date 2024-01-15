@@ -319,6 +319,7 @@ MonoBehaviour:
   _enemies:
   - {fileID: 185562388}
   _pathfinding: {fileID: 108647999}
+  pathNodes: []
   _tileTest: {fileID: 62830947}
   highTileBase: {fileID: 11400000, guid: 18a0835710c550446be59023b474d245, type: 2}
 --- !u!114 &108647999
@@ -381,7 +382,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _eventPathNodes: {fileID: 11400000, guid: bfc550c37dff7cd4eb36de70ee307432, type: 2}
   unitRenderData: {fileID: 11400000, guid: b7aa09f3e2145d64184332053729892d, type: 2}
-  _speed: 0
+  _gripMap: {fileID: 11400000, guid: 8d6ed27524bc0104d844a44c12456410, type: 2}
+  unitTarget: {fileID: 0}
+  nodeBefore:
+    xPos: 0
+    yPos: 0
+    gValue: 0
+    hValue: 0
+  _speed: 2
 --- !u!1 &192123493
 GameObject:
   m_ObjectHideFlags: 0
@@ -559,7 +567,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _eventPathNodes: {fileID: 11400000, guid: 9ae42441accb4ef4ab911a0c0e1063b9, type: 2}
   unitRenderData: {fileID: 11400000, guid: b6b01ac26bf4be547a60d98080bdb8a6, type: 2}
-  _speed: 4
+  _gripMap: {fileID: 11400000, guid: 8d6ed27524bc0104d844a44c12456410, type: 2}
+  unitTarget: {fileID: 0}
+  nodeBefore:
+    xPos: 0
+    yPos: 0
+    gValue: 0
+    hValue: 0
+  _speed: 2
 --- !u!1 &338077601
 GameObject:
   m_ObjectHideFlags: 0
@@ -591,7 +606,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _eventPathNodes: {fileID: 11400000, guid: 75f63800511b9044293a50a45e299d23, type: 2}
   unitRenderData: {fileID: 11400000, guid: cce6acb191f344547829ee2c30cd3f2b, type: 2}
-  _speed: 4
+  _gripMap: {fileID: 11400000, guid: 8d6ed27524bc0104d844a44c12456410, type: 2}
+  unitTarget: {fileID: 0}
+  nodeBefore:
+    xPos: 0
+    yPos: 0
+    gValue: 0
+    hValue: 0
+  _speed: 2
 --- !u!4 &338077603
 Transform:
   m_ObjectHideFlags: 0
@@ -4815,7 +4837,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _eventPathNodes: {fileID: 11400000, guid: bfc550c37dff7cd4eb36de70ee307432, type: 2}
   unitRenderData: {fileID: 11400000, guid: 104a06f00a329f348bde2da000b8dde6, type: 2}
-  _speed: 4
+  _gripMap: {fileID: 11400000, guid: 8d6ed27524bc0104d844a44c12456410, type: 2}
+  unitTarget: {fileID: 0}
+  nodeBefore:
+    xPos: 0
+    yPos: 0
+    gValue: 0
+    hValue: 0
+  _speed: 2
 --- !u!4 &1569554014
 Transform:
   m_ObjectHideFlags: 0
@@ -5016,7 +5045,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _eventPathNodes: {fileID: 11400000, guid: e8df576d4ca464740a2d1add839d8eed, type: 2}
   unitRenderData: {fileID: 11400000, guid: c5102c0694baa0b4ab502d48ab6a7243, type: 2}
-  _speed: 4
+  _gripMap: {fileID: 11400000, guid: 8d6ed27524bc0104d844a44c12456410, type: 2}
+  unitTarget: {fileID: 0}
+  nodeBefore:
+    xPos: 0
+    yPos: 0
+    gValue: 0
+    hValue: 0
+  _speed: 2
 --- !u!4 &1737177158
 Transform:
   m_ObjectHideFlags: 0

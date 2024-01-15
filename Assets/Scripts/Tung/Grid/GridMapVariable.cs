@@ -8,13 +8,7 @@ namespace Tung
     {
         public Vector2Int size;
         private Unit _hero;
-
-        public Unit Hero
-        {
-            get => _hero;
-            set => _hero = value;
-        }
-
+        
         public override void Init()
         {
             _value = new Unit[size.x,size.y];
@@ -35,10 +29,3 @@ namespace Tung
         }
     }
 }
-public enum ObjectUnit
-{
-    NONE,
-    UNIT,
-    WALL
-}
-

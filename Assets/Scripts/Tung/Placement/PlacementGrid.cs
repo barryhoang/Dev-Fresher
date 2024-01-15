@@ -1,5 +1,4 @@
-﻿using System;
-using Obvious.Soap;
+﻿using Obvious.Soap;
 using UnityEngine;
 
 namespace Tung

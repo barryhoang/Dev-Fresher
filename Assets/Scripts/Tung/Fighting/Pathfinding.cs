@@ -14,8 +14,7 @@ namespace Tung
         public int gValue;
         public int hValue;
         public PathNode parentNode;
-        public bool isFull;
-
+        
         public int fValue
         {
             get
@@ -43,7 +42,7 @@ namespace Tung
                 for (int y = 0; y < GridMap.size.y; y++)
                 {
                     pathNodes[x, y] = new PathNode(x, y);
-                    Debug.Log(x + " " + y);
+               
                 }
             }
         }
