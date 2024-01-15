@@ -12,6 +12,7 @@ namespace Minh
     {
         [SerializeField] private FightingMapVariable _fightingMap;
         [SerializeField] private List<Hero> _hero;
+        [SerializeField] private ScriptableListPlayer _soapListPlayer;
 
         private void Start()
         {
@@ -24,6 +25,7 @@ namespace Minh
             for (int i = 0; i < _hero.Count; i++)
             {
                 _fightingMap.Value[i + 1, i + 1] = SpawnHero(_hero[i], new Vector3(i + 1, i + 1, 0));
+                
             }
         }
 

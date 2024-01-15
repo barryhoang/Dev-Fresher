@@ -1,14 +1,21 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Minh;
 using Obvious.Soap;
 using UnityEngine;
 
 public class FightingGrid : MonoBehaviour
 {
     private FightingMapVariable _fightingMap;
-    private Pathfinding _pathfinding;
-    private void GetPath(int startX, int startY, int targetX,int targetY)
+    public Pathfinding _pathfinding;
+    [SerializeField] private int _currentX = 0;
+    [SerializeField] private int _currentY = 0;
+    
+    public List<PathNode>  GetPath(int startX, int startY, int targetX,int targetY)
     {
-        _pathfinding.FindPath(startX,startY,targetX,targetY);
+        Debug.Log("Start X "+startX+" Start Y "+startY+" Target X "+targetX+" Target Y"+targetY);
+        List<PathNode> path=_pathfinding.FindPath(startX,startY,targetX,targetY);
+        return path;
     }
 }

@@ -568,11 +568,11 @@ GameObject:
   - component: {fileID: 963634836252695257}
   m_Layer: 6
   m_Name: Unit001
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &909337507693239253
 Transform:
   m_ObjectHideFlags: 0
@@ -668,7 +668,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1201333e1b5648c18d393660a40e93a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _heroStats: {fileID: 0}
+  _heroStats: {fileID: 11400000, guid: dcf7f8afb4a50a546960f2e5265e5d4a, type: 2}
+  _fightingGrid: {fileID: 0}
+  _fightingMapVariable: {fileID: 11400000, guid: 3be068fa5fdeb6e488011d456d2f8fbc, type: 2}
+  currentX: 0
+  currentY: 0
+  prevPosition: {x: 0, y: 0}
+  _tweenSettings:
+    duration: 1
+    ease: 0
+    customEase:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    cycles: 1
+    cycleMode: 0
+    startDelay: 0
+    endDelay: 0
+    useUnscaledTime: 0
+    useFixedUpdate: 0
+  _soapListEnemy: {fileID: 11400000, guid: cef01fd268bdb534f833e69b13db4144, type: 2}
+  _soapListPlayer: {fileID: 11400000, guid: 89f04d99a15279a4e87837c40d23e782, type: 2}
 --- !u!1 &1426451337978159052
 GameObject:
   m_ObjectHideFlags: 0

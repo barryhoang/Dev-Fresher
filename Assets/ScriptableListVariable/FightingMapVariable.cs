@@ -28,8 +28,7 @@ namespace Obvious.Soap
 
         internal bool CheckWalkable(int xPos, int yPos)
         {
-
-            return _value[xPos, yPos]!=null;
+            return _value[xPos, yPos]==null;
         }
     }
 }
