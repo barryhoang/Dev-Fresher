@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1e8da96ee3235ab4bacf5eda8b14d390, type: 3}
-  m_Name: Enemy
+  m_Name: Unit003
   m_EditorClassIdentifier: 
-  _maxHealth: 5
-  _speed: 5
-  _attackRate: 5
-  _damage: 5
+  _maxHealth: 80
+  _speed: 1
+  _attackRate: 3
+  _damage: 20

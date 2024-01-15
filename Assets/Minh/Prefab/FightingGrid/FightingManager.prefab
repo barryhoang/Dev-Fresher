@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1815589660645960146}
   - component: {fileID: 8203490908748566570}
   - component: {fileID: 8433810440697494691}
-  - component: {fileID: 3951808508637628277}
   m_Layer: 0
   m_Name: FightingManager
   m_TagString: Untagged
@@ -62,19 +61,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 918b283892c0704408fd734b655cb99b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pathfinding: {fileID: 3951808508637628277}
+  _pathfinding: {fileID: 0}
   _currentX: 0
   _currentY: 0
---- !u!114 &3951808508637628277
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6088064660088339489}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ad292e07845367479127b7d0ea61240, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GridMap: {fileID: 11400000, guid: 3be068fa5fdeb6e488011d456d2f8fbc, type: 2}

@@ -725,6 +725,7 @@ MonoBehaviour:
     useFixedUpdate: 0
   _soapListEnemy: {fileID: 11400000, guid: cef01fd268bdb534f833e69b13db4144, type: 2}
   _soapListPlayer: {fileID: 11400000, guid: 89f04d99a15279a4e87837c40d23e782, type: 2}
+  child: {fileID: 845726245114787505}
 --- !u!1 &1380351534996241593
 GameObject:
   m_ObjectHideFlags: 0

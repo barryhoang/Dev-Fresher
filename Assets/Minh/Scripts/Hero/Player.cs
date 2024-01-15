@@ -9,9 +9,16 @@ namespace Minh
 {
     public class Player : Hero
     {
-        private void Start()
+        public override void Start()
         {
             _soapListPlayer.Add(this);
+            base.Start();
+        }
+
+        public void OnDestroy()
+        {
+            _soapListPlayer.Remove(this);
+           
         }
     }
 }

@@ -54,8 +54,7 @@ namespace Minh
 
         public List<PathNode> FindPath(int startX, int startY, int endX, int endY)
         {
-            Debug.Log("PATH NODE" + pathNodes.Length);
-            Debug.Log(startX+"   "+startY+"    "+endX+"   "+endY);
+           
             PathNode startNode = pathNodes[startX, startY];
             PathNode endNode = pathNodes[endX, endY];
 
@@ -100,7 +99,10 @@ namespace Minh
                         {
                             continue;
                         }
-
+                        if (x == 0 && y == 0) { continue; }
+                        if (x == 1 && y == 1 || y == 1 && x == 1) { continue; }
+                        if (x == -1 && y == -1 || y == -1 && x == -1) { continue; }
+                        if (x == 1 && y == -1 || y == 1 && x == -1) { continue; }
                         if (_gridMap.CheckPosition(currentNode.xPos + x, currentNode.yPos + y) == false)
                         {
                             continue;

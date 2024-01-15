@@ -1,13 +1,19 @@
 ﻿using System;
+using MEC;
 using UnityEngine;
 
 namespace Minh
 {
     public class Enemy : Hero
     {
-        private void Start()
+        public override void Start()
         {
             _soapListEnemy.Add(this);
+            base.Start();
+        }
+        public void OnDestroy()
+        {
+             _soapListEnemy.Remove(this);
         }
     }
 }

@@ -1954,7 +1954,7 @@ GameObject:
   - component: {fileID: 5591938310226990257}
   m_Layer: 5
   m_Name: Unit008
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2009,9 +2009,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f19e7bc1d68c4aaf98a4b6e3816267fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _heroStats: {fileID: 0}
+  _heroStats: {fileID: 11400000, guid: dcf7f8afb4a50a546960f2e5265e5d4a, type: 2}
   _fightingGrid: {fileID: 0}
-  _fightingMapVariable: {fileID: 0}
+  _fightingMapVariable: {fileID: 11400000, guid: 3be068fa5fdeb6e488011d456d2f8fbc, type: 2}
   currentX: 0
   currentY: 0
   prevPosition: {x: 0, y: 0}
@@ -2030,8 +2030,9 @@ MonoBehaviour:
     endDelay: 0
     useUnscaledTime: 0
     useFixedUpdate: 0
-  _soapListEnemy: {fileID: 0}
-  _soapListPlayer: {fileID: 0}
+  _soapListEnemy: {fileID: 11400000, guid: cef01fd268bdb534f833e69b13db4144, type: 2}
+  _soapListPlayer: {fileID: 11400000, guid: 89f04d99a15279a4e87837c40d23e782, type: 2}
+  child: {fileID: 7178310567295841395}
 --- !u!1 &4290424713604609799
 GameObject:
   m_ObjectHideFlags: 0

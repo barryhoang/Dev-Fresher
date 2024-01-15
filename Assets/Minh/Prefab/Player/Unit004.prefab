@@ -146,7 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1201333e1b5648c18d393660a40e93a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _heroStats: {fileID: 11400000, guid: dcf7f8afb4a50a546960f2e5265e5d4a, type: 2}
+  _heroStats: {fileID: 11400000, guid: e88f3f72044d6944eae724f12d6a5469, type: 2}
   _fightingGrid: {fileID: 0}
   _fightingMapVariable: {fileID: 11400000, guid: 3be068fa5fdeb6e488011d456d2f8fbc, type: 2}
   currentX: 0
@@ -169,6 +169,7 @@ MonoBehaviour:
     useFixedUpdate: 0
   _soapListEnemy: {fileID: 11400000, guid: cef01fd268bdb534f833e69b13db4144, type: 2}
   _soapListPlayer: {fileID: 11400000, guid: 89f04d99a15279a4e87837c40d23e782, type: 2}
+  child: {fileID: 2375884733096225498}
 --- !u!1 &35113890990342456
 GameObject:
   m_ObjectHideFlags: 0
