@@ -1,4 +1,3 @@
-using Maps;
 using UnityEngine;
 
 public class SaveLoadMap : MonoBehaviour
@@ -9,19 +8,19 @@ public class SaveLoadMap : MonoBehaviour
     
     public void Save()
     {
-        int[,] map = gridManager.ReadTileMap();
+        var map = gridManager.ReadTileMap();
         mapData.Save(map);
     }
 
     public void Load()
     {
         gridManager.Clear();
-        int width = mapData.width;
-        int height = mapData.height;
-        int i = 0;
-        for (int x = 0; x < width; x++)
+        var width = mapData.width;
+        var height = mapData.height;
+        var i = 0;
+        for (var x = 0; x < width; x++)
         {
-            for (int y = 0; y < height; y++)
+            for (var y = 0; y < height; y++)
             {
                 gridManager.SetTile(x,y,mapData.map[i]);
                 i += 1;
@@ -29,7 +28,7 @@ public class SaveLoadMap : MonoBehaviour
         }
     }
 
-    internal void loadMap(GridMap gridMap)
+    internal void LoadMap(GridMap gridMap)
     {
         mapData.Load(gridMap);
     }

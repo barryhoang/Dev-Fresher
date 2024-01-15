@@ -1,13 +1,8 @@
-using System;
 using System.Collections.Generic;
-using Maps;
 using MEC;
 using Obvious.Soap;
 using UnityEngine;
 using PrimeTween;
-using Units.Enemy;
-using Units.Hero;
-using UnityEngine.EventSystems;
 
 public class Hero : MonoBehaviour
 {
@@ -20,7 +15,6 @@ public class Hero : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private Pathfinding pathFinding;
     [SerializeField] private GridControl gridControl;
-    //[SerializeField] private RectTransform heroPlacementGrid;
     
     public List<PathNode> temp;
     private int _currentX;
@@ -83,7 +77,7 @@ public class Hero : MonoBehaviour
     {
         while (true)
         {
-            if (gameObject != null && gameManager.currentState == GameManager.State.Fight)
+            if (gameObject != null && gameManager.currentState != GameManager.State.Placement)
             {
                 var closest = scriptableListEnemy.GetClosest(transform.position);
                 if (closest != null)
@@ -117,26 +111,4 @@ public class Hero : MonoBehaviour
         Tween.PositionX(heroPos, heroPos.position.x + 0.3f, 0.5f, Ease.Default, 2, CycleMode.Yoyo);
         yield return Timing.WaitForOneFrame;
     }
-
-    /*public void OnDrag(PointerEventData eventData)
-    {
-        _rectTransform.anchoredPosition += eventData.delta / heroPlacementGrid.localScale.x;
-    }
-
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        if (!RectTransformUtility.RectangleContainsScreenPoint(heroPlacementGrid, Input.mousePosition))
-        {
-            SetToLastCellPosition();
-        }
-    }
-
-    private void SetToLastCellPosition()
-    {
-        var sizeDelta = heroPlacementGrid.sizeDelta;
-        var delta = _rectTransform.sizeDelta;
-        var lastX = (sizeDelta.x / 2) - (delta.x / 2);
-        var lastY = (sizeDelta.y / 2) - (delta.y / 2);
-        _rectTransform.anchoredPosition = new Vector2(lastX, lastY);
-    }*/
 }

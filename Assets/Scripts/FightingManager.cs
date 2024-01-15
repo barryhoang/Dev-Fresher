@@ -1,9 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using MEC;
 using Obvious.Soap;
-using Units.Enemy;
-using Units.Hero;
 using UnityEngine;
 
 public class FightingManager : MonoBehaviour
@@ -12,7 +9,8 @@ public class FightingManager : MonoBehaviour
     [SerializeField] private ScriptableListEnemy scriptableListEnemy;
     [SerializeField] private ScriptableEventNoParam onLose;
     [SerializeField] private ScriptableEventNoParam onVictory;
-    void Start()
+
+    private void Start()
     {
         Timing.RunCoroutine(CheckCont());
     }

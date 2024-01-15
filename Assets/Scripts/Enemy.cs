@@ -3,8 +3,6 @@ using MEC;
 using UnityEngine;
 using Obvious.Soap;
 using PrimeTween;
-using Units.Enemy;
-using Units.Hero;
 
 public class Enemy : MonoBehaviour
 {
@@ -39,7 +37,7 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
-        //Timing.RunCoroutine(TweenMove().CancelWith(gameObject));
+        Timing.RunCoroutine(TweenMove().CancelWith(gameObject));
     }
     
     private void OnTriggerStay2D(Collider2D other)
@@ -77,7 +75,7 @@ public class Enemy : MonoBehaviour
     {
         while (true)
         {
-            if (gameObject != null && gameManager.currentState == GameManager.State.Fight)
+            if (gameObject != null && gameManager.currentState != GameManager.State.Placement)
             {
                 var closest = scriptableListHero.GetClosest(transform.position);
                 if (closest != null)

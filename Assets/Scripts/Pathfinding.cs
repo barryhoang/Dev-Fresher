@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Maps;
 using UnityEngine;
 
 [System.Serializable]
@@ -12,7 +11,7 @@ public class PathNode
     public PathNode parentNode;
 
     
-    public int fValue 
+    public int FValue 
     {
         get {
             return gValue + hValue;
@@ -41,8 +40,6 @@ public class Pathfinding : MonoBehaviour
     private void Init()
     {
         if (_gridMap == null) { _gridMap = GetComponent<GridMap>(); }
-
-        //_gridMap._gridMap = new int[_gridMap.width,_gridMap.height];
         _pathNodes = new PathNode[_gridMap.width, _gridMap.height];
         for (var x = 0; x < _gridMap.width; x++) 
         {
@@ -69,12 +66,12 @@ public class Pathfinding : MonoBehaviour
 
             for (var i = 0; i < openList.Count; i++) 
             {
-                if (currentNode.fValue > openList[i].fValue) 
+                if (currentNode.FValue > openList[i].FValue) 
                 {
                     currentNode = openList[i];
                 }
 
-                if (currentNode.fValue == openList[i].fValue
+                if (currentNode.FValue == openList[i].FValue
                     && currentNode.hValue > openList[i].hValue
                     )
                 {

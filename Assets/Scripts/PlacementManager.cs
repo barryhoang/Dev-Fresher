@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Maps;
-using Units.Hero;
 using UnityEngine;
 
 public class PlacementManager : MonoBehaviour
@@ -11,7 +7,5 @@ public class PlacementManager : MonoBehaviour
     private void Start()
     {
         mapVariable.Init();
-    }
-    
-    
+    } 
 }

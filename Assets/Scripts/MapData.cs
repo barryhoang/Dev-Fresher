@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using Maps;
 using UnityEngine;
 
 [CreateAssetMenu]
@@ -13,9 +11,9 @@ public class MapData : ScriptableObject
     public void Load(GridMap gridMap)
     {
         gridMap.Init(width,height);
-        for (int x = 0; x < width; x++)
+        for (var x = 0; x < width; x++)
         {
-            for (int y = 0; y < height; y++)
+            for (var y = 0; y < height; y++)
             {
                 gridMap.SetTile(x,y,Get(x,y));
             }
@@ -27,9 +25,9 @@ public class MapData : ScriptableObject
         width = map.GetLength(0);
         height = map.GetLength(1);
         this.map = new List<int>();
-        for (int x = 0; x < width; x++)
+        for (var x = 0; x < width; x++)
         {
-            for (int y = 0; y < height; y++)
+            for (var y = 0; y < height; y++)
             {
                 this.map.Add(map[x,y]);
             }
@@ -39,7 +37,7 @@ public class MapData : ScriptableObject
     
     private int Get(int x, int y)
     {
-        int index = x * height + y;
+        var index = x * height + y;
         if (index >= map.Count)
         {
             return -1;
