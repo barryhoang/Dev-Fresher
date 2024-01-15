@@ -18,6 +18,7 @@ public class PlacementGrid : MonoBehaviour
     {
         onBtnDown.OnRaised += CheckHeroPos;
         onBtnUp.OnRaised += PlaceHero;
+        placementGrid.SetActive(true);
     }
 
     private void CheckHeroPos(Vector2 mousePos)
@@ -29,7 +30,6 @@ public class PlacementGrid : MonoBehaviour
             _dragging = true;
             _heroPos = mapVariable.Value[mousePosInt.x, mousePosInt.y].transform.position;
             StartCoroutine(MoveHero(mapVariable.Value[mousePosInt.x, mousePosInt.y]));
-            placementGrid.SetActive(true);
             placementGrid.transform.position = new Vector3(mousePosInt.x, mousePosInt.y, 0);
             mapVariable.Value[mousePosInt.x, mousePosInt.y] = null;
         }

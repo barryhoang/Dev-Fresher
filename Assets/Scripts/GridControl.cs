@@ -4,7 +4,6 @@ using MEC;
 using Obvious.Soap;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEngine.UI;
 
 public class GridControl : MonoBehaviour
 {
@@ -13,11 +12,6 @@ public class GridControl : MonoBehaviour
     [SerializeField] private Tilemap targetTileMap;
     [SerializeField] private List<GameObject> heroPrefabs;
     [SerializeField] private List<GameObject> enemyPrefabs;
-    [SerializeField] private GameManager gameManager;
-    [SerializeField] private ScriptableListHero scriptableListHero;
-    [SerializeField] private ScriptableListEnemy scriptableListEnemy;
-    [SerializeField] private ScriptableEventNoParam onLose;
-    [SerializeField] private ScriptableEventNoParam onVictory;
     [SerializeField] private ScriptableEventVector2 onBtnDown;
     [SerializeField] private MapVariable mapVariable;
     [SerializeField] private float tileSize = 1.0f;
@@ -37,8 +31,8 @@ public class GridControl : MonoBehaviour
 
     private void Start()
     {
-        clickArea.width = 9;
-        clickArea.height = 10;
+        clickArea.width = 6;
+        clickArea.height = 6;
         foreach (var hero in selectableHeroes)
         {
             if (hero == null || targetTileMap == null) continue;
@@ -48,7 +42,6 @@ public class GridControl : MonoBehaviour
         }
 
         Timing.RunCoroutine(_MovePlayer());
-        Timing.RunCoroutine(CheckState());
     }
 
     private void OnDrawGizmos()
@@ -110,36 +103,24 @@ public class GridControl : MonoBehaviour
     {
         foreach (var hero in heroPrefabs)
         {
-            var randomX = (int) Random.Range(1, clickArea.width-1);
-            var randomY = (int) Random.Range(1, clickArea.height-1);
+            var randomX = Random.Range(3, 8);
+            var randomY = Random.Range(3, 8);
             var spawnPosition = new Vector3(randomX * tileSize, randomY * tileSize, 1);
-            var spawnedHero = Instantiate(hero, spawnPosition, Quaternion.identity, map.transform);
+            var pos = map.WorldToCell(spawnPosition);
+            var snappedPosition = map.GetCellCenterWorld(pos);
+            var spawnedHero = Instantiate(hero, snappedPosition, Quaternion.identity, map.transform);
         }
             
         foreach (var enemy in enemyPrefabs)
         {
-            var randomX = Random.Range(clickArea.width,clickArea.width*2-1);
-            var randomY = Random.Range(1, clickArea.height-1);
+            var randomX = Random.Range(10,17);
+            var randomY = Random.Range(2, 9);
             var spawnPosition = new Vector3(randomX * tileSize, randomY * tileSize, 1);
-            var spawnedEnemy = Instantiate(enemy, spawnPosition, Quaternion.identity, map.transform);
+            var pos = map.WorldToCell(spawnPosition);
+            var snappedPosition = map.GetCellCenterWorld(pos);
+            var spawnedEnemy = Instantiate(enemy, snappedPosition, Quaternion.identity, map.transform);
             spawnedEnemy.transform.Rotate(0,180,0);
         }
-    }
-
-    private IEnumerator<float> CheckState()
-    {
-        if (scriptableListHero.Count == 0)
-        {
-            gameManager.SetGameState(GameManager.State.Lose);
-            onLose.Raise();
-        }
-        if (scriptableListEnemy.Count == 0)
-        {
-            gameManager.SetGameState(GameManager.State.Victory);
-            onVictory.Raise();
-        }
-
-        yield return Timing.WaitForOneFrame;
     }
 
     private void CheckHeroPos(Vector2 mousePos)

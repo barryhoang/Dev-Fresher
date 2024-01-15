@@ -77,7 +77,7 @@ public class Hero : MonoBehaviour
     {
         while (true)
         {
-            if (gameObject != null && gameManager.currentState != GameManager.State.Placement)
+            if (gameObject != null && gameManager.currentState == GameManager.State.Fight)
             {
                 var closest = scriptableListEnemy.GetClosest(transform.position);
                 if (closest != null)

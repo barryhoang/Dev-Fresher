@@ -123,7 +123,7 @@ Transform:
   m_GameObject: {fileID: 2624916967149368733}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.44, y: 6.55, z: 0}
+  m_LocalPosition: {x: 5.5, y: 5.5, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -170,7 +170,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 3
   m_Sprite: {fileID: -150523396, guid: 0c187a32c5bde4747be8d00770b07403, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -291,11 +291,15 @@ MonoBehaviour:
   maxHealth: {fileID: 11400000, guid: 978ef8555917dba499f9803868bb98a8, type: 2}
   heroDamage: {fileID: 11400000, guid: 933d0bd828b6ad241870e3769e6e3283, type: 2}
   scriptableListHero: {fileID: 11400000, guid: af4ed7abec162544db132a1b76e9cfca, type: 2}
-  scriptableListEnemy: {fileID: 11400000, guid: e7b54fe464ebae34883282879631ce06, type: 2}
-  gameManager: {fileID: -6216866831006848966, guid: db1269b9afc525b439f9dc71c58da879, type: 3}
+  scriptableListEnemy: {fileID: 11400000, guid: e7b54fe464ebae34883282879631ce06,
+    type: 2}
+  gameManager: {fileID: -6216866831006848966, guid: db1269b9afc525b439f9dc71c58da879,
+    type: 3}
   animator: {fileID: 4195646800097219966}
-  pathFinding: {fileID: 7867210030352182837, guid: 629118bc448761440bb205647c17a8a8, type: 3}
-  gridControl: {fileID: 1853887798173836725, guid: db1269b9afc525b439f9dc71c58da879, type: 3}
+  pathFinding: {fileID: 7867210030352182837, guid: 629118bc448761440bb205647c17a8a8,
+    type: 3}
+  gridControl: {fileID: 1853887798173836725, guid: db1269b9afc525b439f9dc71c58da879,
+    type: 3}
   temp: []
 --- !u!1 &2982954056976121390
 GameObject:
@@ -401,7 +405,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4490548406634403193}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -410,7 +414,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.01, y: 0.7}
+  m_AnchoredPosition: {x: 0, y: 0.66}
   m_SizeDelta: {x: 76.8432, y: 17.2757}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &4645193683568789089
@@ -433,8 +437,8 @@ Canvas:
   m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: -175976981
-  m_SortingOrder: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 3
   m_TargetDisplay: 0
 --- !u!114 &8233910808424995585
 MonoBehaviour:

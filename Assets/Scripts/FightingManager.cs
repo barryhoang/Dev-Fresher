@@ -12,21 +12,19 @@ public class FightingManager : MonoBehaviour
 
     private void Start()
     {
-        Timing.RunCoroutine(CheckCont());
+        Timing.RunCoroutine(CheckState());
     }
 
-    private IEnumerator<float> CheckCont()
+    private IEnumerator<float> CheckState()
     {
-        while (true)
+        if (scriptableListEnemy.Count==0)
         {
-            if (scriptableListEnemy.Count==0)
-            {
-                onVictory.Raise();
-            }
-            else if (scriptableListHero.Count==0)
-            {
-                onLose.Raise();
-            }
+            onVictory.Raise();
         }
+        else if (scriptableListHero.Count==0)
+        {
+            onLose.Raise();
+        }
+        yield return Timing.WaitForOneFrame;
     }
 }

@@ -9,6 +9,7 @@ public class PlacementInput : MonoBehaviour
     [SerializeField] private ScriptableEventVector2 btnUp;
     [SerializeField] private Button fightButton;
     [SerializeField] private GameManager gameManager;
+    [SerializeField] private GameObject placementGrid;
 
     private void Awake()
     {
@@ -39,5 +40,6 @@ public class PlacementInput : MonoBehaviour
     private void StartOnClick()
     {
         gameManager.currentState = GameManager.State.Fight;
+        placementGrid.SetActive(false);
     }
 }
