@@ -23,9 +23,17 @@ namespace Tung
                 return false;
             return true;
         }
-        public bool CheckWalkable(int xPos, int yPos)
+        public bool CheckWalkable(int xPos, int yPos,Unit unit)
         {
-            return _value[xPos, yPos] == null;
+            if (_value[xPos, yPos] == unit)
+            {
+                return true;
+            }
+
+            if (_value[xPos, yPos] == null)
+                return true;
+            
+            return false;
         }
     }
 }

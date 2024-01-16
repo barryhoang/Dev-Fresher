@@ -2,66 +2,99 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using MEC;
+using Obvious.Soap;
 using Pathfinding;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Tung
 {
     public class Unit : MonoBehaviour
     {
-        public ScriptableEventPathNodes _eventPathNodes;
-        public Seeker ai;
+        [SerializeField] private GridMapVariable gridMap;
+        [SerializeField] private Pathfinding pathfinding;
+        
         public UnitRenderData unitRenderData;
-        public GridMapVariable _gripMap;
+        public List<PathNode> pathNodes;
         public Unit unitTarget;
-        public PathNode nodeBefore;
         public float _speed;
-        public BlockManager blockManager;
-        public List<SingleNodeBlocker> obstacles;
-        public Path Path;
-        public Transform target;
-        private List<PathNode> pathNodes;
-        BlockManager.TraversalProvider traversalProvider;
+        public Vector2Int posGridUnit;
+        public bool isMove;
 
-        private int currentWaypoint = 0;
         private void OnEnable()
         {
-          
-            _eventPathNodes.OnRaised += Move;
-            // traversalProvider = new BlockManager.TraversalProvider(blockManager, BlockManager.BlockMode.OnlySelector, obstacles);
+            posGridUnit = transform.position.ToV2Int();
+        }
+        // cho o no bang null 
+        // cho o tiep theo bang this
+        // nhan unit di chuyen den tinh 4 huong cua no 
+        // tinh path 
+        // di duoc 1 path cap nhap lai path
+        // va o no dung bang null
+        // kiem tra o trc mat no co muc tieu chua 
+        // neu roi thi out
+        // cho o tiep theo bang this
+        // khi chay den path cuoi thi dung lai
+        public IEnumerator<float> Move(Unit target)
+        {
+            if(target == null) yield break;
+            unitTarget = target;
+            var posStart = transform.position.ToV2Int();
+            var posTarget = DistanceDir(unitTarget.posGridUnit);
+            pathNodes =  pathfinding.FindPath(posStart.x, posStart.y, posTarget.x, posTarget.y, this);
+            var posPathTarget = new Vector2Int(pathNodes[0].xPos,pathNodes[0].yPos);
+            gridMap.Value[posStart.x, posStart.y] = null;
+            gridMap.Value[posPathTarget.x,posPathTarget.y] = this;
+            posGridUnit = posPathTarget;
+            while (pathNodes != null && pathNodes.Count > 0)
+            {
+                transform.position = Vector2.MoveTowards(transform.position, posPathTarget,
+                    _speed * Time.deltaTime);
+                
+                if ((Vector2) transform.position == posPathTarget)
+                {
+                    if (CheckDistanceCell(posPathTarget,unitTarget.posGridUnit))
+                    {
+                        yield break;
+                    }
+                    
+                    posStart = transform.position.ToV2Int();
+                    posTarget = DistanceDir(unitTarget.posGridUnit);
+                    pathNodes =  pathfinding.FindPath(posStart.x, posStart.y, posTarget.x, posTarget.y, this);
+                    posPathTarget = new Vector2Int(pathNodes[0].xPos,pathNodes[0].yPos);
+                    gridMap.Value[posStart.x, posStart.y] = null;
+                    gridMap.Value[posPathTarget.x,posPathTarget.y] = this;
+                    posGridUnit = posPathTarget;
+                }
+                yield return Timing.WaitForOneFrame;
+            }
         }
 
-        public void Update()
+        private Vector2Int DistanceDir(Vector2Int unitTarget)
         {
-            // Path  =  ABPath.Construct(transform.position, target.position, OnPathComplete);
-            // ai.StartPath(Path);
-            // Path.traversalProvider = traversalProvider;
-            // Path.BlockUntilCalculated();
-        }
-
-        public void OnPathComplete(Path p)
-        {
-            p.Claim(this);
-            if (!p.error)
+            Vector2Int start =transform.position.ToV2Int();
+            Vector2Int value = Vector2Int.zero;
+            float minDistance = float.MaxValue;
+            Vector2Int[] listDir = {unitTarget + Vector2Int.down,unitTarget + Vector2Int.left,unitTarget+ Vector2Int.right ,unitTarget + Vector2Int.up};
+            foreach (var dir in listDir)
             {
-                if (Path != null) Path.Release(this);
-                Path = p;
-                currentWaypoint = 0;
+                float distance = Vector2Int.Distance(start,dir);
+                
+                
+                if (distance < minDistance && gridMap.Value[dir.x, dir.y] == null)
+                {
+                    minDistance = distance;
+                    value = dir;
+                }
             }
-            else
-            {
-                p.Release(this);
-            }
+            return value;
         }
-        private void Move(List<PathNode> eventPathNodes)
-        {
         
-        }
-        private bool CheckDistanceCell(Vector2Int posTarget)
+        private bool CheckDistanceCell(Vector2Int pos ,Vector2Int posTarget)
         {
-            var posStart = new Vector2Int((int)transform.position.x, (int)transform.position.y);
-            int distance = Math.Abs(posStart.x - posTarget.x) + Math.Abs(posStart.y - posTarget.y);
-            return distance <= 1f;
+            int distance = Math.Abs(pos.x - posTarget.x) + Math.Abs(pos.y - posTarget.y);
+            Debug.Log(distance);
+            return Math.Abs(distance) <= 1f;
         }
     }
 }

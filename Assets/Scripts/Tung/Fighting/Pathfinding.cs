@@ -34,6 +34,11 @@ namespace Tung
         public GridMapVariable GridMap;
         public PathNode[,] pathNodes;
 
+        public void Awake()
+        {
+            Init();
+        }
+
         public void Init()
         {
             pathNodes = new PathNode[GridMap.size.x, GridMap.size.y];
@@ -47,7 +52,7 @@ namespace Tung
             }
         }
 
-        public List<PathNode> FindPath(int startX, int startY, int endX, int endY)
+        public List<PathNode> FindPath(int startX, int startY, int endX, int endY,Unit unit)
         {
             PathNode startNode = pathNodes[startX, startY];
             PathNode endNode = pathNodes[endX, endY];
@@ -106,7 +111,7 @@ namespace Tung
                 for (int i = 0; i < neighbourNodes.Count; i++)
                 {
                     if (closedList.Contains(neighbourNodes[i])) { continue; }
-                    if (GridMap.CheckWalkable(neighbourNodes[i].xPos, neighbourNodes[i].yPos) == false) { continue; }
+                    if (GridMap.CheckWalkable(neighbourNodes[i].xPos, neighbourNodes[i].yPos,unit) == false) { continue; }
 
                     int movementCost = currentNode.gValue + CalculateDistance(currentNode, neighbourNodes[i]);
 

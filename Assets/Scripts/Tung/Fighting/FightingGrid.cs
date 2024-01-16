@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using MEC;
 using Obvious.Soap;
-using Pathfinding;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using Path = System.IO.Path;
 
 namespace Tung
 {
@@ -13,10 +12,10 @@ namespace Tung
         [SerializeField] private ScriptableListUnit _listSoapEnemies;
         [SerializeField] private ScriptableListUnit _listSoapCharacter;
         [SerializeField] private ScriptableEventNoParam _onFighting;
+        [SerializeField] private ScriptableEventUnit _onUnitTaret;
         [SerializeField] private GridMapVariable _gridMap;
         [SerializeField] private List<Unit> _enemies;
         [SerializeField] private Pathfinding _pathfinding;
-        public List<PathNode> pathNodes;
         
         public Tilemap _tileTest;
         public TileBase highTileBase;
@@ -26,7 +25,6 @@ namespace Tung
             _pathfinding.Init();
             AddEnemies();
             _onFighting.OnRaised += OnCombat;
-            Timing.RunCoroutine(Test().CancelWith(gameObject));
         }
 
         private void OnDisable()
@@ -41,14 +39,39 @@ namespace Tung
         
         private IEnumerator<float> Move()
         {
-            foreach (var unit in _listSoapCharacter)
+            while(true)
             {
-                var posTarget = _listSoapEnemies.GetClosest(unit.transform.position,_gridMap);
-                unit.Path  =  ABPath.Construct(transform.position, (Vector2)posTarget, null);
-                unit.ai.StartPath(unit.Path);
+                foreach (var unit in _listSoapCharacter)
+                {
+                    var target = _listSoapEnemies.GetClosest(unit.transform.position,_gridMap);
+                    if (!unit.isMove)
+                    {
+                        unit.isMove = true;
+                        Timing.RunCoroutine(unit.Move(target).CancelWith(gameObject));
+                    }
+                    else
+                    {
+                        unit.unitTarget = target;
+                    }
+                  
+                }
+                foreach (var unit in _listSoapEnemies)
+                {
+                    var target = _listSoapCharacter.GetClosest(unit.transform.position,_gridMap);
+                    if (!unit.isMove)
+                    {
+                        unit.isMove = true;
+                        Timing.RunCoroutine(unit.Move(target).CancelWith(gameObject));
+                    }
+                    else
+                    {
+                        unit.unitTarget = target;
+                    }
+                }
+                yield return Timing.WaitForOneFrame;
             }
-            yield return Timing.WaitForOneFrame;
         }
+        
         private IEnumerator<float> Test()
         {
             while (true)

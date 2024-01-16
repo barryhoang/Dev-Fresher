@@ -10,13 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 3702167042105825741}
   - component: {fileID: 5096387085009459582}
-  - component: {fileID: 8781138601747668943}
-  - component: {fileID: 4505589466221991032}
-  - component: {fileID: 7700277213189838432}
-  - component: {fileID: 6502052929224058139}
+  - component: {fileID: 3120589277411954496}
   m_Layer: 0
   m_Name: Farmer 2
-  m_TagString: Untagged
+  m_TagString: Character
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -50,21 +47,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _eventPathNodes: {fileID: 11400000, guid: 75f63800511b9044293a50a45e299d23, type: 2}
-  ai: {fileID: 4505589466221991032}
+  gridMap: {fileID: 11400000, guid: 8d6ed27524bc0104d844a44c12456410, type: 2}
+  pathfinding: {fileID: 3120589277411954496}
   unitRenderData: {fileID: 11400000, guid: cce6acb191f344547829ee2c30cd3f2b, type: 2}
-  _gripMap: {fileID: 11400000, guid: 8d6ed27524bc0104d844a44c12456410, type: 2}
+  pathNodes: []
   unitTarget: {fileID: 0}
-  nodeBefore:
-    xPos: 0
-    yPos: 0
-    gValue: 0
-    hValue: 0
-  _speed: 2
-  blockManager: {fileID: 0}
-  obstacles:
-  - {fileID: 0}
-  target: {fileID: 0}
---- !u!114 &8781138601747668943
+  _speed: 4
+  test: {x: 0, y: 0}
+  ab: {fileID: 0}
+--- !u!114 &3120589277411954496
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -73,80 +64,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 423925097477765991}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b45e20632f1604fc6bb73e0e79cd7368, type: 3}
+  m_Script: {fileID: 11500000, guid: e27a08c26a1bebd4db27df586afdf3e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  version: 1
-  manager: {fileID: 0}
---- !u!114 &4505589466221991032
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 423925097477765991}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 373b52eb9bf8c40f785bb6947a1aee66, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 1
-  drawGizmos: 1
-  detailedGizmos: 0
-  startEndModifier:
-    addPoints: 0
-    exactStartPoint: 1
-    exactEndPoint: 1
-    useRaycasting: 0
-    mask:
-      serializedVersion: 2
-      m_Bits: 4294967295
-    useGraphRaycasting: 0
-  traversableTags: -1
-  tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-  graphMask:
-    value: -1
---- !u!114 &7700277213189838432
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 423925097477765991}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 847a14d4dc9cc43679ab34fc78e0182f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 4
-  autoRepath:
-    mode: 2
-    period: 0.5
-    sensitivity: 10
-    maximumPeriod: 2
-    visualizeSensitivity: 0
-  canMove: 0
-  speed: 1
-  orientation: 1
-  enableRotation: 0
-  rotationSpeed: 10
-  interpolatePathSwitches: 1
-  switchPathInterpolationSpeed: 5
-  targetCompatibility: {fileID: 0}
-  repathRateCompatibility: NaN
-  canSearchCompability: 0
---- !u!114 &6502052929224058139
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 423925097477765991}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d05b832d2b1ce504299f96bda5217a75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  GridMap: {fileID: 11400000, guid: 8d6ed27524bc0104d844a44c12456410, type: 2}
 --- !u!1 &1759667855815281132
 GameObject:
   m_ObjectHideFlags: 0

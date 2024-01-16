@@ -8,7 +8,7 @@ public class BlockerPathTest : MonoBehaviour
     public BlockManager blockManager;
     public List<SingleNodeBlocker> obstacles;
     public Transform target;
-    public Seeker ai;
+    
     BlockManager.TraversalProvider traversalProvider;
 
     public void Start () {
@@ -18,14 +18,14 @@ public class BlockerPathTest : MonoBehaviour
 
     public void Update () {
         // Create a new Path object
-        var path = ABPath.Construct(transform.position, target.position, null);
-        ai.StartPath(path);
+        var path = ABPath.Construct(transform.position, target.position, null); ;
         // Make the path use a specific traversal provider
         path.traversalProvider = traversalProvider;
 
         // Calculate the path synchronously
-        // AstarPath.StartPath(path);
+        AstarPath.StartPath(path);
         path.BlockUntilCalculated();
+        
         if (path.error) {
             Debug.Log("No path was found");
         } else {
