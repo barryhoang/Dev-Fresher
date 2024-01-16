@@ -55,8 +55,8 @@ public class Pathfinding : MonoBehaviour
         var startNode = _pathNodes[startX, startY];
         var endNode = _pathNodes[endX, endY];
 
-        var openList = new List<PathNode>();
-        var closedList = new HashSet<PathNode>();
+        List<PathNode> openList = new List<PathNode>();
+        HashSet<PathNode> closedList = new HashSet<PathNode>();
 
         openList.Add(startNode);
 

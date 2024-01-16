@@ -106,31 +106,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce61662722232cb47b7f3f8346533a2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  map: {fileID: 5736262156829841056, guid: 629118bc448761440bb205647c17a8a8, type: 3}
-  highlightTile: {fileID: 11400000, guid: d7e76aa378a273b409144d9c476677e0, type: 2}
-  targetTileMap: {fileID: 8506424580694218982, guid: 7493ed8b5fbaf1b43822a3299a7977a7,
-    type: 3}
+  map: {fileID: 0}
+  mapVariable: {fileID: 11400000, guid: c67ecb630cb1a3e47afda89c3f5c4279, type: 2}
   heroPrefabs:
   - {fileID: 2388419826473740866, guid: 797fe26790ed1294ca193f66cb70e0e0, type: 3}
   - {fileID: 2624916967149368733, guid: e99c8c8386691674ebe93f47d100f330, type: 3}
   enemyPrefabs:
   - {fileID: 556949870164993459, guid: 44ba4dce33824004d8b83c83cb0bdbaf, type: 3}
-  gameManager: {fileID: -6216866831006848966}
-  scriptableListHero: {fileID: 11400000, guid: af4ed7abec162544db132a1b76e9cfca, type: 2}
-  scriptableListEnemy: {fileID: 11400000, guid: e7b54fe464ebae34883282879631ce06,
-    type: 2}
-  onLose: {fileID: 11400000, guid: e3ee85b501a5fc64f84203da14b394bd, type: 2}
-  onVictory: {fileID: 11400000, guid: d76b82c78d48e5f4a8cb73cffc9375d0, type: 2}
-  onBtnDown: {fileID: 11400000, guid: 1a4775e366573d04884c7148b4121ae9, type: 2}
-  mapVariable: {fileID: 11400000, guid: c67ecb630cb1a3e47afda89c3f5c4279, type: 2}
   tileSize: 1
-  selectableHeroes: {fileID: 11400000, guid: bf3a259b12af2df46977b0f743edc0d6, type: 2}
-  clickArea:
-    serializedVersion: 2
-    x: 2
-    y: 2
-    width: 6
-    height: 6
 --- !u!114 &-6216866831006848966
 MonoBehaviour:
   m_ObjectHideFlags: 0

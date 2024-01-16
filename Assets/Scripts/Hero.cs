@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using MEC;
 using Obvious.Soap;
@@ -11,11 +12,10 @@ public class Hero : MonoBehaviour
     [SerializeField] private IntVariable heroDamage;
     [SerializeField] private ScriptableListHero scriptableListHero;
     [SerializeField] private ScriptableListEnemy scriptableListEnemy;
-    [SerializeField] private GameManager gameManager;
     [SerializeField] private Animator animator;
     [SerializeField] private Pathfinding pathFinding;
-    [SerializeField] private GridControl gridControl;
-    
+    [SerializeField] private PlacementGrid placementGrid;
+    [SerializeField] private ScriptableEventNoParam onFight;
     public List<PathNode> temp;
     private int _currentX;
     private int _currentY;
@@ -31,7 +31,7 @@ public class Hero : MonoBehaviour
     private void Awake()
     {
         scriptableListHero.Add(this);
-        gridControl.selectableHeroes.Add(gameObject);
+        placementGrid.selectableHeroes.Add(gameObject);
         health.Value = maxHealth;
         animator.SetBool(Dead, false);
         animator.SetBool(Moving, false);
@@ -39,7 +39,7 @@ public class Hero : MonoBehaviour
 
     private void Start()
     {
-        Timing.RunCoroutine(TweenMove().CancelWith(gameObject));
+        onFight.OnRaised += Move;
     }
 
     private void OnTriggerStay2D(Collider2D other)
@@ -77,7 +77,7 @@ public class Hero : MonoBehaviour
     {
         while (true)
         {
-            if (gameObject != null && gameManager.currentState == GameManager.State.Fight)
+            if (gameObject != null)
             {
                 var closest = scriptableListEnemy.GetClosest(transform.position);
                 if (closest != null)
@@ -88,6 +88,7 @@ public class Hero : MonoBehaviour
                     var enemyPos = closest.gameObject.transform.position;
                     _targetPosX = (int) enemyPos.x;
                     _targetPosY = (int) enemyPos.y;
+                    Debug.Log("Path: "+_currentX+", "+_currentY+", "+_targetPosX+", "+_targetPosY);
                     var path = pathFinding.FindPath(_currentX, _currentY, _targetPosX, _targetPosY);
                     temp = path;
                     var distance = (heroPos - closest.transform.position).sqrMagnitude;
@@ -104,11 +105,21 @@ public class Hero : MonoBehaviour
             yield return Timing.WaitForOneFrame;
         }
     }
-
+    
     private IEnumerator<float> TweenAttack()
     {
         var heroPos = transform;
         Tween.PositionX(heroPos, heroPos.position.x + 0.3f, 0.5f, Ease.Default, 2, CycleMode.Yoyo);
         yield return Timing.WaitForOneFrame;
+    }
+
+    private void Move()
+    {
+        Timing.RunCoroutine(TweenMove().CancelWith(gameObject));
+    }
+
+    private void OnDestroy()
+    {
+        onFight.OnRaised -= Move;
     }
 }

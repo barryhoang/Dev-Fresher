@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 8506424580694218982}
   - component: {fileID: 1191514572399080707}
   - component: {fileID: 4697561520320028344}
-  - component: {fileID: 4109787769019017340}
-  - component: {fileID: 4890247190048521973}
+  - component: {fileID: 4690653986334001299}
+  - component: {fileID: 6245948824895732330}
   m_Layer: 0
   m_Name: HightlightTilemap
   m_TagString: Untagged
@@ -135,7 +135,7 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
---- !u!114 &4109787769019017340
+--- !u!114 &4690653986334001299
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -147,9 +147,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a87a0ebb9cb0dc04b8027ae1ec792c18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  height: 6
-  width: 6
---- !u!114 &4890247190048521973
+  height: 10
+  width: 18
+--- !u!114 &6245948824895732330
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

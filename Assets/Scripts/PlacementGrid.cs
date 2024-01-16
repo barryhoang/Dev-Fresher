@@ -1,94 +1,89 @@
 using System.Collections.Generic;
+using System.Linq;
 using MEC;
 using UnityEngine;
 using Obvious.Soap;
+using UnityEngine.Tilemaps;
 
 public class PlacementGrid : MonoBehaviour
 {
     [SerializeField] private ScriptableEventVector2 onBtnDown;
+    [SerializeField] private ScriptableEventVector2 onBtnDrag;
     [SerializeField] private ScriptableEventVector2 onBtnUp;
     [SerializeField] private MapVariable mapVariable;
     [SerializeField] private GameObject placementGrid;
+
+    private Vector2 _posBefore;
+    private Hero _hero;
+    [SerializeField] private Tilemap map;
     private bool _dragging;
     private Hero _tempHero;
     private Vector2 _heroPos;
-
+    private GameObject _selectedHero;
+    private Vector3 _temp;
+    private readonly Dictionary<GameObject, Vector3Int> _lastCellPos 
+        = new Dictionary<GameObject, Vector3Int>();
+    public ScriptableListGameObject selectableHeroes;
 
     private void Start()
     {
-        onBtnDown.OnRaised += CheckHeroPos;
-        onBtnUp.OnRaised += PlaceHero;
+        onBtnDown.OnRaised += MouseDown;
+        onBtnDrag.OnRaised += MouseDrag;
+        onBtnUp.OnRaised += MouseUp;
         placementGrid.SetActive(true);
     }
 
-    private void CheckHeroPos(Vector2 mousePos)
+    private void MouseDown(Vector2 value)
     {
-        var mousePosInt = new Vector2Int(Mathf.RoundToInt(mousePos.x),
-            Mathf.RoundToInt(mousePos.y));
-        if (mousePosInt.x < 0 && mousePosInt.y >= 6 || mousePosInt.y < 0)
-        {
-            _dragging = true;
-            _heroPos = mapVariable.Value[mousePosInt.x, mousePosInt.y].transform.position;
-            StartCoroutine(MoveHero(mapVariable.Value[mousePosInt.x, mousePosInt.y]));
-            placementGrid.transform.position = new Vector3(mousePosInt.x, mousePosInt.y, 0);
-            mapVariable.Value[mousePosInt.x, mousePosInt.y] = null;
+        var mousePosInt = new Vector2Int(Mathf.RoundToInt(value.x),
+            Mathf.RoundToInt(value.y));
+        var hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero); 
+        if (hit.collider != null && selectableHeroes.Contains(hit.collider.gameObject))
+        { 
+            _hero = hit.collider.gameObject.GetComponent<Hero>();
+            mapVariable.Value[mousePosInt.x, mousePosInt.y] = _hero;
+            _posBefore = _hero.transform.position;
         }
     }
-    
-    private IEnumerator<float> MoveHero(Hero hero)
-    {
-        while (_dragging)
-        {
-            Vector2 mouseInput = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            var mousePosInt = new Vector2Int(Mathf.RoundToInt(mouseInput.x),
-                Mathf.RoundToInt(mouseInput.y));
-            hero.gameObject.transform.position = mouseInput;
-            _tempHero = hero;
-            if (mousePosInt.x >= 0 && mousePosInt.x  < 6 && mousePosInt.y < 6 && mousePosInt.y >= 0)
-            {
-                placementGrid.transform.position = new Vector3(mousePosInt.x, mousePosInt.y, 0);
-            }
 
-            yield return Timing.WaitForOneFrame;
+    private void MouseDrag(Vector2 value)
+    {
+        if (_hero != null)
+        {
+            _hero.transform.position = value;
         }
     }
-    
-    private void PlaceHero(Vector2 mousePos)
+
+    private void MouseUp(Vector2 mousePos)
     {
-        if (_tempHero == null) return;
-        _dragging = false;
+        if(_hero == null) return;
+        
         var mousePosInt = new Vector2Int(Mathf.RoundToInt(mousePos.x),
             Mathf.RoundToInt(mousePos.y));
-
-        if (mousePosInt.x < 0 || mousePosInt.x >= 6 || mousePosInt.y >= 6 || mousePosInt.y < 0)
+        if (mousePosInt.x < 3 || mousePosInt.x > 8 || mousePosInt.y < 2 || mousePosInt.y > 7)
         {
-            _tempHero.transform.position = _heroPos;
-            var heroPosInt = new Vector2Int(Mathf.RoundToInt(_heroPos.x),
-                Mathf.RoundToInt(_heroPos.y));
-            mapVariable.Value[heroPosInt.x, heroPosInt.y] = _tempHero;
+            _hero.transform.position = map.WorldToCell(_posBefore);
+            mapVariable.Value[mousePosInt.x, mousePosInt.y] = _hero;
         }
-        else if (mapVariable.Value[mousePosInt.x, mousePosInt.y] != null)
+        else if (mapVariable.Value[mousePosInt.x,mousePosInt.y] == null)
         {
-            mapVariable.Value[mousePosInt.x, mousePosInt.y].transform.position = _heroPos;
-            var heroPosInt = new Vector2Int(Mathf.RoundToInt(_heroPos.x),Mathf.RoundToInt(_heroPos.y));
-            mapVariable.Value[heroPosInt.x, heroPosInt.y] = mapVariable.Value[mousePosInt.x, mousePosInt.y];
-            _tempHero.transform.position = new Vector3(mousePosInt.x, mousePosInt.y, 0);
-            mapVariable.Value[mousePosInt.x, mousePosInt.y] = _tempHero;
-            _tempHero = null;
+            _hero.transform.position = map.WorldToCell((Vector2) mousePosInt);;
+            mapVariable.Value[mousePosInt.x, mousePosInt.y] = _hero;
         }
         else
         {
-            _tempHero.transform.position = new Vector3(mousePosInt.x, mousePosInt.y, 0);
-            mapVariable.Value[mousePosInt.x, mousePosInt.y] = _tempHero;
-            _tempHero = null;
+            _tempHero = mapVariable.Value[mousePosInt.x, mousePosInt.y];
+            _hero.transform.position = map.WorldToCell((Vector2) mousePosInt);;
+            mapVariable.Value[mousePosInt.x, mousePosInt.y] = _hero;
+            _tempHero.transform.position = map.WorldToCell(_posBefore);
+            mapVariable.Value[(int) _posBefore.x, (int) _posBefore.y] = _tempHero;
         }
-
-        placementGrid.SetActive(false);
+        _hero = null;
     }
-    
     private void OnDestroy()
     {
-        onBtnDown.OnRaised -= CheckHeroPos;
-        onBtnUp.OnRaised -= PlaceHero;
+        onBtnDown.OnRaised -= MouseDown;
+        onBtnDrag.OnRaised -= MouseDrag;
+        onBtnUp.OnRaised -= MouseUp;
     }
 }

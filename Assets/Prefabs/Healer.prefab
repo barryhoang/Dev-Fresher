@@ -123,7 +123,7 @@ Transform:
   m_GameObject: {fileID: 2624916967149368733}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.5, y: 5.5, z: 1}
+  m_LocalPosition: {x: 3, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -293,13 +293,12 @@ MonoBehaviour:
   scriptableListHero: {fileID: 11400000, guid: af4ed7abec162544db132a1b76e9cfca, type: 2}
   scriptableListEnemy: {fileID: 11400000, guid: e7b54fe464ebae34883282879631ce06,
     type: 2}
-  gameManager: {fileID: -6216866831006848966, guid: db1269b9afc525b439f9dc71c58da879,
-    type: 3}
   animator: {fileID: 4195646800097219966}
-  pathFinding: {fileID: 7867210030352182837, guid: 629118bc448761440bb205647c17a8a8,
+  pathFinding: {fileID: 6245948824895732330, guid: 7493ed8b5fbaf1b43822a3299a7977a7,
     type: 3}
-  gridControl: {fileID: 1853887798173836725, guid: db1269b9afc525b439f9dc71c58da879,
+  placementGrid: {fileID: 6502825855315667802, guid: 1c528a4a17ffa0e4b890d2debd8b7b68,
     type: 3}
+  onFight: {fileID: 11400000, guid: 6247db9314cd3fe4f9047cf3bbd0aafa, type: 2}
   temp: []
 --- !u!1 &2982954056976121390
 GameObject:

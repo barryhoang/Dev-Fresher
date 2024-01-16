@@ -1,0 +1,105 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6208079218295558609
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6410765296456247570}
+  - component: {fileID: 2547341703572604715}
+  - component: {fileID: 1585508324508800256}
+  - component: {fileID: 6502825855315667802}
+  - component: {fileID: 7357682741429426478}
+  m_Layer: 0
+  m_Name: Placement
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6410765296456247570
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6208079218295558609}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2547341703572604715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6208079218295558609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e89faec550c781b47b6693701596f0d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  btnDown: {fileID: 11400000, guid: 1a4775e366573d04884c7148b4121ae9, type: 2}
+  btnDrag: {fileID: 11400000, guid: e983caf9f3b825343bfaea4c5849e9b5, type: 2}
+  btnUp: {fileID: 11400000, guid: 99852c0fa6ae4fc4cb98c534cab8b31f, type: 2}
+  fightButton: {fileID: 0}
+  gameManager: {fileID: 0}
+  placementGrid: {fileID: 0}
+  onFight: {fileID: 11400000, guid: 6247db9314cd3fe4f9047cf3bbd0aafa, type: 2}
+--- !u!114 &1585508324508800256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6208079218295558609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 744d64f855fbc30458de998f8c4c4aff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mapVariable: {fileID: 11400000, guid: c67ecb630cb1a3e47afda89c3f5c4279, type: 2}
+--- !u!114 &6502825855315667802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6208079218295558609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 014563775541874459bee6f76681712e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onBtnDown: {fileID: 11400000, guid: 1a4775e366573d04884c7148b4121ae9, type: 2}
+  onBtnDrag: {fileID: 11400000, guid: e983caf9f3b825343bfaea4c5849e9b5, type: 2}
+  onBtnUp: {fileID: 11400000, guid: 99852c0fa6ae4fc4cb98c534cab8b31f, type: 2}
+  mapVariable: {fileID: 11400000, guid: c67ecb630cb1a3e47afda89c3f5c4279, type: 2}
+  placementGrid: {fileID: 0}
+  map: {fileID: 0}
+  selectableHeroes: {fileID: 11400000, guid: bf3a259b12af2df46977b0f743edc0d6, type: 2}
+--- !u!114 &7357682741429426478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6208079218295558609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09947a988ee2ae142a2269197189aafd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scriptableListHero: {fileID: 11400000, guid: af4ed7abec162544db132a1b76e9cfca, type: 2}
+  scriptableListEnemy: {fileID: 11400000, guid: e7b54fe464ebae34883282879631ce06,
+    type: 2}
+  onLose: {fileID: 11400000, guid: e3ee85b501a5fc64f84203da14b394bd, type: 2}
+  onVictory: {fileID: 11400000, guid: d76b82c78d48e5f4a8cb73cffc9375d0, type: 2}

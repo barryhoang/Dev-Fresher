@@ -6,6 +6,12 @@ public class PlacementManager : MonoBehaviour
 
     private void Start()
     {
-        mapVariable.Init();
-    } 
+        
+    }
+
+    public void AddCharacter()
+    {
+        
+    }
+
 }
