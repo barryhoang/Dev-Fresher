@@ -24,8 +24,9 @@ namespace Minh
         {
             for (int i = 0; i < _hero.Count; i++)
             {
-                _fightingMap.Value[i + 1, i + 1] = SpawnHero(_hero[i], new Vector3(i + 1, i + 1, 0));
-                
+                Hero Player= SpawnHero(_hero[i], new Vector3(i + 1, i + 1, 0));
+                _fightingMap.Value[i + 1, i + 1] = Player;
+                Player._playerText.text = "P" + (i + 1).ToString();
             }
         }
 
