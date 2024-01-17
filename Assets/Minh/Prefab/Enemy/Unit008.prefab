@@ -2201,7 +2201,7 @@ MonoBehaviour:
   child: {fileID: 7178310567295841395}
   _healthViewer: {fileID: 1879534161171197004}
   _playerText: {fileID: 0}
-  _heroViewer: {fileID: 0}
+  _heroViewer: {fileID: -6014056378449170039}
 --- !u!114 &-6014056378449170039
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2214,6 +2214,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61790fa8f2004bd5bd6560b49f441755, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _animator: {fileID: 123008973430051371}
+  _attackVfxPrefab: {fileID: 1477577366496164400, guid: 89c391fc851181d49b7f25cef212227b, type: 3}
 --- !u!1 &4290424713604609799
 GameObject:
   m_ObjectHideFlags: 0

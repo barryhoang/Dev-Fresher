@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Unit003
   m_EditorClassIdentifier: 
   _maxHealth: 80
-  _speed: 4
+  _speed: 10
   _attackRate: 3
   _damage: 20

@@ -185,7 +185,7 @@ AnimatorController:
     m_Controller: {fileID: 0}
   - m_Name: NormalState
     m_Type: 1
-    m_DefaultFloat: 0
+    m_DefaultFloat: 1
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
@@ -203,7 +203,7 @@ AnimatorController:
     m_Controller: {fileID: 0}
   - m_Name: AttackState
     m_Type: 1
-    m_DefaultFloat: 0
+    m_DefaultFloat: 1
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
@@ -357,6 +357,21 @@ BlendTree:
   m_UseAutomaticThresholds: 1
   m_NormalizedBlendValues: 0
   m_BlendType: 0
+--- !u!206 &4009821870091549493
+BlendTree:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: BlendTree
+  m_Childs: []
+  m_BlendParameter: AttackState
+  m_BlendParameterY: Blend
+  m_MinThreshold: 0
+  m_MaxThreshold: 1
+  m_UseAutomaticThresholds: 1
+  m_NormalizedBlendValues: 0
+  m_BlendType: 0
 --- !u!1102 &5016202323645204772
 AnimatorState:
   serializedVersion: 6
@@ -491,10 +506,18 @@ BlendTree:
     m_CycleOffset: 0
     m_DirectBlendParameter: AttackSpeed
     m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: 4009821870091549493}
+    m_Threshold: 2
+    m_Position: {x: 0, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: AttackSpeed
+    m_Mirror: 0
   m_BlendParameter: AttackState
   m_BlendParameterY: AttackSpeed
   m_MinThreshold: 0
-  m_MaxThreshold: 1
+  m_MaxThreshold: 2
   m_UseAutomaticThresholds: 0
   m_NormalizedBlendValues: 0
   m_BlendType: 0

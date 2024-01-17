@@ -669,8 +669,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4453344835393887556}
   - {fileID: 845726245114787505}
+  - {fileID: 4453344835393887556}
   - {fileID: 5854758083072241622}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 1, z: 0}
@@ -792,6 +792,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3e12d075df8430eaea92dbe904ee3e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _animator: {fileID: 12739759181300532}
+  _attackVfxPrefab: {fileID: 1477577366496164400, guid: 89c391fc851181d49b7f25cef212227b, type: 3}
 --- !u!1 &1380351534996241593
 GameObject:
   m_ObjectHideFlags: 0

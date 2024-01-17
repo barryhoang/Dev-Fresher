@@ -188,6 +188,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3e12d075df8430eaea92dbe904ee3e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _animator: {fileID: 4545296762563699152}
+  _attackVfxPrefab: {fileID: 1477577366496164400, guid: 89c391fc851181d49b7f25cef212227b, type: 3}
 --- !u!1 &35113890990342456
 GameObject:
   m_ObjectHideFlags: 0
