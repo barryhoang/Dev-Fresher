@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6208079218295558609
+--- !u!1 &8870890897122154837
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,11 +8,11 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6410765296456247570}
-  - component: {fileID: 2547341703572604715}
-  - component: {fileID: 1585508324508800256}
-  - component: {fileID: 6502825855315667802}
-  - component: {fileID: 7357682741429426478}
+  - component: {fileID: 3876673095670260587}
+  - component: {fileID: 4603256669742307285}
+  - component: {fileID: 90610591967044770}
+  - component: {fileID: 6644077359306337220}
+  - component: {fileID: 228096514810054689}
   m_Layer: 0
   m_Name: Placement
   m_TagString: Untagged
@@ -20,13 +20,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6410765296456247570
+--- !u!4 &3876673095670260587
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6208079218295558609}
+  m_GameObject: {fileID: 8870890897122154837}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -35,13 +35,13 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2547341703572604715
+--- !u!114 &4603256669742307285
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6208079218295558609}
+  m_GameObject: {fileID: 8870890897122154837}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e89faec550c781b47b6693701596f0d9, type: 3}
@@ -54,26 +54,26 @@ MonoBehaviour:
   gameManager: {fileID: 0}
   placementGrid: {fileID: 0}
   onFight: {fileID: 11400000, guid: 6247db9314cd3fe4f9047cf3bbd0aafa, type: 2}
---- !u!114 &1585508324508800256
+--- !u!114 &90610591967044770
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6208079218295558609}
+  m_GameObject: {fileID: 8870890897122154837}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 744d64f855fbc30458de998f8c4c4aff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mapVariable: {fileID: 11400000, guid: c67ecb630cb1a3e47afda89c3f5c4279, type: 2}
---- !u!114 &6502825855315667802
+--- !u!114 &6644077359306337220
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6208079218295558609}
+  m_GameObject: {fileID: 8870890897122154837}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 014563775541874459bee6f76681712e, type: 3}
@@ -84,15 +84,21 @@ MonoBehaviour:
   onBtnUp: {fileID: 11400000, guid: 99852c0fa6ae4fc4cb98c534cab8b31f, type: 2}
   mapVariable: {fileID: 11400000, guid: c67ecb630cb1a3e47afda89c3f5c4279, type: 2}
   placementGrid: {fileID: 0}
+  heroPrefabs:
+  - {fileID: 2388419826473740866, guid: 797fe26790ed1294ca193f66cb70e0e0, type: 3}
+  - {fileID: 2624916967149368733, guid: e99c8c8386691674ebe93f47d100f330, type: 3}
+  enemyPrefabs:
+  - {fileID: 556949870164993459, guid: 44ba4dce33824004d8b83c83cb0bdbaf, type: 3}
+  tileSize: 1
   map: {fileID: 0}
   selectableHeroes: {fileID: 11400000, guid: bf3a259b12af2df46977b0f743edc0d6, type: 2}
---- !u!114 &7357682741429426478
+--- !u!114 &228096514810054689
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6208079218295558609}
+  m_GameObject: {fileID: 8870890897122154837}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09947a988ee2ae142a2269197189aafd, type: 3}

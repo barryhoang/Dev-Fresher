@@ -280,7 +280,7 @@ MonoBehaviour:
   animator: {fileID: 5354300524720244162}
   pathFinding: {fileID: 6245948824895732330, guid: 7493ed8b5fbaf1b43822a3299a7977a7,
     type: 3}
-  placementGrid: {fileID: 6502825855315667802, guid: 1c528a4a17ffa0e4b890d2debd8b7b68,
+  placementGrid: {fileID: 6644077359306337220, guid: 1c528a4a17ffa0e4b890d2debd8b7b68,
     type: 3}
   onFight: {fileID: 11400000, guid: 6247db9314cd3fe4f9047cf3bbd0aafa, type: 2}
   temp: []
