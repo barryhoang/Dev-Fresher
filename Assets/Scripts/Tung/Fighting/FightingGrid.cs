@@ -12,7 +12,6 @@ namespace Tung
         [SerializeField] private ScriptableListUnit _listSoapEnemies;
         [SerializeField] private ScriptableListUnit _listSoapCharacter;
         [SerializeField] private ScriptableEventNoParam _onFighting;
-        [SerializeField] private ScriptableEventUnit _onUnitTaret;
         [SerializeField] private GridMapVariable _gridMap;
         [SerializeField] private List<Unit> _enemies;
         [SerializeField] private Pathfinding _pathfinding;
@@ -43,6 +42,7 @@ namespace Tung
             {
                 foreach (var unit in _listSoapCharacter)
                 {
+                    if(unit.isAttacking) continue;
                     var target = _listSoapEnemies.GetClosest(unit.transform.position,_gridMap);
                     if (!unit.isMove)
                     {
@@ -57,6 +57,7 @@ namespace Tung
                 }
                 foreach (var unit in _listSoapEnemies)
                 {
+                    if(unit.isAttacking) continue;
                     var target = _listSoapCharacter.GetClosest(unit.transform.position,_gridMap);
                     if (!unit.isMove)
                     {

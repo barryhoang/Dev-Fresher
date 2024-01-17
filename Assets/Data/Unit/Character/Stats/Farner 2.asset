@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd60ed0d6e7137647aa8ba7d9740fe47, type: 3}
+  m_Name: Farner 2
+  m_EditorClassIdentifier: 
+  _maxHealth: {fileID: 11400000, guid: 8bc4d36506e30ae4f8152bbd360bc840, type: 2}
+  _currentHealth: {fileID: 11400000, guid: 86797ad296623514aa1723d681054232, type: 2}
+  _initDamage: {fileID: 11400000, guid: dd0683e1266634f4d9726294bd8fb2c9, type: 2}
+  _initSpeed: {fileID: 11400000, guid: 96ade555feda7de4ba494912af28aeee, type: 2}
+  attackSpeed: {fileID: 11400000, guid: 29e7dcf333e49844c9cf3c8fc9a8c20b, type: 2}
