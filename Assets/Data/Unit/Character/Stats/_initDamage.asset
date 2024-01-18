@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: _initDamage
   m_EditorClassIdentifier: 
   _guid: dd0683e1266634f4d9726294bd8fb2c9
-  _value: 3
+  _value: 2
   _debugLogEnabled: 0
   _saved: 0
   _defaultValue: 0

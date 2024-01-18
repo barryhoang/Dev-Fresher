@@ -7,7 +7,15 @@ namespace Tung
     public class UnitViewer : MonoBehaviour
     {
         [SerializeField] private Animator _animator;
+        [SerializeField] private SpriteRenderer _avatar;
+        private Tween _tween;
         public Vector3 dir;
+        public float duration = 0.1f;
+
+        private void OnDisable()
+        {
+            _tween.Stop();
+        }
 
         public void SetAnimation(AniName aniName, bool isActive)
         {
@@ -31,15 +39,20 @@ namespace Tung
                     throw new ArgumentOutOfRangeException(nameof(aniName), aniName, null);
             }
         }
+        
+        public void SetFlip(float x)
+        {
+            _avatar.flipX = !(x > 0);
+        }
 
         public void SetAttackActive(Unit unit)
         {
-            Tween.Position(unit.transform, unit.transform.position +  dir * 0.3f, 0.1f);
+            _tween =  Tween.Position(unit.transform, unit.transform.position +  dir * 0.3f, duration);
         }
 
         public void SetAttackEnd(Unit unit)
         {
-            Tween.Position(unit.transform, unit.transform.position -  dir * 0.3f, 0.1f);
+            _tween = Tween.Position(unit.transform, unit.transform.position -  dir * 0.3f, duration);
         }
 
     }

@@ -31,10 +31,10 @@ namespace Tung
 
        private void SpawnUnit()
        {
-           for (int i = 0; i < _units.Count; i++)
+           foreach (var unit in _units)
            {
-               _listSoapUnit.Add(_units[i]);
-               _gridMap.Value[Mathf.RoundToInt(_units[i].transform.position.x),Mathf.RoundToInt(_units[i].transform.position.y)] = _units[i];
+               _listSoapUnit.Add(unit);
+               _gridMap.Value[Mathf.RoundToInt(unit.transform.position.x),Mathf.RoundToInt(unit.transform.position.y)] = unit;
            }
        }
     }
