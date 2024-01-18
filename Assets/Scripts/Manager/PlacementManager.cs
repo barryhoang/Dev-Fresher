@@ -1,17 +1,15 @@
+using Map;
 using UnityEngine;
 
-public class PlacementManager : MonoBehaviour
+namespace Manager
 {
-    [SerializeField] private MapVariable mapVariable;
-
-    private void Start()
+    public class PlacementManager : MonoBehaviour
     {
-        
-    }
+        [SerializeField] private MapVariable mapVariable;
 
-    public void AddCharacter()
-    {
-        
+        private void Awake()
+        {
+            mapVariable.Init();
+        }
     }
-
 }

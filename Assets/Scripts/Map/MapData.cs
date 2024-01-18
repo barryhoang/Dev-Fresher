@@ -1,47 +1,50 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu]
-public class MapData : ScriptableObject
+namespace Map
 {
-    public int width, height;
-    public List<int> map;
+    [CreateAssetMenu]
+    public class MapData : ScriptableObject
+    {
+        public int width, height;
+        public List<int> map;
 
     
-    public void Load(GridMap gridMap)
-    {
-        gridMap.Init(width,height);
-        for (var x = 0; x < width; x++)
+        public void Load(GridMap gridMap)
         {
-            for (var y = 0; y < height; y++)
+            gridMap.Init(width,height);
+            for (var x = 0; x < width; x++)
             {
-                gridMap.SetTile(x,y,Get(x,y));
+                for (var y = 0; y < height; y++)
+                {
+                    gridMap.SetTile(x,y,Get(x,y));
+                }
             }
         }
-    }
 
-    internal void Save(int[,] map)
-    {
-        width = map.GetLength(0);
-        height = map.GetLength(1);
-        this.map = new List<int>();
-        for (var x = 0; x < width; x++)
+        internal void Save(int[,] map)
         {
-            for (var y = 0; y < height; y++)
+            width = map.GetLength(0);
+            height = map.GetLength(1);
+            this.map = new List<int>();
+            for (var x = 0; x < width; x++)
             {
-                this.map.Add(map[x,y]);
+                for (var y = 0; y < height; y++)
+                {
+                    this.map.Add(map[x,y]);
+                }
             }
+            UnityEditor.EditorUtility.SetDirty(this);
         }
-        UnityEditor.EditorUtility.SetDirty(this);
-    }
     
-    private int Get(int x, int y)
-    {
-        var index = x * height + y;
-        if (index >= map.Count)
+        private int Get(int x, int y)
         {
-            return -1;
+            var index = x * height + y;
+            if (index >= map.Count)
+            {
+                return -1;
+            }
+            return map[index];
         }
-        return map[index];
     }
 }

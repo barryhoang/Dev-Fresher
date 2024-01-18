@@ -1,14 +1,18 @@
-using UnityEngine;
 using Obvious.Soap;
+using Unit;
+using UnityEngine;
 
-[CreateAssetMenu(fileName = "scriptable_variable_MapVariable.asset", menuName = "Soap/ScriptableVariables/MapVariable")]
-public class MapVariable : ScriptableVariable<Hero[,]>
+namespace Map
 {
-    public Vector2Int size;
-
-    public override void Init()
+    [CreateAssetMenu(fileName = "scriptable_variable_MapVariable.asset", menuName = "Soap/ScriptableVariables/MapVariable")]
+    public class MapVariable : ScriptableVariable<Hero[,]>
     {
-        _value = new Hero[size.x, size.y];
-        base.Init();
+        public Vector2Int size;
+
+        public override void Init()
+        {
+            _value = new Hero[size.x, size.y];
+            base.Init();
+        }
     }
 }

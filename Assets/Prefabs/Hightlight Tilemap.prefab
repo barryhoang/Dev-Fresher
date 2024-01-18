@@ -13,9 +13,8 @@ GameObject:
   - component: {fileID: 1191514572399080707}
   - component: {fileID: 4697561520320028344}
   - component: {fileID: 4690653986334001299}
-  - component: {fileID: 6245948824895732330}
   m_Layer: 0
-  m_Name: HightlightTilemap
+  m_Name: Hightlight Tilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -149,15 +148,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   height: 10
   width: 18
---- !u!114 &6245948824895732330
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 843992178466234007}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03ec213d31c9c4d41a82a2a6a41d70a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

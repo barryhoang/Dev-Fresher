@@ -1,30 +1,51 @@
+using System;
 using System.Collections.Generic;
 using MEC;
 using Obvious.Soap;
+using Unit;
 using UnityEngine;
 
-public class FightingManager : MonoBehaviour
+namespace Manager
 {
-    [SerializeField] private ScriptableListHero scriptableListHero;
-    [SerializeField] private ScriptableListEnemy scriptableListEnemy;
-    [SerializeField] private ScriptableEventNoParam onLose;
-    [SerializeField] private ScriptableEventNoParam onVictory;
-
-    private void Start()
+    public class FightingManager : MonoBehaviour
     {
-        Timing.RunCoroutine(CheckState());
-    }
+        [SerializeField] private ScriptableListHero scriptableListHero;
+        [SerializeField] private ScriptableListEnemy scriptableListEnemy;
+        [SerializeField] private ScriptableEventNoParam onFinght;
+        [SerializeField] private ScriptableEventNoParam onLose;
+        [SerializeField] private ScriptableEventNoParam onVictory;
+        [SerializeField] private GameManager gameManager;
+        
+        private void Start()
+        {
+            onFinght.OnRaised += Check;
 
-    private IEnumerator<float> CheckState()
-    {
-        if (scriptableListEnemy.Count==0)
-        {
-            onVictory.Raise();
         }
-        else if (scriptableListHero.Count==0)
+
+        private void Check()
         {
-            onLose.Raise();
+            Timing.RunCoroutine(CheckState());
         }
-        yield return Timing.WaitForOneFrame;
+        
+        private IEnumerator<float> CheckState()
+        {
+            while (true)
+            {
+                if(scriptableListEnemy.Count==0)
+                {
+                    onVictory.Raise();
+                    gameManager.SetGameState(GameManager.State.Victory);
+                    break;
+                }
+            
+                if (scriptableListHero.Count==0)
+                {
+                    onLose.Raise();
+                    gameManager.SetGameState(GameManager.State.Defeated);
+                    break;
+                }
+                yield return Timing.WaitForOneFrame;
+            }
+        }
     }
 }

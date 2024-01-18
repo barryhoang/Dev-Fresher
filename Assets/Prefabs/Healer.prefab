@@ -294,11 +294,12 @@ MonoBehaviour:
   scriptableListEnemy: {fileID: 11400000, guid: e7b54fe464ebae34883282879631ce06,
     type: 2}
   animator: {fileID: 4195646800097219966}
-  pathFinding: {fileID: 6245948824895732330, guid: 7493ed8b5fbaf1b43822a3299a7977a7,
+  pathFinding: {fileID: 7430282794458419431, guid: 629118bc448761440bb205647c17a8a8,
     type: 3}
   placementGrid: {fileID: 6644077359306337220, guid: 1c528a4a17ffa0e4b890d2debd8b7b68,
     type: 3}
   onFight: {fileID: 11400000, guid: 6247db9314cd3fe4f9047cf3bbd0aafa, type: 2}
+  hpBar: {fileID: 5583675225746197109}
   temp: []
 --- !u!1 &2982954056976121390
 GameObject:

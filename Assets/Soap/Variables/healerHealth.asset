@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: healerHealth
   m_EditorClassIdentifier: 
   _guid: 8477a2f8d88bfd04f81c705e0bf8bd31
-  _value: 100
+  _value: 0
   _debugLogEnabled: 0
   _saved: 0
   _defaultValue: 0
