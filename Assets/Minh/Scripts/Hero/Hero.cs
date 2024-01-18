@@ -73,42 +73,45 @@ namespace Minh
 
                     path = _fightingGrid.GetPath(current.x, current.y, target.x,
                         target.y);
-
-                    if (Vector2.Distance(closet.transform.position, transform.position) > 1f)
+                    if (path != null)
                     {
-                        if (closet.path != null)
+                        if (Vector2.Distance(closet.transform.position, transform.position) > 1f)
                         {
-                            if (Vector2.Distance(new Vector2(closet.path[0].xPos, closet.path[0].yPos),
-                                transform.position) > 1f)
+                            if (closet.path != null)
+                            {
+                                if (Vector2.Distance(new Vector2(closet.path[0].xPos, closet.path[0].yPos),
+                                    transform.position) > 1f)
+                                {
+                                    Vector2Int deleteTransform = this.transform.position.ToV2Int();
+
+                                    _fightingMapVariable.Value[deleteTransform.x, deleteTransform.y] = null;
+                                    _fightingMapVariable.Value[path[0].xPos, path[0].yPos] = this;
+                                    //   Tween.Position(transform, new Vector3(path[0].xPos, path[0].yPos, 0),
+                                    //       1 / _heroStats._speed);
+                                    _heroViewer.MoveHero(transform, new Vector3(path[0].xPos, path[0].yPos, 0),
+                                        1 / _heroStats._speed);
+                                    yield return Timing.WaitForSeconds(1 / _heroStats._speed);
+                                }
+                            }
+                            else
                             {
                                 Vector2Int deleteTransform = this.transform.position.ToV2Int();
                                 _fightingMapVariable.Value[deleteTransform.x, deleteTransform.y] = null;
                                 _fightingMapVariable.Value[path[0].xPos, path[0].yPos] = this;
-                                //   Tween.Position(transform, new Vector3(path[0].xPos, path[0].yPos, 0),
-                                //       1 / _heroStats._speed);
                                 _heroViewer.MoveHero(transform, new Vector3(path[0].xPos, path[0].yPos, 0),
                                     1 / _heroStats._speed);
+
                                 yield return Timing.WaitForSeconds(1 / _heroStats._speed);
                             }
                         }
                         else
                         {
-                            Vector2Int deleteTransform = this.transform.position.ToV2Int();
-                            _fightingMapVariable.Value[deleteTransform.x, deleteTransform.y] = null;
-                            _fightingMapVariable.Value[path[0].xPos, path[0].yPos] = this;
-                            _heroViewer.MoveHero(transform, new Vector3(path[0].xPos, path[0].yPos, 0),
-                                1 / _heroStats._speed);
-
-                            yield return Timing.WaitForSeconds(1 / _heroStats._speed);
+                            Timing.RunCoroutine(HeroAttack(closet).CancelWith(closet.gameObject));
+                            path = null;
+                            yield return Timing.WaitForSeconds(1 / (float) _heroStats._attackRate * 2);
                         }
                     }
-                    else
-                    {
-                        Timing.RunCoroutine(HeroAttack(closet).CancelWith(closet.gameObject),
-                            "enemyAttack" + _gameObjectID);
-                        path = null;
-                        yield return Timing.WaitForSeconds(1 / (float) _heroStats._attackRate * 2);
-                    }
+                   
 
                     // else 
                     // {
@@ -116,6 +119,11 @@ namespace Minh
                     //     
                     // }
                     yield return Timing.WaitForOneFrame;
+                }
+                else
+                {
+                    _heroViewer.StopMoving();
+                    yield break;
                 }
             }
         }
@@ -148,7 +156,7 @@ namespace Minh
                     dir.y * 0.3f + child.transform.position.y);
                 // Tween.Position(child, attackPosition, 1 / (float) _heroStats._attackRate, Ease.Default, 2,
                 //     CycleMode.Yoyo);
-                Timing.RunCoroutine(_heroViewer.HeroAttack(hero, child, attackPosition, 1 / (float) _heroStats._attackRate));
+                Timing.RunCoroutine(_heroViewer.HeroAttack(hero, child, attackPosition, 1 / (float) _heroStats._attackRate).CancelWith(gameObject));
                 Attack(hero);
             }
 

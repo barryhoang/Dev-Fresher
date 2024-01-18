@@ -20,6 +20,11 @@ namespace Minh
         
         }
 
+        public void StopMoving()
+        {
+            _animator.SetFloat(_run ,0f);
+        }
+
         public IEnumerator<float> HeroAttack(Hero hero,Transform position,Vector3 EndPosition, float attackRate)
         {
             //Ap dung tween tan cong va animation tan cong
@@ -30,8 +35,8 @@ namespace Minh
            // transform.up = dir.normalized;
             Vector3 myRotationAngles = Quaternion.FromToRotation(Vector3.right, dir).eulerAngles;
             yield return Timing.WaitForSeconds(attackRate/2);
-            Instantiate(_attackVfxPrefab, position.position, Quaternion.LookRotation(Vector3.forward, dir.normalized));
-            
+            if (transform == null) yield break;
+         Instantiate(_attackVfxPrefab, position.position, Quaternion.LookRotation(Vector3.forward, dir.normalized));
         }
     }
 
