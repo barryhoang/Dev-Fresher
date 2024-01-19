@@ -9,14 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56cdb8ad39a5bdd4f8ed3d18fae14a63, type: 3}
-  m_Name: ghoulDamage
+  m_Script: {fileID: 11500000, guid: a9978ce9c8bdc724896114c9952c52ea, type: 3}
+  m_Name: ghoulDmg
   m_EditorClassIdentifier: 
-  _guid: a6ef61689f6d2254799b86221cdb84a0
+  _guid: 876f8d1f95f91f74da6f23f38b046a49
   _value: 50
   _debugLogEnabled: 0
   _saved: 0
   _defaultValue: 0
   _resetOn: 0
   _isClamped: 0
-  _minMax: {x: -2147483648, y: 2147483647}
+  _minMax: {x: -3.4028235e+38, y: 3.4028235e+38}

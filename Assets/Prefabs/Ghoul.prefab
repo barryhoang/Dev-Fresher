@@ -173,6 +173,7 @@ GameObject:
   - component: {fileID: 3756513806386774502}
   - component: {fileID: 5839980982123311318}
   - component: {fileID: 5205004312846376136}
+  - component: {fileID: 1190404512502632228}
   m_Layer: 3
   m_Name: Ghoul
   m_TagString: Enemy
@@ -236,7 +237,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 4
   m_Sprite: {fileID: 613658156, guid: 1bc6097228993f045852159e71f81d5b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -353,18 +354,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e027bd9b9d9ad6c42ba64cff7d475588, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: {fileID: 11400000, guid: e99994883d26c124ea6a1be0c0032291, type: 2}
+  currentHealth: {fileID: 11400000, guid: e99994883d26c124ea6a1be0c0032291, type: 2}
   maxHealth: {fileID: 11400000, guid: 2b1aefb2c36656f40ad770950d6f571f, type: 2}
-  enemyDamage: {fileID: 11400000, guid: a6ef61689f6d2254799b86221cdb84a0, type: 2}
-  scriptableListEnemy: {fileID: 11400000, guid: e7b54fe464ebae34883282879631ce06,
-    type: 2}
-  scriptableListHero: {fileID: 11400000, guid: af4ed7abec162544db132a1b76e9cfca, type: 2}
-  animator: {fileID: 5839980982123311318}
+  atkSpd: {fileID: 11400000, guid: 7639072dd6b820f4c8596d9968c894fe, type: 2}
+  dmg: {fileID: 11400000, guid: 876f8d1f95f91f74da6f23f38b046a49, type: 2}
+  spd: {fileID: 11400000, guid: 673c5aa04ddfc274ebc6cc09f5987255, type: 2}
+  healthViewer: {fileID: 1668036157055931363}
+  unitViewer: {fileID: 1190404512502632228}
+  onDead: {fileID: 11400000, guid: 275f71f4e611b5049b221ec604ce004b, type: 2}
+  onFight: {fileID: 11400000, guid: 6247db9314cd3fe4f9047cf3bbd0aafa, type: 2}
+  gridMapVariable: {fileID: 11400000, guid: 719893677dfe0de409bfa326f521b80c, type: 2}
   pathfinding: {fileID: 7430282794458419431, guid: 629118bc448761440bb205647c17a8a8,
     type: 3}
-  onFight: {fileID: 11400000, guid: 6247db9314cd3fe4f9047cf3bbd0aafa, type: 2}
-  hpBar: {fileID: 1899984081508615067}
-  temp: []
+  unitGridPosition: {x: 0, y: 0}
+  attacking: 0
+  moving: 0
+  scriptableListEnemy: {fileID: 11400000, guid: e7b54fe464ebae34883282879631ce06,
+    type: 2}
+--- !u!114 &1190404512502632228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 556949870164993459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b7eba30ef9b521439184ce15ac8cab7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 5839980982123311318}
+  sprite: {fileID: 544336107745180785}
+  direction: {x: 0, y: 0, z: 0}
 --- !u!1 &933784569693402449
 GameObject:
   m_ObjectHideFlags: 0
@@ -515,6 +536,7 @@ GameObject:
   - component: {fileID: 1662873958364308225}
   - component: {fileID: 8440884791650090884}
   - component: {fileID: 463187711085870179}
+  - component: {fileID: 1668036157055931363}
   m_Layer: 3
   m_Name: HPBar
   m_TagString: Untagged
@@ -581,6 +603,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1668036157055931363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3074480323435453348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24df4895c8259104db7584911cdd5ecb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fillHealth: {fileID: 4375536499818552382}
 --- !u!1 &3618616583836696961
 GameObject:
   m_ObjectHideFlags: 0

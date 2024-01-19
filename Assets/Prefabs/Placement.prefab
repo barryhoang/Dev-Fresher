@@ -96,4 +96,7 @@ MonoBehaviour:
   - {fileID: 556949870164993459, guid: 44ba4dce33824004d8b83c83cb0bdbaf, type: 3}
   tileSize: 1
   map: {fileID: 5736262156829841056, guid: 629118bc448761440bb205647c17a8a8, type: 3}
+  highlightMap: {fileID: 8506424580694218982, guid: 7493ed8b5fbaf1b43822a3299a7977a7,
+    type: 3}
+  highlightTile: {fileID: 11400000, guid: ef71a189efe80ed48b2ee9cb2dce70cf, type: 2}
   selectableHeroes: {fileID: 11400000, guid: bf3a259b12af2df46977b0f743edc0d6, type: 2}

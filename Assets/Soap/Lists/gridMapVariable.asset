@@ -9,14 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9978ce9c8bdc724896114c9952c52ea, type: 3}
-  m_Name: farmerHealth
+  m_Script: {fileID: 11500000, guid: 1dfa620fc1081c743a46831e58eb0198, type: 3}
+  m_Name: gridMapVariable
   m_EditorClassIdentifier: 
-  _guid: ee5b2c77248fb5845b65933c3f8e5625
-  _value: 200
+  _guid: 719893677dfe0de409bfa326f521b80c
   _debugLogEnabled: 0
   _saved: 0
-  _defaultValue: 0
   _resetOn: 0
-  _isClamped: 0
-  _minMax: {x: -3.4028235e+38, y: 3.4028235e+38}
+  size: {x: 18, y: 10}

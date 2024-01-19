@@ -1,5 +1,6 @@
 using Obvious.Soap;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Manager
 {
@@ -9,6 +10,8 @@ namespace Manager
         [SerializeField] private ScriptableEventNoParam onVictory;
         [SerializeField] private GameObject defeatedPanel;
         [SerializeField] private GameObject victoryPanel;
+        
+        public void OnMainMenuClickButton () => SceneManager.LoadScene(sceneBuildIndex: 0);
         private void Start()
         {
             onLose.OnRaised += SetDefeatedPanel;

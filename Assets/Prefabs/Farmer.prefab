@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7805736033736517732}
   - component: {fileID: 4319895010071034072}
   - component: {fileID: 5096714180005133808}
+  - component: {fileID: 49485896289849641}
   m_Layer: 0
   m_Name: HPBar
   m_TagString: Untagged
@@ -77,6 +78,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &49485896289849641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2240889415211508981}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24df4895c8259104db7584911cdd5ecb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fillHealth: {fileID: 2389554376768440826}
 --- !u!1 &2388419826473740866
 GameObject:
   m_ObjectHideFlags: 0
@@ -91,6 +105,7 @@ GameObject:
   - component: {fileID: 790622556243430197}
   - component: {fileID: 5354300524720244162}
   - component: {fileID: 887806542794369348}
+  - component: {fileID: 3288456307237403684}
   m_Layer: 0
   m_Name: Farmer
   m_TagString: Player
@@ -154,7 +169,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 4
   m_Sprite: {fileID: 978012912, guid: 99a24620d31e5ce4e823c32d11e17c2c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -271,20 +286,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67947ed2216dff14e8cc84dc25cea778, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: {fileID: 11400000, guid: ee5b2c77248fb5845b65933c3f8e5625, type: 2}
+  currentHealth: {fileID: 11400000, guid: ee5b2c77248fb5845b65933c3f8e5625, type: 2}
   maxHealth: {fileID: 11400000, guid: c5e923cb61982a147a63d8534d528183, type: 2}
-  heroDamage: {fileID: 11400000, guid: 150e7f175be27de458a6f511e5dd4569, type: 2}
-  scriptableListHero: {fileID: 11400000, guid: af4ed7abec162544db132a1b76e9cfca, type: 2}
-  scriptableListEnemy: {fileID: 11400000, guid: e7b54fe464ebae34883282879631ce06,
-    type: 2}
-  animator: {fileID: 5354300524720244162}
-  pathFinding: {fileID: 7430282794458419431, guid: 629118bc448761440bb205647c17a8a8,
+  atkSpd: {fileID: 11400000, guid: 9620ac4c88d332244851a3015d6d6646, type: 2}
+  dmg: {fileID: 11400000, guid: 13e187d92ae5f0640a089e45fa6500ad, type: 2}
+  spd: {fileID: 11400000, guid: 11b409d48d23e9b4db5859c49d6de449, type: 2}
+  healthViewer: {fileID: 49485896289849641}
+  unitViewer: {fileID: 3288456307237403684}
+  onDead: {fileID: 11400000, guid: 275f71f4e611b5049b221ec604ce004b, type: 2}
+  onFight: {fileID: 11400000, guid: 6247db9314cd3fe4f9047cf3bbd0aafa, type: 2}
+  gridMapVariable: {fileID: 11400000, guid: 719893677dfe0de409bfa326f521b80c, type: 2}
+  pathfinding: {fileID: 7430282794458419431, guid: 629118bc448761440bb205647c17a8a8,
     type: 3}
+  unitGridPosition: {x: 0, y: 0}
+  attacking: 0
+  moving: 0
+  scriptableListHero: {fileID: 11400000, guid: af4ed7abec162544db132a1b76e9cfca, type: 2}
   placementGrid: {fileID: 6644077359306337220, guid: 1c528a4a17ffa0e4b890d2debd8b7b68,
     type: 3}
-  onFight: {fileID: 11400000, guid: 6247db9314cd3fe4f9047cf3bbd0aafa, type: 2}
-  hpBar: {fileID: 3871529079181562836}
-  temp: []
+--- !u!114 &3288456307237403684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2388419826473740866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b7eba30ef9b521439184ce15ac8cab7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 5354300524720244162}
+  sprite: {fileID: 628560310690813610}
+  direction: {x: 0, y: 0, z: 0}
 --- !u!1 &2703296185370427229
 GameObject:
   m_ObjectHideFlags: 0

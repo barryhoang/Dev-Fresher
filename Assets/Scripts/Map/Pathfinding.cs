@@ -39,7 +39,7 @@ namespace Map
             Init();
         }
 
-        private void Init()
+        public void Init()
         {
             if (_gridMap == null) { _gridMap = GetComponent<GridMap>(); }
             _pathNodes = new PathNode[_gridMap.width, _gridMap.height];

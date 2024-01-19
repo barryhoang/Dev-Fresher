@@ -18,6 +18,8 @@ namespace Map
         [SerializeField] private List<GameObject> enemyPrefabs;
         [SerializeField] private float tileSize = 1.0f;
         [SerializeField] private Tilemap map;
+        [SerializeField] private Tilemap highlightMap;
+        [SerializeField] private TileBase highlightTile;
 
         private Vector2 _posBefore;
         private Hero _hero;
@@ -44,7 +46,7 @@ namespace Map
         {
             var mousePosInt = new Vector2Int(Mathf.RoundToInt(value.x),
                 Mathf.RoundToInt(value.y));
-            var hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero); 
+            var hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
             if (hit.collider != null && selectableHeroes.Contains(hit.collider.gameObject))
             { 
                 _hero = hit.collider.gameObject.GetComponent<Hero>();
@@ -55,14 +57,20 @@ namespace Map
 
         private void MouseDrag(Vector2 value)
         {
+            highlightMap.ClearAllTiles();
             if (_hero != null)
             {
                 _hero.transform.position = value;
+                var mousePosInt = new Vector3(Mathf.RoundToInt(value.x),
+                    Mathf.RoundToInt(value.y));
+                var highlightCell = highlightMap.WorldToCell(mousePosInt);
+                highlightMap.SetTile(highlightCell, highlightTile);
             }
         }
 
         private void MouseUp(Vector2 mousePos)
         {
+            highlightMap.ClearAllTiles();
             if(_hero == null) return;
         
             var mousePosInt = new Vector2Int(Mathf.RoundToInt(mousePos.x),
@@ -80,7 +88,7 @@ namespace Map
             else
             {
                 _tempHero = mapVariable.Value[mousePosInt.x, mousePosInt.y];
-                _hero.transform.position = (Vector2)mousePosInt;;
+                _hero.transform.position = (Vector2)mousePosInt;
                 mapVariable.Value[mousePosInt.x, mousePosInt.y] = _hero;
                 _tempHero.transform.position = _posBefore;
                 mapVariable.Value[(int) _posBefore.x, (int) _posBefore.y] = _tempHero;

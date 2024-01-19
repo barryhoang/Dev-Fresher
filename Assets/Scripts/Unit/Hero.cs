@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Map;
 using MEC;
@@ -7,16 +8,17 @@ using UnityEngine;
 
 namespace Unit
 {
-    public class Hero : MonoBehaviour
+    public class Hero : BaseUnit
     {
+        [SerializeField] private ScriptableListHero scriptableListHero;
+        [SerializeField] private PlacementGrid placementGrid;
+        
+        /*[SerializeField] private ScriptableListEnemy scriptableListEnemy;
         [SerializeField] private FloatVariable health;
         [SerializeField] private FloatVariable maxHealth;
         [SerializeField] private IntVariable heroDamage;
-        [SerializeField] private ScriptableListHero scriptableListHero;
-        [SerializeField] private ScriptableListEnemy scriptableListEnemy;
         [SerializeField] private Animator animator;
         [SerializeField] private Pathfinding pathFinding;
-        [SerializeField] private PlacementGrid placementGrid;
         [SerializeField] private ScriptableEventNoParam onFight;
         [SerializeField] private GameObject hpBar;
         
@@ -29,19 +31,19 @@ namespace Unit
         private const float ReceivedDmgDelay = 1;
 
         private static readonly int Dead = Animator.StringToHash("Dead");
-        private static readonly int Moving = Animator.StringToHash("Moving");
+        private static readonly int Moving = Animator.StringToHash("Moving");*/
 
 
         private void Awake()
         {
             scriptableListHero.Add(this);
             placementGrid.selectableHeroes.Add(gameObject);
-            health.Value = maxHealth;
+            /*health.Value = maxHealth;
             animator.SetBool(Dead, false);
-            animator.SetBool(Moving, false);
+            animator.SetBool(Moving, false);*/
         }
 
-        private void Start()
+        /*private void Start()
         {
             onFight.OnRaised += Move;
         }
@@ -127,6 +129,6 @@ namespace Unit
         private void OnDestroy()
         {
             onFight.OnRaised -= Move;
-        }
+        }*/
     }
 }

@@ -9,14 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56cdb8ad39a5bdd4f8ed3d18fae14a63, type: 3}
-  m_Name: healerDamage
+  m_Script: {fileID: 11500000, guid: ad8727768d74cc341b8b5c5790d2221a, type: 3}
+  m_Name: mapVariable
   m_EditorClassIdentifier: 
-  _guid: 933d0bd828b6ad241870e3769e6e3283
-  _value: 1
+  _guid: c67ecb630cb1a3e47afda89c3f5c4279
   _debugLogEnabled: 0
   _saved: 0
-  _defaultValue: 0
   _resetOn: 0
-  _isClamped: 0
-  _minMax: {x: -2147483648, y: 2147483647}
+  size: {x: 18, y: 10}

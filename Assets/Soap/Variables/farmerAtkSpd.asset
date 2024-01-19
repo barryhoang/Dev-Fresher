@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a9978ce9c8bdc724896114c9952c52ea, type: 3}
-  m_Name: farmerHealth
+  m_Name: farmerAtkSpd
   m_EditorClassIdentifier: 
-  _guid: ee5b2c77248fb5845b65933c3f8e5625
-  _value: 200
+  _guid: 9620ac4c88d332244851a3015d6d6646
+  _value: 2
   _debugLogEnabled: 0
   _saved: 0
   _defaultValue: 0
