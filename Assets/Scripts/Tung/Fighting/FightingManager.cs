@@ -14,43 +14,39 @@ namespace Tung
         [SerializeField] private ScriptableListUnit _listSoapCharacter;
         [SerializeField] private ScriptableEventNoParam _onFinghting;
         [SerializeField] private ScriptableEventNoParam _onWin;
+        [SerializeField] private ScriptableEventNoParam _onLose;
         private List<Unit> _enemies;
 
         private void OnEnable()
         {
-            _onFinghting.OnRaised += CheckWin;
+            _onFinghting.OnRaised += Check;
             _eventDieUnit.OnRaised += SetDie;
         }
 
         private void OnDisable()
         {
-            _onFinghting.OnRaised -= CheckWin;
+            _onFinghting.OnRaised -= Check;
             _eventDieUnit.OnRaised -= SetDie;
         }
 
         private void SetDie(Unit unit)
         {
-            Debug.Log("A");
             foreach (var character in _listSoapCharacter)
             {
-                if (character == unit)
-                {
-                    _listSoapCharacter.Remove(character);   
-                    return;
-                }
-              
+                if (character != unit) continue;
+                _listSoapCharacter.Remove(character);   
+                return;
+
             }
             foreach (var enemy in _listSoapEnemies)
             {
-                if (enemy == unit)
-                {
-                    _listSoapEnemies.Remove(enemy);  
-                    return;
-                }
+                if (enemy != unit) continue;
+                _listSoapEnemies.Remove(enemy);  
+                return;
             }
         }
 
-        private void CheckWin()
+        private void Check()
         {
             Timing.RunCoroutine(CheckWinOrLose().CancelWith(gameObject));
         }
@@ -62,7 +58,12 @@ namespace Tung
                 if (_listSoapEnemies.IsEmpty)
                 {
                     _onWin.Raise();
-                    Debug.Log("Win");
+                    break;
+                }
+
+                if (_listSoapCharacter.IsEmpty)
+                {
+                    _onLose.Raise();
                     break;
                 }
                 yield return Timing.WaitForOneFrame;

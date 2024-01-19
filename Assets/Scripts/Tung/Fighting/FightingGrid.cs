@@ -1,7 +1,7 @@
+using System.Collections;
 using System.Collections.Generic;
 using MEC;
 using Obvious.Soap;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -13,21 +13,16 @@ namespace Tung
         [SerializeField] private ScriptableListUnit _listSoapCharacter;
         [SerializeField] private ScriptableEventNoParam _onFighting;
         [SerializeField] private ScriptableEventNoParam _onWin;
-        [SerializeField] private GridMapVariable _gridMap;
-        [SerializeField] private List<Unit> _enemies;
-        [SerializeField] private Pathfinding _pathfinding;
         private bool _isCombat;
-
-        public Tilemap _tileTest;
-        public TileBase highTileBase;
-
+        
+        public GridMapVariable gridMap;
+        public Tilemap test;
+        public TileBase tileBase;
         private void Start()
         {
-            _pathfinding.Init();
-            AddEnemies();
             _onFighting.OnRaised += OnCombat;
             _onWin.OnRaised += OnWin;
-
+            Timing.RunCoroutine(Test().CancelWith(gameObject));
         }
 
         private void OnDisable()
@@ -78,14 +73,26 @@ namespace Tung
                 yield return Timing.WaitForOneFrame;
             }
         }
-        
-        private void AddEnemies()
+
+        private IEnumerator<float> Test()
         {
-            if(_enemies.Count == 0) return;
-            foreach (var unit in _enemies)
+            while (true)
             {
-                _listSoapEnemies.Add(unit);
-                _gridMap.Value[(int) unit.transform.position.x, (int) unit.transform.position.y] = unit;
+                for (int i = 0; i < gridMap.size.x; i++)
+                {
+                    for (int j = 0; j < gridMap.size.y; j++)
+                    {
+                        if (gridMap.Value[i, j] == null)
+                        {
+                            test.SetTile(new Vector3Int(i,j),null);
+                        }
+                        else
+                        {
+                            test.SetTile(new Vector3Int(i,j),tileBase);
+                        }
+                    }
+                }
+                yield return Timing.WaitForOneFrame;
             }
         }
     }

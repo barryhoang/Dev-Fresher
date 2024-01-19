@@ -14,7 +14,7 @@ namespace Tung
 
         private bool isDraging;
 
-        private void Start()
+        private void OnEnable()
         {
             Timing.RunCoroutine(MouseInput().CancelWith(gameObject));
         }
