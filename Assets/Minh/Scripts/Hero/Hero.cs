@@ -22,10 +22,11 @@ namespace Minh
         private Vector3 _attackPosition;
         private List<PathNode> path;
         public string _gameObjectID;
-        [SerializeField] private Transform child;
+        [SerializeField] public Transform child;
         [SerializeField] private HealthViewer _healthViewer;
         [SerializeField] public TextMesh _playerText;
         [SerializeField] private HeroViewer _heroViewer;
+        [SerializeField] public Vector2 _placementPosition;
 
         private void Awake()
         {
@@ -52,7 +53,6 @@ namespace Minh
         public IEnumerator<float> Move()
         {
             closet = CheckClosest();
-            // = new List<PathNode>();
             while (true)
             {
                 closet = CheckClosest();
@@ -83,24 +83,13 @@ namespace Minh
                                     transform.position) > 1f)
                                 {
                                     Vector2Int deleteTransform = this.transform.position.ToV2Int();
-
-                                    _fightingMapVariable.Value[deleteTransform.x, deleteTransform.y] = null;
-                                    _fightingMapVariable.Value[path[0].xPos, path[0].yPos] = this;
-                                    //   Tween.Position(transform, new Vector3(path[0].xPos, path[0].yPos, 0),
-                                    //       1 / _heroStats._speed);
-                                    _heroViewer.MoveHero(transform, new Vector3(path[0].xPos, path[0].yPos, 0),
-                                        1 / _heroStats._speed);
+                                    MoveHero();
                                     yield return Timing.WaitForSeconds(1 / _heroStats._speed);
                                 }
                             }
                             else
                             {
-                                Vector2Int deleteTransform = this.transform.position.ToV2Int();
-                                _fightingMapVariable.Value[deleteTransform.x, deleteTransform.y] = null;
-                                _fightingMapVariable.Value[path[0].xPos, path[0].yPos] = this;
-                                _heroViewer.MoveHero(transform, new Vector3(path[0].xPos, path[0].yPos, 0),
-                                    1 / _heroStats._speed);
-
+                                MoveHero();
                                 yield return Timing.WaitForSeconds(1 / _heroStats._speed);
                             }
                         }
@@ -111,13 +100,7 @@ namespace Minh
                             yield return Timing.WaitForSeconds(1 / (float) _heroStats._attackRate * 2);
                         }
                     }
-                   
 
-                    // else 
-                    // {
-                    //     // _animator.SetBool("EnemyRun", false);
-                    //     
-                    // }
                     yield return Timing.WaitForOneFrame;
                 }
                 else
@@ -139,55 +122,56 @@ namespace Minh
             {
                 hero = _soapListPlayer.GetClosest(transform.position);
             }
-
             return hero;
+        }
+
+        private void MoveHero()
+        {
+            Vector2Int deleteTransform = this.transform.position.ToV2Int();
+            _fightingMapVariable.Value[deleteTransform.x, deleteTransform.y] = null;
+            _fightingMapVariable.Value[path[0].xPos, path[0].yPos] = this;
+            _heroViewer.MoveHero(transform, new Vector3(path[0].xPos, path[0].yPos, 0),
+                1 / _heroStats._speed);
         }
 
         private IEnumerator<float> HeroAttack(Hero hero)
         {
             _attackPosition = hero.gameObject.transform.position;
-            Vector2 distance = hero.transform.position - transform.position;
-            Vector2 offset = new Vector2();
             if (hero != null)
             {
-                Transform _prevPosition = transform;
                 Vector2 dir = (hero.transform.position - transform.position).normalized;
                 Vector2 attackPosition = new Vector2(child.transform.position.x + dir.x * 0.3f,
                     dir.y * 0.3f + child.transform.position.y);
-                // Tween.Position(child, attackPosition, 1 / (float) _heroStats._attackRate, Ease.Default, 2,
-                //     CycleMode.Yoyo);
-                Timing.RunCoroutine(_heroViewer.HeroAttack(hero, child, attackPosition, 1 / (float) _heroStats._attackRate).CancelWith(gameObject));
-                Attack(hero);
+                yield return Timing.WaitUntilDone(Timing.RunCoroutine(
+                    _heroViewer.HeroAttack(hero, child, attackPosition, 1 / (float) _heroStats._attackRate)
+                        .CancelWith(gameObject), "attack" + _gameObjectID));
+                hero.TakeDamage((int) _heroStats._damage);
             }
-
-
             yield return Timing.WaitForOneFrame;
         }
 
-        private void Attack(Hero hero)
+        public void ResetHero()
         {
-            CheckTargetHealth(hero);
-            Vector2 dir = (hero.transform.position - transform.position).normalized;
-            Vector3 myRotationAngles = Quaternion.FromToRotation(Vector3.right, dir).eulerAngles;
-            hero.TakeDamage((int) _heroStats._damage);
-            // _vfxSpawner.SpawnAttackVFX(child, myRotationAngles.z);
-        }
-
-        private void CheckTargetHealth(Hero hero)
-        {
-            if (hero._health <= 0 || hero == null)
-            {
-            }
+            Timing.PauseCoroutines("attack" + _gameObjectID);
+            Timing.PauseCoroutines("move" + _gameObjectID);
+            Vector2Int position = this.transform.position.ToV2Int();
+            _fightingMapVariable.Value[position.x, position.y] = null;
+            Tween.StopAll(transform);
+            Tween.StopAll(child);
+            _health = _heroStats._maxHealth;
+            var _placementPositionInt = _placementPosition.ToV2Int();
+            this.transform.position = _placementPosition;
+            _fightingMapVariable.Value[_placementPositionInt.x, _placementPositionInt.y] = this;
+            _heroViewer.StopMoving();
+            child.localPosition = new Vector3(0, 0, 0);
         }
 
         private IEnumerator<float> CheckHealth()
         {
             while (true)
             {
-                
                 if (_health <= 0)
                 {
-                   
                     Vector2Int position = this.transform.position.ToV2Int();
                     _fightingMapVariable.Value[position.x, position.y] = null;
                     Destroy(gameObject);
@@ -195,8 +179,6 @@ namespace Minh
 
                 yield return Timing.WaitForOneFrame;
             }
-
-            // ReSharper disable once IteratorNeverReturns
         }
     }
 }

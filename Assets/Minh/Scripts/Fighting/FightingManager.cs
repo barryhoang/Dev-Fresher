@@ -4,6 +4,7 @@ using System.Linq;
 using MEC;
 using Obvious.Soap;
 using UnityEngine;
+using PrimeTween;
 
 namespace Minh
 {
@@ -13,6 +14,7 @@ namespace Minh
         [SerializeField] private ScriptableListEnemy _soapListEnemy;
         [SerializeField] private ScriptableEventNoParam _onLosing;
         [SerializeField] private ScriptableEventNoParam _onWinning;
+        [SerializeField] private FightingMapVariable _fightingMap;
        
 
         private void OnDestroy()
@@ -29,11 +31,7 @@ namespace Minh
         {
             AddEvent();
         }
-
-        private void Start()
-        {
-            gameObject.SetActive(false);
-        }
+        
 
 
         public void OnCombat()
@@ -44,7 +42,7 @@ namespace Minh
             foreach (Player p in _soapListPlayer)
             {
                 if (_soapListPlayer.Count == 0) return;
-                Timing.RunCoroutine(p.Move().CancelWith(p.gameObject));
+                Timing.RunCoroutine(p.Move().CancelWith(p.gameObject),"move"+p._gameObjectID);
             }
 
             foreach (Enemy e in _soapListEnemy)
@@ -59,6 +57,15 @@ namespace Minh
         {
             if (_soapListEnemy.Count == 0)
             {
+              
+                foreach (Player p in _soapListPlayer)
+                {
+                    //Destroy(p.gameObject);
+                    Timing.KillCoroutines("move"+p._gameObjectID);
+                    
+                    
+                    p.ResetHero();
+                }
                 _onWinning.Raise();
                 //  _currentLevel.Value++;
                 Debug.Log("Clear");

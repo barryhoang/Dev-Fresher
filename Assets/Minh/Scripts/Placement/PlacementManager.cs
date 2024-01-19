@@ -20,12 +20,13 @@ namespace Minh
             SpawnHeros();
         }
 
-        private void SpawnHeros()
+        public void SpawnHeros()
         {
             for (int i = 0; i < _hero.Count; i++)
             {
                 Hero Player= SpawnHero(_hero[i], new Vector3(i + 1, i + 1, 0));
                 _fightingMap.Value[i + 1, i + 1] = Player;
+                Player._placementPosition=new Vector3(i+1,i+1,0);
                 Player._playerText.text = "P" + (i + 1).ToString();
             }
         }

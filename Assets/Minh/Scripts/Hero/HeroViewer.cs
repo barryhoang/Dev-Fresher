@@ -36,6 +36,7 @@ namespace Minh
             Vector3 myRotationAngles = Quaternion.FromToRotation(Vector3.right, dir).eulerAngles;
             yield return Timing.WaitForSeconds(attackRate/2);
             if (transform == null) yield break;
+            
          Instantiate(_attackVfxPrefab, position.position, Quaternion.LookRotation(Vector3.forward, dir.normalized));
         }
     }

@@ -34,7 +34,6 @@ namespace Minh
             _currentLevel.Value++;
             SpawnEnemy();
             _placementManager.SetActive(true);
-            _fightingManager.SetActive(false);
         }
 
         public void SpawnEnemy()

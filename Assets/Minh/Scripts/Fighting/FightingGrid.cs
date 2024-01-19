@@ -14,7 +14,6 @@ public class FightingGrid : MonoBehaviour
     
     public List<PathNode>  GetPath(int startX, int startY, int targetX,int targetY)
     {
-     
         List<PathNode> path=_pathfinding.FindPath(startX,startY,targetX,targetY);
         return path;
     }
