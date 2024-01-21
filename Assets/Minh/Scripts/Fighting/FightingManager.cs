@@ -57,18 +57,21 @@ namespace Minh
         {
             if (_soapListEnemy.Count == 0)
             {
-              
-                foreach (Player p in _soapListPlayer)
+                if (Application.isPlaying)
                 {
-                    //Destroy(p.gameObject);
-                    Timing.KillCoroutines("move"+p._gameObjectID);
-                    
-                    
-                    p.ResetHero();
+                    foreach (Player p in _soapListPlayer)
+                    {
+                        //Destroy(p.gameObject);
+                        Timing.KillCoroutines("move" + p._gameObjectID);
+
+
+                        p.ResetHero();
+                    }
+
+                    _onWinning.Raise();
+                    //  _currentLevel.Value++;
+                    Debug.Log("Clear");
                 }
-                _onWinning.Raise();
-                //  _currentLevel.Value++;
-                Debug.Log("Clear");
             }
         }
 
