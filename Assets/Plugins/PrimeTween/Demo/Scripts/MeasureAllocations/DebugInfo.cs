@@ -2,10 +2,11 @@
 #if UNITY_EDITOR && UNITY_2019_1_OR_NEWER
 using UnityEngine.Profiling;
 #endif
+using PrimeTween;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace PrimeTween.Demo {
+namespace PrimeTweenDemo {
     /// <summary>
     /// PrimeTween uses static delegates (lambdas with no external captures) to play animations.
     /// The first time a particular animation is played, C# runtime caches the delegate for this animation, and the GC.Alloc is shown in Profiler.

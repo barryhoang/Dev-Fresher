@@ -41,10 +41,11 @@
             }
 
             var value = _serializedObject.FindProperty("_value");
-            if (value!=null)
+            if (value != null)
             {
                 EditorGUI.PropertyField(position, value, GUIContent.none);
             }
+           
         }
     }
 }

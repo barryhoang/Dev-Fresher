@@ -1,8 +1,9 @@
 #if PRIME_TWEEN_INSTALLED
+using PrimeTween;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace PrimeTween.Demo {
+namespace PrimeTweenDemo {
     public class CameraController : MonoBehaviour {
         [SerializeField] HighlightedElementController highlightedElementController;
         [SerializeField] SwipeTutorial swipeTutorial;

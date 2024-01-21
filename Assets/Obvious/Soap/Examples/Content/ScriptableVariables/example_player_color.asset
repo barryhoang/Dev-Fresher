@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: example_player_color
   m_EditorClassIdentifier: 
   _guid: 1e41cb1a09a2ee243b5bc12fc79fc070
-  _value: {r: 1, g: 1, b: 1, a: 1}
+  _value: {r: 0, g: 0, b: 0, a: 0}
   _debugLogEnabled: 0
   _saved: 0
   _defaultValue: {r: 0, g: 0, b: 0, a: 0}

@@ -267,6 +267,7 @@ MonoBehaviour:
   sequenceTimelineSlider: {fileID: 1161269159}
   pausedLabel: {fileID: 300583104}
   animateAllPartsButton: {fileID: 508772385}
+  typewriterAnimatorExample: {fileID: 1920139813}
   animatables:
   - {fileID: 655457573}
   - {fileID: 1686344449}
@@ -2826,9 +2827,7 @@ MonoBehaviour:
   logAllocations: 1
   logFiltered: 0
   logIgnored: 0
-  filterAllocations:
-  - PrimeTween.Runtime
-  - PrimeTween.Demo
+  filterAllocations: []
   ignoreAllocations:
   - RaycastHit.get_collider()
   - Component.get_transform()
@@ -3201,6 +3200,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f62b6e70f1114e5d867a36459e0352bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animationType: 1
   charsPerSecond: 40
   pauseAfterPunctuation: 20
 --- !u!222 &1920139814

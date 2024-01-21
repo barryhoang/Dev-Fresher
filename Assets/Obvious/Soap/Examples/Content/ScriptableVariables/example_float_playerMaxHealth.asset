@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: example_float_playerMaxHealth
   m_EditorClassIdentifier: 
   _guid: 8f6a7757cb902e2439f0278bb02cc076
-  _value: 100
+  _value: 0
   _debugLogEnabled: 0
   _saved: 0
   _defaultValue: 0

@@ -1,4 +1,5 @@
 using System.Linq;
+using JetBrains.Annotations;
 using UnityEditor;
 using UnityEditor.PackageManager;
 using UnityEditor.SceneManagement;
@@ -11,6 +12,9 @@ namespace PrimeTween {
         [SerializeField] internal SceneAsset demoScene;
         [SerializeField] internal SceneAsset demoSceneUrp;
         [SerializeField] internal Color uninstallButtonColor;
+        
+        [ContextMenu(nameof(ResetReviewRequest))]
+        void ResetReviewRequest() => ReviewRequest.ResetReviewRequest();
     }
     
     [CustomEditor(typeof(PrimeTweenInstaller), false)]
@@ -36,11 +40,11 @@ namespace PrimeTween {
 
         public override void OnInspectorGUI() {
             if (boldButtonStyle == null) {
-                boldButtonStyle = new GUIStyle(GUI.skin.button) {fontStyle = FontStyle.Bold};
+                boldButtonStyle = new GUIStyle(GUI.skin.button) { fontStyle = FontStyle.Bold };
             }
-            var installer = (PrimeTweenInstaller) target;
+            var installer = (PrimeTweenInstaller)target;
             if (uninstallButtonStyle == null) {
-                uninstallButtonStyle = new GUIStyle(GUI.skin.button) {normal = {textColor = installer.uninstallButtonColor}};
+                uninstallButtonStyle = new GUIStyle(GUI.skin.button) { normal = { textColor = installer.uninstallButtonColor } };
             }
             Space(8);
             Label(pluginName, EditorStyles.boldLabel);
@@ -84,12 +88,15 @@ namespace PrimeTween {
                 Client.Remove(pluginPackageId);
                 isInstalled = false;
                 var msg = $"Please remove the folder manually to uninstall {pluginName} completely: 'Assets/Plugins/{pluginName}'";
-                EditorUtility.DisplayDialog(pluginName,msg,"Ok");
+                EditorUtility.DisplayDialog(pluginName, msg, "Ok");
                 Debug.Log(msg);
             }
+
+            ReviewRequest.DrawInspector();
         }
 
         static void installPlugin() {
+            ReviewRequest.OnBeforeInstall();
             var path = $"file:../{tgzPath}";
             var addRequest = Client.Add(path);
             while (!addRequest.IsCompleted) {
@@ -116,5 +123,88 @@ namespace PrimeTween {
             }
         }
         #endif
+    }
+
+    internal static class ReviewRequest {
+        const string version = "1.1.11";
+        const string canAskKey = "PrimeTween.canAskForReview";
+        const string versionKey = "PrimeTween.version";
+
+        [InitializeOnLoadMethod]
+        static void TryAskForReview() {
+            if (!PRIME_TWEEN_INSTALLED) {
+                log("not installed");
+                return;
+            }
+            if (!EditorPrefs.GetBool(canAskKey, true)) {
+                log("can't ask");
+                return;
+            }
+            if (savedVersion == version) {
+                log($"same version {version}");
+                return;
+            }
+            log($"updated from version {savedVersion} to {version}, ask for review");
+            savedVersion = version;
+            DisableReviewRequest();
+            var response = EditorUtility.DisplayDialogComplex("Enjoying PrimeTween?",
+                "Would you mind to leave an honest review on Asset store? Honest reviews make PrimeTween better and help other developers discover it.",
+                "Sure, leave a review!",
+                "Never ask again",
+                "");
+            if (response == 0) {
+                OpenReviewsURL();
+            }
+        }
+
+        static bool PRIME_TWEEN_INSTALLED {
+            get {
+                #if PRIME_TWEEN_INSTALLED
+                return true;
+                #else 
+                return false;
+                #endif
+            }
+        }
+
+        internal static void OnBeforeInstall() {
+            log($"OnBeforeInstall {version}");
+            if (string.IsNullOrEmpty(savedVersion)) {
+                savedVersion = version;
+            }
+        }
+
+        static string savedVersion {
+            get => EditorPrefs.GetString(versionKey);
+            set => EditorPrefs.SetString(versionKey, value);
+        }
+        
+        static void DisableReviewRequest() => EditorPrefs.SetBool(canAskKey, false);
+        static void OpenReviewsURL() => Application.OpenURL("https://assetstore.unity.com/packages/slug/252960#reviews");
+
+        internal static void DrawInspector() {
+            Space(32);
+            Label("Enjoying PrimeTween?", EditorStyles.boldLabel);
+            Space(8);
+            Label("Consider leaving an <b>honest review</b> and starring PrimeTween on GitHub!\n\n" +
+                  "Honest reviews make PrimeTween better and help other developers discover it.",
+                new GUIStyle(GUI.skin.label) { wordWrap = true, richText = true, margin = new RectOffset(4, 4, 4, 4) });
+            Space(8);
+            if (Button("Leave review!", GUI.skin.button)) {
+                DisableReviewRequest();
+                OpenReviewsURL();
+            }
+        }
+
+        internal static void ResetReviewRequest() {
+            Debug.Log(nameof(ResetReviewRequest));
+            EditorPrefs.DeleteKey(versionKey);
+            EditorPrefs.DeleteKey(canAskKey);
+        }
+
+        [PublicAPI]
+        static void log(string msg) {
+            // Debug.Log($"ReviewRequest: {msg}");
+        }
     }
 }

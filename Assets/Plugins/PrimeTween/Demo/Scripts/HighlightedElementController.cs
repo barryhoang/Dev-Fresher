@@ -1,8 +1,9 @@
 #if PRIME_TWEEN_INSTALLED
 using JetBrains.Annotations;
+using PrimeTween;
 using UnityEngine;
 
-namespace PrimeTween.Demo {
+namespace PrimeTweenDemo {
     public class HighlightedElementController : MonoBehaviour {
         [SerializeField] Camera mainCamera;
         [SerializeField] CameraProjectionMatrixAnimation cameraProjectionMatrixAnimation;

@@ -1,7 +1,8 @@
 #if PRIME_TWEEN_INSTALLED
+using PrimeTween;
 using UnityEngine;
 
-namespace PrimeTween.Demo {
+namespace PrimeTweenDemo {
     public class SlidingDoor : Animatable {
         [SerializeField] Transform animationAnchor;
         [SerializeField] Vector3 openedPos, midPos, closedPos;

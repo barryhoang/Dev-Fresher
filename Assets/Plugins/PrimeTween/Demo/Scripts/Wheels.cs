@@ -1,7 +1,8 @@
 #if PRIME_TWEEN_INSTALLED
+using PrimeTween;
 using UnityEngine;
 
-namespace PrimeTween.Demo {
+namespace PrimeTweenDemo {
     public class Wheels : Animatable {
         [SerializeField] Demo demo;
         [SerializeField] Transform[] wheels;

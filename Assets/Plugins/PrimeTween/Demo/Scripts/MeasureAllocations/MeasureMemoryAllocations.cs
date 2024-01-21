@@ -8,7 +8,7 @@ using UnityEditorInternal;
 using UnityEngine.Profiling;
 #endif
 
-namespace PrimeTween.Demo {
+namespace PrimeTweenDemo {
     public class MeasureMemoryAllocations : MonoBehaviour {
         #pragma warning disable 0414
         [SerializeField] bool logAllocations;
@@ -25,6 +25,11 @@ namespace PrimeTween.Demo {
         readonly List<int[]> ignoredPaths = new List<int[]>();
         readonly List<int[]> filteredPaths = new List<int[]>();
         int lastProcessedFrame = -1;
+
+        void Awake() {
+            filterAllocations.Add("PrimeTween.Runtime");
+            filterAllocations.Add("PrimeTweenDemo");
+        }
 
         void OnEnable() {
             ProfilerDriver.ClearAllFrames();

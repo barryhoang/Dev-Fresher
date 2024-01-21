@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: example_float_playerCurrentSpeed
   m_EditorClassIdentifier: 
   _guid: 12c72dffb97d7bd47bb9fcaf283a2cbb
-  _value: 5
+  _value: 0
   _debugLogEnabled: 0
   _saved: 0
   _defaultValue: 0
