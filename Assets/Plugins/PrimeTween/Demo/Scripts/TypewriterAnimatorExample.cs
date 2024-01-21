@@ -61,7 +61,7 @@ namespace PrimeTweenDemo {
             RemapWithPunctuations(text, remappedEndIndex, out _, out int visibleCharsCount);
             if (text.maxVisibleCharacters != visibleCharsCount) {
                 text.maxVisibleCharacters = visibleCharsCount;
-                // todo play keyboard typing sound here if needed
+                // play keyboard typing sound here if needed
             }
         }
         
@@ -105,7 +105,7 @@ namespace PrimeTweenDemo {
             RemapWords(text, curWordIndex, out _, out int visibleCharsCount);
             if (text.maxVisibleCharacters != visibleCharsCount) {
                 text.maxVisibleCharacters = visibleCharsCount;
-                // todo play keyboard typing sound here if needed
+                // play keyboard typing sound here if needed
             }
         }
         

@@ -7,18 +7,11 @@ using UnityEngine;
 namespace PrimeTweenDemo {
     public class Demo : MonoBehaviour {
         #if PRIME_TWEEN_INSTALLED
-        [SerializeField] AnimateAllType animateAllType;
+        [SerializeField] AnimateAllType animateAllType; enum AnimateAllType { Sequence, Async, Coroutine }
         [SerializeField] Slider sequenceTimelineSlider;
         [SerializeField] Text pausedLabel;
         [SerializeField] Button animateAllPartsButton;
         [SerializeField] TypewriterAnimatorExample typewriterAnimatorExample;
-
-        enum AnimateAllType {
-            Sequence,
-            Async,
-            Coroutine
-        }
-
         [SerializeField] Animatable[] animatables;
         [SerializeField] Wheels wheels;
         [SerializeField, Range(0.5f, 5f)] float timeScale = 1;
@@ -56,9 +49,9 @@ namespace PrimeTweenDemo {
                 return;
             }
             pausedLabel.gameObject.SetActive(animateAllSequence.isAlive && animateAllSequence.isPaused);
-            var isHandleVisible = animateAllSequence.isAlive;
-            sequenceTimelineSlider.handleRect.gameObject.SetActive(isHandleVisible);
-            if (isHandleVisible) {
+            var isSequenceAlive = animateAllSequence.isAlive;
+            sequenceTimelineSlider.handleRect.gameObject.SetActive(isSequenceAlive);
+            if (isSequenceAlive) {
                 notifySliderChanged = false;
                 sequenceTimelineSlider.value = animateAllSequence.progressTotal; // Unity 2018 doesn't have SetValueWithoutNotify(), so use notifySliderChanged instead
                 notifySliderChanged = true;
@@ -103,11 +96,9 @@ namespace PrimeTweenDemo {
             #if TEXT_MESH_PRO_INSTALLED
             animateAllSequence.Group(typewriterAnimatorExample.Animate());
             #endif
-            float delay = 0.01f;
+            float delay = 0f;
             foreach (var animatable in animatables) {
-                var sequence = animatable.Animate(toEndValue);
-                var delayed = Tween.Delay(delay).Chain(sequence);
-                animateAllSequence.Group(delayed); 
+                animateAllSequence.Insert(delay, animatable.Animate(toEndValue));
                 delay += 0.6f;
             }
         }

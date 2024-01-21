@@ -8,7 +8,6 @@ using UnityEditorInternal;
 using UnityEngine.Profiling;
 #endif
 
-// todo change PrimeTween.Demo to PrimeTweenDemo in scene in filterAllocations
 namespace PrimeTweenDemo {
     public class MeasureMemoryAllocations : MonoBehaviour {
         #pragma warning disable 0414

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using MEC;
 using UnityEngine;
 using Pathfinding;
 
@@ -10,8 +12,7 @@ public class AstarAI : MonoBehaviour
 
     [SerializeField] private Vector3 _vector3MoveDirection;
     public Path path;
-
-    public float speed = 2;
+    
 
     public float nextWaypointDistance = 3;
 
@@ -19,8 +20,7 @@ public class AstarAI : MonoBehaviour
 
     public bool reachedEndOfPath;
     private Vector2[] validDirections = {Vector2.right, Vector2.left, Vector2.up, Vector2.down};
-
-
+    
     public void Start()
     {
         seeker = GetComponent<Seeker>();
@@ -76,30 +76,8 @@ public class AstarAI : MonoBehaviour
             }
         }
         var dir = (path.vectorPath[currentWaypoint] - transform.position).normalized;
-        Vector3 velocity = FindValidDirection(dir);
-        Debug.Log(velocity);
-        transform.position += velocity * Time.deltaTime;
+        
+        transform.position += dir * (Time.deltaTime * 3.0f);
     }
-
-    private Vector2 FindValidDirection(Vector3 dir)
-    {
-        Vector2 closestDirection = Vector2.zero;
-        float minAngleDifference = float.MaxValue;
-
-        foreach (Vector2 validDir in validDirections)
-        {
-            Vector2 dir2D = new Vector2(dir.x, dir.y);
-            Vector2 validDir2D = new Vector2(validDir.x, validDir.y);
-
-            float angleDifference = Vector2.Angle(dir2D, validDir2D);
-
-            if (angleDifference < minAngleDifference)
-            {
-                minAngleDifference = angleDifference;
-                closestDirection = validDir;
-            }
-        }
-
-        return closestDirection;
-    }
+    
 }

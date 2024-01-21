@@ -700,7 +700,24 @@ PlayerSettings:
   webGLMemoryGeometricGrowthStep: 0.2
   webGLMemoryGeometricGrowthCap: 96
   webGLPowerPreference: 2
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    Android: ASTAR_JPS
+    EmbeddedLinux: ASTAR_JPS
+    GameCoreScarlett: ASTAR_JPS
+    GameCoreXboxOne: ASTAR_JPS
+    LinuxHeadlessSimulation: ASTAR_JPS
+    Nintendo Switch: ASTAR_JPS
+    PS4: ASTAR_JPS
+    PS5: ASTAR_JPS
+    QNX: ASTAR_JPS
+    Stadia: ASTAR_JPS
+    Standalone: ASTAR_JPS
+    VisionOS: ASTAR_JPS
+    WebGL: ASTAR_JPS
+    Windows Store Apps: ASTAR_JPS
+    XboxOne: ASTAR_JPS
+    iPhone: ASTAR_JPS
+    tvOS: ASTAR_JPS
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}

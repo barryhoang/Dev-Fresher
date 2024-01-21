@@ -1,4 +1,6 @@
+using System.Numerics;
 using UnityEngine;
+using Vector3 = UnityEngine.Vector3;
 
 namespace Pathfinding {
 	/// <summary>
@@ -28,6 +30,10 @@ namespace Pathfinding {
 		/// </summary>
 		public void BlockAtCurrentPosition () {
 			BlockAt(transform.position);
+		}
+		
+		public void BlockAtNextPosition (Vector3 dir) {
+			BlockAt(transform.position + dir);
 		}
 
 		/// <summary>

@@ -10,8 +10,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Button _button;
     [SerializeField] private Vector3 _vector3MoveDirection;
     [SerializeField] private Vector3 pathDirection;
-
-    [SerializeField] private bool isRepeatedMovement = false;
+    
     [SerializeField] private float moveDuration;
     [SerializeField] private float gridSize = 1f;
 
@@ -30,8 +29,6 @@ public class PlayerMovement : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
-
-       
     }
 
     private void Start()

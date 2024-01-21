@@ -9,7 +9,6 @@ public class PlacementGrid : MonoBehaviour
     [SerializeField] private ScriptableEventVector2 _onMouseHold;
     [SerializeField] private ScriptableEventVector2 _onMouseUp;
     [SerializeField] private FightingGridVariable _fightingGrid;
-    [SerializeField] private ScriptableListUnit Units;
 
     [SerializeField] private GameObject _boxColor;
 
@@ -65,7 +64,6 @@ public class PlacementGrid : MonoBehaviour
         {
             MovePlayer(mousePos);
             _fightingGrid.Value[mousePos.x, mousePos.y] = player;
-            
         }
         else
         {
