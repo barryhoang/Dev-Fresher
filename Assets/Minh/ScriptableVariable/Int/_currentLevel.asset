@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: _currentLevel
   m_EditorClassIdentifier: 
   _guid: a65da54e8ccc2b44eb8f6b0533cebf09
-  _value: 1
+  _value: 20
   _debugLogEnabled: 0
   _saved: 0
   _defaultValue: 0
