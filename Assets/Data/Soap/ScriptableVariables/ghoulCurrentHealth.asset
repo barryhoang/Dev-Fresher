@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ghoulCurrentHealth
   m_EditorClassIdentifier: 
   _guid: b5afffa92cacd4f469d0f4d4d2acdaf8
-  _value: 0
+  _value: 100
   _debugLogEnabled: 0
   _saved: 0
   _defaultValue: 0

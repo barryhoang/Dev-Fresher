@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: farmerCurrentHealth
   m_EditorClassIdentifier: 
   _guid: 674855679d1e18e4695d841697679b64
-  _value: 0
+  _value: 100
   _debugLogEnabled: 0
   _saved: 0
   _defaultValue: 0

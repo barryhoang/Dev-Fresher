@@ -34,6 +34,7 @@ namespace Map
 
         private void Init()
         {
+            mapVariable.Init();
             _pathNodes = new PathNode[mapVariable.size.x, mapVariable.size.y];
             for (var x = 0; x < mapVariable.size.x; x++)
             {
