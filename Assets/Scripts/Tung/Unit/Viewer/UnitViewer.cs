@@ -21,13 +21,15 @@ namespace Tung
                 case AniName.NONE:
                     break;
                 case AniName.IDLE:
+                    _animator.SetBool("Move",false);
                     _animator.SetBool("Idle", isActive);
                     break;
                 case AniName.MOVE:
+                    _animator.SetBool("Idle",false);
                     _animator.SetBool("Move", isActive);
-
                     break;
                 case AniName.ATTACK:
+                    _animator.SetBool("Move", false);
                     _animator.SetBool("Idle", isActive);
                     break;
                 case AniName.HIT:

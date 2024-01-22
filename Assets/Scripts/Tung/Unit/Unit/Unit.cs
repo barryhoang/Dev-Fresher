@@ -58,11 +58,9 @@ namespace Tung
                 if (posTarget == Vector2Int.zero)
                 {
                     _unitViewer.SetAnimation(AniName.IDLE, true);
-                    _unitViewer.SetAnimation(AniName.MOVE, false);
                     isMove = false;
                     yield break;
                 }
-                _unitViewer.SetAnimation(AniName.IDLE, false);
                 _unitViewer.SetAnimation(AniName.MOVE, true);
                 _pathNodes = _pathfinding.FindPath(posStart.x, posStart.y, posTarget.x, posTarget.y, this);
                 var posPathTarget = Vector2Int.zero;
@@ -116,8 +114,7 @@ namespace Tung
 
         private void SetAttack()
         {
-            _unitViewer.SetAnimation(AniName.MOVE, false);
-            _unitViewer.SetAnimation(AniName.IDLE, true);
+            _unitViewer.SetAnimation(AniName.ATTACK, true);
             isMove = false;
             isAttacking = true;
             Timing.RunCoroutine(Attack().CancelWith(gameObject), "Combat");
