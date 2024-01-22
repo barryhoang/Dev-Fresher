@@ -16,6 +16,7 @@ namespace Minh
         {
             _onLose.OnRaised += ResetLevel;
             _onWin.OnRaised += NextLevel;
+            SpawnEnemy();
         }
 
         private void OnDestroy()

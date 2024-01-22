@@ -16,7 +16,7 @@ namespace Minh
         private void Start()
         {
             _spawnEnemy.OnRaised += SpawnEnemy;
-            _dungeronLevelManager.SpawnEnemy();
+            
         }
 
         private void OnDestroy()

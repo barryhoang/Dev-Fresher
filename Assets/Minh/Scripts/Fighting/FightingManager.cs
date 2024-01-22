@@ -62,10 +62,8 @@ namespace Minh
                     foreach (Player p in _soapListPlayer)
                     {
                         //Destroy(p.gameObject);
-                        Timing.KillCoroutines("move" + p._gameObjectID);
-
-
                         p.ResetHero();
+                       // Timing.KillCoroutines("move" + p._gameObjectID);
                     }
 
                     _onWinning.Raise();

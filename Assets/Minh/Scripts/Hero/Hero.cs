@@ -152,18 +152,20 @@ namespace Minh
 
         public void ResetHero()
         {
-            Timing.PauseCoroutines("attack" + _gameObjectID);
-            Timing.PauseCoroutines("move" + _gameObjectID);
+          
             Vector2Int position = this.transform.position.ToV2Int();
             _fightingMapVariable.Value[position.x, position.y] = null;
             Tween.StopAll(transform);
             Tween.StopAll(child);
             _health = _heroStats._maxHealth;
+            this.transform.localScale = new Vector3(1, 1, 1);
             var _placementPositionInt = _placementPosition.ToV2Int();
             this.transform.position = _placementPosition;
             _fightingMapVariable.Value[_placementPositionInt.x, _placementPositionInt.y] = this;
             _heroViewer.StopMoving();
             child.localPosition = new Vector3(0, 0, 0);
+            Timing.PauseCoroutines("attack" + _gameObjectID);
+            Timing.PauseCoroutines("move" + _gameObjectID);
         }
 
         private IEnumerator<float> CheckHealth()
@@ -173,7 +175,7 @@ namespace Minh
                 if (_health <= 0)
                 {
                     Vector2Int position = this.transform.position.ToV2Int();
-                    _fightingMapVariable.Value[position.x, position.y] = null;
+                 _fightingMapVariable.Value[position.x, position.y] = null;
                     Destroy(gameObject);
                 }
 
