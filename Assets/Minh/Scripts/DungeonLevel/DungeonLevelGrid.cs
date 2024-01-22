@@ -13,10 +13,9 @@ namespace Minh
         [SerializeField] private ScriptableListEnemy _soapListEnemy;
         [SerializeField] private List<Enemy> _hero;
         [SerializeField] private DungeronLevelManager _dungeronLevelManager;
-        private void Start()
+        private void Awake()
         {
             _spawnEnemy.OnRaised += SpawnEnemy;
-            
         }
 
         private void OnDestroy()
@@ -26,6 +25,7 @@ namespace Minh
 
         private void SpawnEnemy(int numberEnemy)
         {
+            Debug.Log("spawnEnemy"+ numberEnemy);
             for (int i = 0; i < numberEnemy; i++)
             {
                 int RandomX = UnityEngine.Random.Range(8, 13);
