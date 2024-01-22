@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Map;
 using Obvious.Soap;
@@ -16,22 +15,33 @@ namespace DungeonLevel
         [SerializeField] private Vector2Int spawnLimit;
         [SerializeField] private List<Unit> enemies;
         [SerializeField] private GameObject enemySpawner;
-        [SerializeField] private int maxEnemyCount;
+        //[SerializeField] private int maxEnemyCount;
 
-        private readonly Dictionary<Unit, List<Unit>> _enemyList = new();
+        private  Dictionary<Unit, List<Unit>> _enemyList = new Dictionary<Unit, List<Unit>>();
 
-        private void Awake()
+        private void Start()
         {
-            SpawnInit();
+            //SpawnInit();
             spawnEnemies.OnRaised += SpawnEnemy;
         }
+        
+        private void SpawnEnemy(int count)
+        {
+            for (var i = 0; i < count; i++)
+            {
+                var spawnPos = RandomPos();
+                var enemy = Instantiate(enemies[0],(Vector2)spawnPos,Quaternion.identity, enemySpawner.transform);
+                enemy.transform.position = (Vector2) spawnPos;
+                mapVariable.Value[spawnPos.x, spawnPos.y] = enemy;
+                scriptableListEnemy.Add(enemy);
+            }
+        }
 
-        private void SpawnInit()
+        /*private void SpawnInit()
         {
             foreach (var unit in enemies)
             {
                 var enemyList = new List<Unit>();
-                if (enemyList == null) throw new ArgumentNullException(nameof(enemyList));
                 for (var i = 0; i < maxEnemyCount; i++)
                 {
                     var enemy = Instantiate(unit, enemySpawner.transform);
@@ -39,6 +49,7 @@ namespace DungeonLevel
                     enemyList.Add(enemy);
                 }
                 _enemyList.Add(unit,enemies);
+                
             }
         }
         
@@ -60,7 +71,7 @@ namespace DungeonLevel
                 scriptableListEnemy.Add(enemy);
                 count++;
             }
-        }
+        }*/
 
         private Vector2Int RandomPos()
         {

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using MEC;
 using Obvious.Soap;
@@ -37,7 +36,7 @@ namespace Fighting
             foreach (var enemy in scriptableListEnemy)
             {
                 if (enemy != unit)continue;
-                scriptableListHero.Remove(enemy);
+                scriptableListEnemy.Remove(enemy);
                 return;
             }
         }

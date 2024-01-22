@@ -53,19 +53,19 @@ namespace Map
                 Init();
             }
             
-            PathNode startNode = _pathNodes[startX, startY];
-            PathNode endNode = _pathNodes[endX, endY];
+            var startNode = _pathNodes[startX, startY];
+            var endNode = _pathNodes[endX, endY];
 
-            List<PathNode> openList = new List<PathNode>();
-            List<PathNode> closedList = new List<PathNode>();
+            var openList = new List<PathNode>();
+            var closedList = new List<PathNode>();
 
             openList.Add(startNode);
 
             while (openList.Count > 0)
             {
-                PathNode currentNode = openList[0];
+                var currentNode = openList[0];
 
-                for (int i = 0; i < openList.Count; i++)
+                for (var i = 0; i < openList.Count; i++)
                 {
                     if (currentNode.FValue > openList[i].FValue)
                     {
@@ -85,11 +85,10 @@ namespace Map
 
                 if (currentNode == endNode)
                 {
-                    //we finished searching ours path
                     return RetracePath(startNode, endNode);
                 }
 
-                List<PathNode> neighbourNodes = new List<PathNode>();
+                var neighbourNodes = new List<PathNode>();
                 for (int x = -1; x < 2; x++)
                 {
                     for (int y = -1; y < 2; y++)
@@ -137,9 +136,9 @@ namespace Map
 
         private static List<PathNode> RetracePath(PathNode startNode, PathNode endNode)
         {
-            List<PathNode> path = new List<PathNode>();
+            var path = new List<PathNode>();
 
-            PathNode currentNode = endNode;
+            var currentNode = endNode;
 
             while (currentNode != startNode)
             {
@@ -151,10 +150,10 @@ namespace Map
             return path;
         }
 
-        private int CalculateDistance(PathNode current, PathNode target)
+        private static int CalculateDistance(PathNode current, PathNode target)
         {
-            int distX = Mathf.Abs(current.xPos - target.xPos);
-            int distY = Mathf.Abs(current.yPos - target.yPos);
+            var distX = Mathf.Abs(current.xPos - target.xPos);
+            var distY = Mathf.Abs(current.yPos - target.yPos);
 
             if (distX > distY) { return 14 * distY + 10 * (distX - distY); }
             return 14 * distX + 10 * (distY - distX);

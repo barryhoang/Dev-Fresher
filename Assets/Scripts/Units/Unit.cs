@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
 using Map;
 using MEC;
 using Obvious.Soap;
-using PrimeTween;
 using Ultilities;
 using UnityEngine;
 
@@ -17,18 +15,21 @@ namespace Units
         [SerializeField] private FloatVariable maxHealth;
         [SerializeField] private FloatVariable atkSpeed;
         [SerializeField] private FloatVariable speed;
+        [SerializeField] private FloatVariable damage;
         [SerializeField] private MapVariable mapVariable;
         [SerializeField] private ScriptableEventUnit onDead;
-        [SerializeField] private Pathfinding pathfinding;
+        [SerializeField] private Pathfinding pathFinding;
         
         public bool attacking;
         public bool moving;
         public Unit target;
         public Vector2Int unitPosition;
+        
+        private static readonly int Dead = Animator.StringToHash("Dead");
+        private static readonly int Moving = Animator.StringToHash("Moving");
+        private List<PathNode> _pathNodes;
 
-        [SerializeField] private List<PathNode> pathNodes;
-
-        private void OnEnable()
+        private void Awake()
         {
             unitViewer.ResetDirection();
             unitPosition = transform.position.ToV2Int();
@@ -37,70 +38,62 @@ namespace Units
             attacking = false;
             healthViewer.SetMaxHp(currentHealth);
         }
-
-        // ReSharper disable Unity.PerformanceAnalysis
+        
         public IEnumerator<float> Move(Unit targetUnit)
         {
             if (!targetUnit) moving = false;
             target = targetUnit;
-            if (moving && CheckDistance(transform.position,target.transform.position))
-            {
-                Attack();
-            }
-
+            if (moving && CheckDistance(transform.position,target.transform.position)) Attack();
             if (!moving) yield break;
             var startNode = transform.position.ToV2Int();
             var endNode = CheckDirection(target.unitPosition);
-            Debug.Log(endNode.x+" + "+endNode.y);
             if (endNode == Vector2Int.zero)
             {
                 moving = false;
+                unitViewer.animator.SetBool(Moving, false);
                 yield break;
             }
-                
-            pathNodes = pathfinding.FindPath(startNode.x, startNode.y, 
+            unitViewer.animator.SetBool(Moving, true);
+            _pathNodes = pathFinding.FindPath(startNode.x, startNode.y, 
                 endNode.x, endNode.y, this);
             var targetNode = Vector2Int.zero;
-            if (pathNodes != null)
+            if (_pathNodes != null)
             {
-                targetNode = new Vector2Int(pathNodes[0].xPos, pathNodes[0].yPos);
+                targetNode = new Vector2Int(_pathNodes[0].xPos, _pathNodes[0].yPos);
                 mapVariable.Value[startNode.x, startNode.y] = null;
                 mapVariable.Value[targetNode.x, targetNode.y] = this;
                 unitPosition = targetNode;
             }
             else moving = false;
-
-            while (pathNodes is { Count: > 0 })
+            while (_pathNodes !=null && _pathNodes.Count > 0)
             {
                 var position = transform.position;
                 var direction = target.transform.position.x - position.x;
                 unitViewer.Flip(direction);
-                Vector2.MoveTowards(position, targetNode,
+                transform.position =  Vector2.MoveTowards(position, targetNode,
                     speed.Value * Time.deltaTime);
                 if ((Vector2)transform.position == targetNode)
                 {
-                    if (CheckDistance(targetNode,target.unitPosition))
+                    if (CheckDistance(targetNode, target.unitPosition))
                     {
                         Attack();
-                        break;
+                        yield break;
                     }
-
                     startNode = transform.position.ToV2Int();
-                    endNode = CheckDirection(target.unitPosition);
+                    endNode = CheckDirection(target.unitPosition); 
                     if (endNode == Vector2Int.zero)
                     {
                         moving = false;
-                        break;
+                        yield break;
                     }
-                    pathNodes = pathfinding.FindPath(startNode.x, startNode.y, 
+                    _pathNodes = pathFinding.FindPath(startNode.x, startNode.y, 
                         endNode.x, endNode.y, this);
-                    if (pathNodes == null)
+                    if (_pathNodes == null)
                     {
                         moving = false;
-                        break;
+                        yield break;
                     }
-
-                    targetNode = new Vector2Int(pathNodes[0].xPos, pathNodes[0].yPos);
+                    targetNode = new Vector2Int(_pathNodes[0].xPos, _pathNodes[0].yPos);
                     mapVariable.Value[startNode.x, startNode.y] = null;
                     mapVariable.Value[targetNode.x, targetNode.y] = this;
                     unitPosition = targetNode;
@@ -119,17 +112,17 @@ namespace Units
 
         private Vector2Int CheckDirection(Vector2Int tempTarget)
         {
-            var start = transform.position.ToV2Int();
+            var unitPos = transform.position.ToV2Int();
             var value = Vector2Int.zero;
             var minDistance = float.MaxValue;
-            Vector2Int[] listDir = {tempTarget + Vector2Int.down,tempTarget + Vector2Int.left,
-                tempTarget+ Vector2Int.right ,tempTarget + Vector2Int.up};
+            Vector2Int[] listDir = {tempTarget + Vector2Int.down, tempTarget + Vector2Int.left,
+                tempTarget + Vector2Int.right, tempTarget + Vector2Int.up};
             foreach (var dir in listDir)
             {
-                var distance = Vector2Int.Distance(start, dir);
+                var distance = Vector2Int.Distance(unitPos, dir);
                 if (dir.x < 0 || dir.y < 0 
                               || dir.x >= mapVariable.size.x || dir.y >= mapVariable.size.y) continue;
-                if (distance < minDistance && !mapVariable.Value[dir.x, dir.y])
+                if (distance < minDistance && mapVariable.Value[dir.x, dir.y] == null)
                 {
                     minDistance = distance;
                     value = dir;
@@ -138,50 +131,53 @@ namespace Units
             return value;
         }
 
-        private void Attack()
+        private void TakeDamage(float dmg)
         {
-            moving = false;
-            attacking = true;
-            Timing.RunCoroutine(Atk().CancelWith(gameObject));
-        }
-
-        private void TakeDamage(float damage)
-        {
-            currentHealth.Value -= damage;
+            currentHealth.Value -= dmg;
             healthViewer.UpdateHp(currentHealth);
             if (currentHealth <= 0)
             {
                 currentHealth.Value = 0;
-                Tween.StopAll();
-                var diePos = transform.position.ToV2Int();
-                mapVariable.Value[diePos.x, diePos.y] = null;
+                unitViewer.animator.SetBool(Dead, true);
                 gameObject.SetActive(false);
                 onDead.Raise(this);
             }
+        }
+
+        private void Attack()
+        {
+            unitViewer.animator.SetBool(Moving, false);
+            moving = false;
+            attacking = true;
+            Timing.RunCoroutine(Atk().CancelWith(gameObject));
         }
 
         private IEnumerator<float> Atk()
         {
             while (!CheckDistance(transform.position,target.transform.position))
             {
-                yield return Timing.WaitForOneFrame;
+                Timing.WaitUntilDone(Timing.RunCoroutine(CheckAttackRange().CancelWith(gameObject)));
                 var direction = target.transform.position.x - transform.position.x;
                 unitViewer.Flip(direction);
                 while (attacking)
                 {
-                    if (!target.gameObject.activeInHierarchy)
-                    {
-                        attacking = false;
-                        break;
-                    }
                     var atkDir = (target.transform.position - transform.position).normalized;
                     unitViewer.atkDirection = atkDir;
                     unitViewer.StartAtkAnimation(this);
                     yield return Timing.WaitForSeconds(0.5f);
+                    target.TakeDamage(damage);
                     unitViewer.EndAtkAnimation(this);
-                    yield return Timing.WaitForSeconds(atkSpeed);
+                    yield return Timing.WaitForSeconds(atkSpeed-0.5f);
                 }
             }
-        } 
+        }
+        
+        private IEnumerator<float> CheckAttackRange()
+        {
+            while (Vector2.Distance(transform.position, target.transform.position) > 1)
+            {
+                yield return Timing.WaitForOneFrame;
+            }
+        }
     }
 }

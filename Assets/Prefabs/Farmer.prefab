@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4027713132834146416}
   - component: {fileID: 2796204246623404691}
   - component: {fileID: 1985149817461959588}
-  - component: {fileID: 4581479439979892218}
   m_Layer: 0
   m_Name: Farmer
   m_TagString: Character
@@ -67,61 +66,15 @@ MonoBehaviour:
   maxHealth: {fileID: 11400000, guid: c758fe52e5f408d4c865359d586bb23d, type: 2}
   atkSpeed: {fileID: 11400000, guid: bc1a20199bda9924586beda0874d87db, type: 2}
   speed: {fileID: 11400000, guid: 31f3f2613ea092b4c9b6ec93ac5f9222, type: 2}
+  damage: {fileID: 11400000, guid: 186b7e6748d799340aafbb5bde39a6aa, type: 2}
   mapVariable: {fileID: 11400000, guid: e6c6c075ed5f8994e99d0449bb3109f8, type: 2}
   onDead: {fileID: 11400000, guid: 2d0abb7cb7b3dc344ac1a1d940a7e44a, type: 2}
-  pathfinding: {fileID: 2796204246623404691}
+  pathFinding: {fileID: 2796204246623404691}
   attacking: 0
   moving: 0
   target: {fileID: 256443832083559744, guid: 5d8c78a049f058649ab72bd913a945f2, type: 3}
   unitPosition: {x: 0, y: 0}
-  _pathNodes: []
-  scriptableListHero: {fileID: 11400000, guid: 31408df975ffcd04cb33f90430e026c9, type: 2}
   placementGrid: {fileID: 0}
---- !u!61 &4581479439979892218
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1630761592278013081}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!1 &3195585573021862540
 GameObject:
   m_ObjectHideFlags: 0
@@ -242,6 +195,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 1045885346769015000}
+  animator: {fileID: 2484938541182214184}
   atkDirection: {x: 0, y: 0, z: 0}
   defaultDirection: 0
 --- !u!1 &3697131136454608474
@@ -349,7 +303,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.17914937, g: 0.6792453, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

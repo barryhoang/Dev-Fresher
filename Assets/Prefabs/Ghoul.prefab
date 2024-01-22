@@ -211,7 +211,7 @@ Transform:
   m_GameObject: {fileID: 3643479172090579935}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11, y: 4, z: 0}
+  m_LocalPosition: {x: 8, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -250,14 +250,14 @@ MonoBehaviour:
   maxHealth: {fileID: 11400000, guid: 8c4a573c747cb8f4dabfb172697f1ada, type: 2}
   atkSpeed: {fileID: 11400000, guid: da277c9a9dde7c843a5e94793f94b112, type: 2}
   speed: {fileID: 11400000, guid: 37d73800d7f97494dbb0b553fbd5c732, type: 2}
+  damage: {fileID: 11400000, guid: b7983d859de56d04a817add218f83f36, type: 2}
   mapVariable: {fileID: 11400000, guid: e6c6c075ed5f8994e99d0449bb3109f8, type: 2}
   onDead: {fileID: 11400000, guid: 2d0abb7cb7b3dc344ac1a1d940a7e44a, type: 2}
-  pathfinding: {fileID: 1229959303230184244}
+  pathFinding: {fileID: 1229959303230184244}
   attacking: 0
   moving: 1
   target: {fileID: 0}
   unitPosition: {x: 1, y: 0}
-  pathNodes: []
 --- !u!1 &4560695785650818392
 GameObject:
   m_ObjectHideFlags: 0
@@ -500,5 +500,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 6879139616065793636}
+  animator: {fileID: 5028126968981472392}
   atkDirection: {x: 0, y: 0, z: 0}
   defaultDirection: 0

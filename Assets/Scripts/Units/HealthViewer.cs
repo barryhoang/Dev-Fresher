@@ -7,8 +7,7 @@ namespace Units
     {
         [SerializeField] private Image fillHp;
         private float _maxHp;
-        
-    
+
         public void SetMaxHp(float maxHp)
         {
             fillHp.fillAmount = 1f;

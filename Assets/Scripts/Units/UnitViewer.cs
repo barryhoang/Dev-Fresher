@@ -6,9 +6,19 @@ namespace Units
     public class UnitViewer : MonoBehaviour
     {
         [SerializeField] private SpriteRenderer spriteRenderer;
-
+        
+        private static readonly int Dead = Animator.StringToHash("Dead");
+        private static readonly int Moving = Animator.StringToHash("Moving");
+        
+        public Animator animator;
         public Vector3 atkDirection;
         public bool defaultDirection;
+
+        private void Awake()
+        {
+            animator.SetBool(Dead, false);
+            animator.SetBool(Moving, false);
+        }
 
         public void ResetDirection()
         {

@@ -49,7 +49,7 @@ namespace Placement
             gameObject.SetActive(false);
         }
         
-        private void ResetUnits()        
+        /*private void ResetUnits()        
         {
             for (var i = 0; i < scriptableListHero.Count; i++)
             {   
@@ -60,6 +60,6 @@ namespace Placement
                 mapVariable.Value[_heroPos[i].x, _heroPos[i].y] = heroes[i];
                 scriptableListHero[i].gameObject.SetActive(true);
             }
-        }
+        }*/
     }
 }
