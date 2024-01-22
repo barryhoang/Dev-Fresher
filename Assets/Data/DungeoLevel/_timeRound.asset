@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: _timeRound
   m_EditorClassIdentifier: 
   _guid: 272a40c2c63544449b8e7aefd22d873e
-  _value: 15
+  _value: 60
   _debugLogEnabled: 0
   _saved: 0
   _defaultValue: 0

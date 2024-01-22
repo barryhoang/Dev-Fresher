@@ -12,8 +12,6 @@ namespace Tung
         [SerializeField] private ScriptableEventVector2 _eventDown;
         [SerializeField] private ScriptableEventVector2 _eventUp;
 
-        private bool isDraging;
-
         private void OnEnable()
         {
             Timing.RunCoroutine(MouseInput().CancelWith(gameObject));
@@ -25,17 +23,17 @@ namespace Tung
             {
                 if (Input.GetMouseButtonDown(0))
                 {
-                    _eventDown.Raise( MousePosition());
+                    _eventDown.Raise(MousePosition());
                 }
 
                 if (Input.GetMouseButton(0))
                 {
-                    _eventDrag.Raise( MousePosition());
+                    _eventDrag.Raise(MousePosition());
                 }
-                
+
                 if (Input.GetMouseButtonUp(0))
                 {
-                    _eventUp.Raise( MousePosition());
+                    _eventUp.Raise(MousePosition());
                 }
                 yield return Timing.WaitForOneFrame;
             }

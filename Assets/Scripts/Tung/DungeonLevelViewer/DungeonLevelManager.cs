@@ -1,56 +1,66 @@
 ﻿using System;
 using System.Collections.Generic;
+using MEC;
 using Obvious.Soap;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
 
 namespace Tung
 {
     public class DungeonLevelManager : MonoBehaviour
     {
         [SerializeField] private IntVariable _currentlevel;
+        [SerializeField] private IntVariable _livesCharacter;
+        [SerializeField] private IntVariable _timeRound;
         [SerializeField] private ScriptableEventInt _numberEnemy;
-        [SerializeField] private Button _buttonNextLevel;
-        [SerializeField] private ScriptableEventNoParam _onFight;
-        [SerializeField] private ScriptableEventNoParam _onWin;
-        [SerializeField] private ScriptableEventNoParam _onLose;
-        [SerializeField] private GameObject _levelViewer;
-        [SerializeField] private GameObject _panelWin;
+        [SerializeField] private ScriptableEventNoParam _clickWin;
+        [SerializeField] private ScriptableEventNoParam _clickReset;
+        [SerializeField] private ScriptableEventNoParam _clickLose;
         [SerializeField] private PlacementManager _placementManager;
-        
+        [SerializeField] private DungeonLevelGrid _levelGrid;
+
         private void Start()
         {
-            _buttonNextLevel.onClick.AddListener(NextLevel);
             _numberEnemy.Raise(_currentlevel.Value);
-            _onFight.OnRaised += OnFight;
-            _onWin.OnRaised += StopCountDown;
-            _onLose.OnRaised += StopCountDown;
+            _clickWin.OnRaised += NextLevel;
+            _clickLose.OnRaised += Lose;
+            _clickReset.OnRaised += ResetLevel;
         }
 
         private void OnDisable()
         {
-            _onFight.OnRaised -= OnFight;
-            _onWin.OnRaised -= StopCountDown;
-            _onLose.OnRaised -= StopCountDown;
+            _clickWin.OnRaised -= NextLevel;
+            _clickLose.OnRaised -= Lose;
+            _clickReset.OnRaised -= ResetLevel;
         }
 
-        private void StopCountDown()
+        private void Lose()
         {
-            _levelViewer.SetActive(false);
-            _panelWin.SetActive(true);
+            // _levelGrid.OnLose();
+            // _livesCharacter.ResetToInitialValue();
+            // _timeRound.ResetToInitialValue();
+            // _placementManager.gameObject.SetActive(true);
+            // _placementManager.ResetPosCharacter();
+            // _currentlevel.Value = 1;
+            // _numberEnemy.Raise(_currentlevel);
+            SceneManager.LoadScene(0);
         }
 
-        private void OnFight()
+        private void ResetLevel()
         {
-            _levelViewer.SetActive(true);
-         
+            _timeRound.ResetToInitialValue();
+            _levelGrid.OnLose();
+            _placementManager.gameObject.SetActive(true);
+            _placementManager.ResetPosCharacter();
+            _numberEnemy.Raise(_currentlevel);
         }
-        
         private void NextLevel()
         {
+            _timeRound.ResetToInitialValue();
             _placementManager.gameObject.SetActive(true);
+            _placementManager.ResetPosCharacter();
             _currentlevel.Value++;
-            _panelWin.SetActive(false);
             _numberEnemy.Raise(_currentlevel);
         }
     }

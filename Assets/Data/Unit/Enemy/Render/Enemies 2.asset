@@ -10,6 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 07c58e9e8eaa7a342af92eaebf3664fa, type: 3}
-  m_Name: Enemies
+  m_Name: Enemies 2
   m_EditorClassIdentifier: 
-  avatar: {fileID: 613658156, guid: 1bc6097228993f045852159e71f81d5b, type: 3}
+  avatar: {fileID: -2092964637, guid: 4104ee12b4d54f54b91b3ba875787837, type: 3}
+  aniColltror: {fileID: 22100000, guid: 12cfc8b2360c2fc4499d4f6f6607671a, type: 2}

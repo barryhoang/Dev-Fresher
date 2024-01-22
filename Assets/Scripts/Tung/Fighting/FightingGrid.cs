@@ -13,8 +13,10 @@ namespace Tung
         [SerializeField] private ScriptableListUnit _listSoapCharacter;
         [SerializeField] private ScriptableEventNoParam _onFighting;
         [SerializeField] private ScriptableEventNoParam _onWin;
+        [SerializeField] private ScriptableEventNoParam _onReset;
+        [SerializeField] private ScriptableEventNoParam _onLose;
         private bool _isCombat;
-        
+
         public GridMapVariable gridMap;
         public Tilemap test;
         public TileBase tileBase;
@@ -22,29 +24,33 @@ namespace Tung
         {
             _onFighting.OnRaised += OnCombat;
             _onWin.OnRaised += OnWin;
-            Timing.RunCoroutine(Test().CancelWith(gameObject));
+            _onReset.OnRaised += OnWin;
+            _onLose.OnRaised += OnWin;
         }
 
         private void OnDisable()
         {
             _onWin.OnRaised -= OnWin;
+            _onReset.OnRaised -= OnWin;
+            _onLose.OnRaised -= OnLose;
             _onFighting.OnRaised -= OnCombat;
         }
 
         private void OnCombat()
         {
             _isCombat = true;
-            Timing.RunCoroutine(Move().CancelWith(gameObject));
+            Timing.RunCoroutine(Move().CancelWith(gameObject), "Combat");
         }
 
         private void OnWin() => _isCombat = false;
+        private void OnLose() => _isCombat = false;
         private IEnumerator<float> Move()
         {
-            while(_isCombat)
+            while (_isCombat)
             {
                 foreach (var unit in _listSoapCharacter)
                 {
-                    if(unit.isAttacking) continue;
+                    if (unit.isAttacking) continue;
                     var target = _listSoapEnemies.GetClosest(unit.transform.position);
                     if (!unit.isMove)
                     {
@@ -58,12 +64,12 @@ namespace Tung
                 }
                 foreach (var unit in _listSoapEnemies)
                 {
-                    if(unit.isAttacking) continue;
+                    if (unit.isAttacking) continue;
                     var target = _listSoapCharacter.GetClosest(unit.transform.position);
                     if (!unit.isMove)
                     {
                         unit.isMove = true;
-                        Timing.RunCoroutine(unit.Move(target).CancelWith(gameObject),"Move");
+                        Timing.RunCoroutine(unit.Move(target).CancelWith(gameObject));
                     }
                     else
                     {
@@ -84,11 +90,11 @@ namespace Tung
                     {
                         if (gridMap.Value[i, j] == null)
                         {
-                            test.SetTile(new Vector3Int(i,j),null);
+                            test.SetTile(new Vector3Int(i, j), null);
                         }
                         else
                         {
-                            test.SetTile(new Vector3Int(i,j),tileBase);
+                            test.SetTile(new Vector3Int(i, j), tileBase);
                         }
                     }
                 }

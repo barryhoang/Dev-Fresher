@@ -12,14 +12,12 @@ namespace Tung
         [SerializeField] private GridMapVariable gridMap;
         [SerializeField] private Pathfinding _pathfinding;
         [SerializeField] private UnitStat _unitStats;
-        [SerializeField] private UnitViewer _unitViewer;
         [SerializeField] private HealthViewer _healthViewer;
         [SerializeField] private VfxUnitViewer _vfxUnitViewer;
         [SerializeField] private ScriptableEventUnit _eventDie;
         private float _currentHealth;
         private List<PathNode> _pathNodes;
-        
-        public UnitRenderData unitRenderData;
+        public UnitViewer _unitViewer;
         public Unit unitTarget;
         public Vector2Int posGridUnit;
         public bool isMove;
@@ -29,17 +27,25 @@ namespace Tung
         {
             _unitViewer.ResetFlip();
             posGridUnit = transform.position.ToV2Int();
-            _unitViewer.SetAnimation(AniName.IDLE,true);
+            _unitViewer.transform.position = transform.position;
+            _unitViewer.SetAnimation(AniName.IDLE, true);
             _currentHealth = _unitStats.MaxHealth;
             _healthViewer.SetMaxHealth(_currentHealth);
             isMove = false;
             isAttacking = false;
         }
 
+        private void OnDisable()
+        {
+            _vfxUnitViewer.ResetVfx();
+            var pos = transform.position.ToV2Int();
+            gridMap.Value[pos.x, pos.y] = null;
+        }
+
         public IEnumerator<float> Move(Unit target)
         {
-            if(target == null) isMove = false;
-            
+            if (target == null) isMove = false;
+
             unitTarget = target;
             if (isMove && CheckDistanceCell(transform.position, unitTarget.transform.position))
             {
@@ -51,20 +57,20 @@ namespace Tung
                 var posTarget = DistanceDir(unitTarget.posGridUnit);
                 if (posTarget == Vector2Int.zero)
                 {
-                    _unitViewer.SetAnimation(AniName.IDLE,true);
+                    _unitViewer.SetAnimation(AniName.IDLE, true);
                     _unitViewer.SetAnimation(AniName.MOVE, false);
                     isMove = false;
                     yield break;
                 }
-                _unitViewer.SetAnimation(AniName.IDLE,false);
+                _unitViewer.SetAnimation(AniName.IDLE, false);
                 _unitViewer.SetAnimation(AniName.MOVE, true);
-                _pathNodes =  _pathfinding.FindPath(posStart.x, posStart.y, posTarget.x, posTarget.y, this);
+                _pathNodes = _pathfinding.FindPath(posStart.x, posStart.y, posTarget.x, posTarget.y, this);
                 var posPathTarget = Vector2Int.zero;
                 if (_pathNodes != null)
                 {
-                    posPathTarget = new Vector2Int(_pathNodes[0].xPos,_pathNodes[0].yPos);
+                    posPathTarget = new Vector2Int(_pathNodes[0].xPos, _pathNodes[0].yPos);
                     gridMap.Value[posStart.x, posStart.y] = null;
-                    gridMap.Value[posPathTarget.x,posPathTarget.y] = this;
+                    gridMap.Value[posPathTarget.x, posPathTarget.y] = this;
                     posGridUnit = posPathTarget;
                 }
                 else
@@ -77,10 +83,10 @@ namespace Tung
                     _unitViewer.SetFlip(x);
                     transform.position = Vector2.MoveTowards(transform.position, posPathTarget,
                         _unitStats.Speed.Value * Time.deltaTime);
-                
-                    if ((Vector2) transform.position == posPathTarget)
+
+                    if ((Vector2)transform.position == posPathTarget)
                     {
-                        if (CheckDistanceCell(posPathTarget,unitTarget.posGridUnit))
+                        if (CheckDistanceCell(posPathTarget, unitTarget.posGridUnit))
                         {
                             SetAttack();
                             break;
@@ -92,15 +98,15 @@ namespace Tung
                             isMove = false;
                             break;
                         }
-                        _pathNodes =  _pathfinding.FindPath(posStart.x, posStart.y, posTarget.x, posTarget.y, this);
+                        _pathNodes = _pathfinding.FindPath(posStart.x, posStart.y, posTarget.x, posTarget.y, this);
                         if (_pathNodes == null)
                         {
                             isMove = false;
                             break;
                         }
-                        posPathTarget = new Vector2Int(_pathNodes[0].xPos,_pathNodes[0].yPos);
+                        posPathTarget = new Vector2Int(_pathNodes[0].xPos, _pathNodes[0].yPos);
                         gridMap.Value[posStart.x, posStart.y] = null;
-                        gridMap.Value[posPathTarget.x,posPathTarget.y] = this;
+                        gridMap.Value[posPathTarget.x, posPathTarget.y] = this;
                         posGridUnit = posPathTarget;
                     }
                     yield return Timing.WaitForOneFrame;
@@ -114,7 +120,7 @@ namespace Tung
             _unitViewer.SetAnimation(AniName.IDLE, true);
             isMove = false;
             isAttacking = true;
-            Timing.RunCoroutine(Attack().CancelWith(gameObject));
+            Timing.RunCoroutine(Attack().CancelWith(gameObject), "Combat");
         }
 
         private IEnumerator<float> Attack()
@@ -127,7 +133,6 @@ namespace Tung
                 if (!unitTarget.gameObject.activeInHierarchy)
                 {
                     isAttacking = false;
-                    transform.position = (Vector2) transform.position.ToV2Int();
                     break;
                 }
                 var dir = (unitTarget.transform.position - transform.position).normalized;
@@ -137,13 +142,13 @@ namespace Tung
                 _vfxUnitViewer.SetVfxPunch(dir);
                 unitTarget.TakeDamage(_unitStats.Damage);
                 _unitViewer.SetAttackEnd(this);
-                yield return Timing.WaitForSeconds(_unitStats.AttackSpeed - 0.1f);
+                yield return Timing.WaitForSeconds(_unitStats.AttackSpeed - _unitViewer.duration);
             }
         }
 
         private IEnumerator<float> CheckAttack()
         {
-            while (Vector2.Distance(transform.position,unitTarget.transform.position) >= 1f)
+            while (Vector2.Distance(transform.position, unitTarget.transform.position) > 1)
             {
                 yield return Timing.WaitForOneFrame;
             }
@@ -156,23 +161,20 @@ namespace Tung
             _healthViewer.VfxDamage(damage);
             if (_currentHealth <= 0)
             {
-                Tween.StopAll(_unitViewer.transform);
-                var pos = transform.position.ToV2Int();
-                gridMap.Value[pos.x, pos.y] = null;
                 gameObject.SetActive(false);
                 _eventDie.Raise(this);
             }
         }
         private Vector2Int DistanceDir(Vector2Int unitTarget)
         {
-            Vector2Int start =transform.position.ToV2Int();
+            Vector2Int start = transform.position.ToV2Int();
             Vector2Int value = Vector2Int.zero;
             float minDistance = float.MaxValue;
-            Vector2Int[] listDir = {unitTarget + Vector2Int.down,unitTarget + Vector2Int.left,unitTarget+ Vector2Int.right ,unitTarget + Vector2Int.up};
+            Vector2Int[] listDir = { unitTarget + Vector2Int.down, unitTarget + Vector2Int.left, unitTarget + Vector2Int.right, unitTarget + Vector2Int.up };
             foreach (var dir in listDir)
             {
-                float distance = Vector2Int.Distance(start,dir);
-                if(dir.x < 0 || dir.y < 0 || dir.x >= gridMap.size.x || dir.y >= gridMap.size.y) continue;
+                float distance = Vector2Int.Distance(start, dir);
+                if (dir.x < 0 || dir.y < 0 || dir.x >= gridMap.size.x || dir.y >= gridMap.size.y) continue;
                 if (distance < minDistance && gridMap.Value[dir.x, dir.y] == null)
                 {
                     minDistance = distance;
@@ -183,17 +185,17 @@ namespace Tung
         }
 
         #region Check
-        private bool CheckDistanceCell(Vector2 pos ,Vector2 posTarget)
+        private bool CheckDistanceCell(Vector2 pos, Vector2 posTarget)
         {
-            int distance = (int) (Math.Abs(pos.x - posTarget.x) + Math.Abs(pos.y - posTarget.y));
+            int distance = (int)(Math.Abs(pos.x - posTarget.x) + Math.Abs(pos.y - posTarget.y));
             return Math.Abs(distance) <= 1f;
         }
-        private bool CheckDistanceCell(Vector2Int pos ,Vector2Int posTarget)
+        private bool CheckDistanceCell(Vector2Int pos, Vector2Int posTarget)
         {
             int distance = Math.Abs(pos.x - posTarget.x) + Math.Abs(pos.y - posTarget.y);
             return Math.Abs(distance) <= 1f;
         }
         #endregion
-        
+
     }
 }

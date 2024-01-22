@@ -6,5 +6,6 @@ namespace Tung
     public class UnitRenderData : ScriptableObject
     {
         public Sprite avatar;
+        public RuntimeAnimatorController aniColltror;
     }
 }

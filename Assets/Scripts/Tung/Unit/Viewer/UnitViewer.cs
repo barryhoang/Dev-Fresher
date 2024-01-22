@@ -1,6 +1,7 @@
 using System;
 using PrimeTween;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Tung
@@ -9,12 +10,9 @@ namespace Tung
     {
         [SerializeField] private Animator _animator;
         [SerializeField] private SpriteRenderer _avatar;
-        
         public Vector3 dir;
         public float duration = 0.1f;
         public bool flipStart;
-
-       
 
         public void SetAnimation(AniName aniName, bool isActive)
         {
@@ -23,14 +21,14 @@ namespace Tung
                 case AniName.NONE:
                     break;
                 case AniName.IDLE:
-                    _animator.SetBool("Idle",isActive);
+                    _animator.SetBool("Idle", isActive);
                     break;
                 case AniName.MOVE:
-                    _animator.SetBool("Move",isActive);
-                    
+                    _animator.SetBool("Move", isActive);
+
                     break;
                 case AniName.ATTACK:
-                    _animator.SetBool("Idle",isActive);
+                    _animator.SetBool("Idle", isActive);
                     break;
                 case AniName.HIT:
                     break;
@@ -50,12 +48,12 @@ namespace Tung
 
         public void SetAttackActive(Unit unit)
         {
-              Tween.Position(unit.transform, unit.transform.position +  dir * 0.3f, duration);
+            Tween.Position(transform, transform.position + dir * 0.3f, duration);
         }
 
         public void SetAttackEnd(Unit unit)
         {
-            Tween.Position(unit.transform, unit.transform.position -  dir * 0.3f, duration);
+            Tween.Position(transform, transform.position - dir * 0.3f, duration);
         }
 
     }

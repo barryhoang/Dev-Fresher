@@ -331,7 +331,7 @@ Transform:
   m_GameObject: {fileID: 3643479172090579935}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9, y: 4, z: 0}
+  m_LocalPosition: {x: 12, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -355,14 +355,13 @@ MonoBehaviour:
   gridMap: {fileID: 11400000, guid: 8d6ed27524bc0104d844a44c12456410, type: 2}
   _pathfinding: {fileID: 2638537209864515586}
   _unitStats: {fileID: 11400000, guid: 8baa5d3ff8876d449925fbb86834d67b, type: 2}
-  _unitViewer: {fileID: 7840652239698463832}
   _healthViewer: {fileID: 7933502179127354334}
   _vfxUnitViewer: {fileID: 6052547796874601263}
   _eventDie: {fileID: 11400000, guid: e419e320172269645807d7dde5a57426, type: 2}
-  unitRenderData: {fileID: 11400000, guid: b7aa09f3e2145d64184332053729892d, type: 2}
+  _unitViewer: {fileID: 7840652239698463832}
   unitTarget: {fileID: 0}
   posGridUnit: {x: 0, y: 0}
-  isMove: 0
+  isMove: 1
   isAttacking: 0
 --- !u!114 &2638537209864515586
 MonoBehaviour:
@@ -667,6 +666,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animator: {fileID: 5028126968981472392}
   _avatar: {fileID: 6879139616065793636}
+  unitRenderData: {fileID: 11400000, guid: c4a23f3520c1347478a118fcb7825474, type: 2}
   dir: {x: 0, y: 0, z: 0}
   duration: 0.1
   flipStart: 1
